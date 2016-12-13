@@ -15,56 +15,64 @@ namespace MyPokerTrackingHeadsUpDisplay
         public string ChannelName = null;
         public string DllPath = "C:\\Users\\SteMu\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\MyPokerTrackingHeadsUpDisplay\\PokerHookDll\\bin\\Debug\\PokerHookDll.dll";
 
-        private readonly MainWindow _mainWindow;
-        private readonly MessageHandler _messageHandler;
-        
+        public MainWindow _mainWindow { get; set; }
+        public MessageHandler _messageHandler { get; set; }
 
-        public Controller(MainWindow window, MessageHandler handler)
+        private static volatile Controller _instance = null;
+        private static readonly object _mutex = new object();
+
+        private Controller(){}
+
+        public static Controller Instance
         {
-            _mainWindow = window;
-            _messageHandler = handler;
-
-            InitEvents();
-
-            UpdateHoleCard(new Card(Rank.Ace, Suit.Diamonds), 1);
-
-            if (InjectDll())
+            get
             {
-                _mainWindow.UpdateTextBox("Dll Injected");
+                if (_instance == null)
+                {
+                    lock (_mutex)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new Controller();
+                        }
+                    }
+                }
+                return _instance;
             }
         }
 
-        private void InitEvents()
+        public void InitEvents()
         {
             _messageHandler.updateHole += UpdateHoleCard;
             _messageHandler.updateBoard += UpdateBoardCard;
-
-            var hello = "hellO";
         }
 
-        private void UpdateHoleCard(Card c, int num)
+        public void UpdateHoleCard(Card c, int num)
         {
-            if (num == 1)
+            if (num == 0)
                 _mainWindow.UpdateHoleOne(c);
-            else if (num == 2)
+            else if (num == 1)
+            {
                 _mainWindow.UpdateHoleTwo(c);
+                _mainWindow.ClearBoardCards();
+            }
         }
 
-        private void UpdateBoardCard(Card c, int num)
+        public void UpdateBoardCard(Card c, int num)
         {
-            if (num == 1)
+            if (num == 0)
                 _mainWindow.UpdateBoardOne(c);
-            else if (num == 2)
+            else if (num == 1)
                 _mainWindow.UpdateBoardTwo(c);
-            else if (num == 3)
+            else if (num == 2)
                 _mainWindow.UpdateBoardThree(c);
-            else if (num == 4)
+            else if (num == 3)
                 _mainWindow.UpdateBoardFour(c);
-            else if (num == 5)
+            else if (num == 4)
                 _mainWindow.UpdateBoardFive(c);
         }
 
-        private bool InjectDll()
+        public bool InjectDll()
         {
             try
             {

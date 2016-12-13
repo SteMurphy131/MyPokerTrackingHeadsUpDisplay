@@ -12,6 +12,7 @@ namespace MyPokerTrackingHeadsUpDisplay
     {
         public static Dictionary <string, BitmapImage> CardImageDictionary = new Dictionary<string, BitmapImage>
         {
+            {"na", new BitmapImage(new Uri("../../Images/na.png", UriKind.Relative))},
             {new Card(Rank.Ace, Suit.Diamonds).ToString(), new BitmapImage(new Uri(@"../../Images/ace_of_diamonds.png", UriKind.Relative)) },
             {new Card(Rank.Two, Suit.Diamonds).ToString(), new BitmapImage(new Uri(@"../../Images/2_of_diamonds.png", UriKind.Relative)) },
             {new Card(Rank.Three, Suit.Diamonds).ToString(), new BitmapImage(new Uri(@"../../Images/3_of_diamonds.png", UriKind.Relative)) },
@@ -51,7 +52,7 @@ namespace MyPokerTrackingHeadsUpDisplay
             {new Card(Rank.Jack, Suit.Clubs).ToString(), new BitmapImage(new Uri(@"../../Images/jack_of_clubs.png", UriKind.Relative)) },
             {new Card(Rank.Queen, Suit.Clubs).ToString(), new BitmapImage(new Uri(@"../../Images/queen_of_clubs.png", UriKind.Relative)) },
             {new Card(Rank.King, Suit.Clubs).ToString(), new BitmapImage(new Uri(@"../../Images/king_of_clubs.png", UriKind.Relative)) },
-            {new Card(Rank.Ace, Suit.Spades).ToString(), new BitmapImage(new Uri(@"../../Images/ace_of_spades.png", UriKind.Relative)) },
+            {new Card(Rank.Ace, Suit.Spades).ToString(), new BitmapImage(new Uri(@"../../Images/ace_of_spades2.png", UriKind.Relative)) },
             {new Card(Rank.Two, Suit.Spades).ToString(), new BitmapImage(new Uri(@"../../Images/2_of_spades.png", UriKind.Relative)) },
             {new Card(Rank.Three, Suit.Spades).ToString(), new BitmapImage(new Uri(@"../../Images/3_of_spades.png", UriKind.Relative)) },
             {new Card(Rank.Four, Suit.Spades).ToString(), new BitmapImage(new Uri(@"../../Images/4_of_spades.png", UriKind.Relative)) },

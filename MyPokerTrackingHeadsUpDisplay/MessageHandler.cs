@@ -15,6 +15,14 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         public event UpdateHole updateHole;
         public event UpdateBoard updateBoard;
+        private Controller _controller;
+
+        public MessageHandler()
+        {
+            _controller = Controller.Instance;
+            _controller._messageHandler = this;
+            _controller.InitEvents();
+        }
 
         public void ProcessUpdateBoardMessage(string message)
         {
@@ -23,7 +31,7 @@ namespace MyPokerTrackingHeadsUpDisplay
             var position = (int)char.GetNumericValue(splitMessage[2][1]);
             var card = CreateCardFromText(splitMessage[1]);
 
-            updateHole?.Invoke(card, position);
+            updateBoard?.Invoke(card, position);
         }
 
         public void ProcessUpdateHoleCardMessage(string message)
@@ -33,7 +41,7 @@ namespace MyPokerTrackingHeadsUpDisplay
             var position = (int)char.GetNumericValue(splitMessage[1][0]);
             var card = CreateCardFromText(splitMessage[2]);
 
-            updateBoard?.Invoke(card, position);
+            updateHole?.Invoke(card, position);
         }
 
         public Card CreateCardFromText(string cardString)
