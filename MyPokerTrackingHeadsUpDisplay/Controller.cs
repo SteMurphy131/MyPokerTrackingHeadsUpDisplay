@@ -38,6 +38,8 @@ namespace MyPokerTrackingHeadsUpDisplay
         {
             _messageHandler.updateHole += UpdateHoleCard;
             _messageHandler.updateBoard += UpdateBoardCard;
+
+            var hello = "hellO";
         }
 
         private void UpdateHoleCard(Card c, int num)
