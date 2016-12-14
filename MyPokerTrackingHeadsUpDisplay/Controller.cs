@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.Remoting;
-using System.Text;
-using System.Threading.Tasks;
-using EasyHook;
+﻿using System.Collections.Generic;
 using PokerStructures;
 
 namespace MyPokerTrackingHeadsUpDisplay
 {
     public class Controller
     {
-        public string ChannelName = null;
-        public string DllPath = "C:\\Users\\SteMu\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\MyPokerTrackingHeadsUpDisplay\\PokerHookDll\\bin\\Debug\\PokerHookDll.dll";
-
         public MainWindow _mainWindow { get; set; }
         public MessageHandler _messageHandler { get; set; }
 
         private static volatile Controller _instance = null;
         private static readonly object _mutex = new object();
+
+        private Round _currentRound = new Round();
+        private List<Round> _rounds = new List<Round>();
+        private PokerCalculator _calculator = new PokerCalculator();
 
         private Controller(){}
 
@@ -50,55 +44,48 @@ namespace MyPokerTrackingHeadsUpDisplay
         public void UpdateHoleCard(Card c, int num)
         {
             if (num == 0)
+            {
+                _rounds.Add(_currentRound);
+                _currentRound.ClearRoundData();
                 _mainWindow.UpdateHoleOne(c);
+                _currentRound.SetHoleCard(c, num);
+            }
             else if (num == 1)
             {
                 _mainWindow.UpdateHoleTwo(c);
+                _currentRound.SetHoleCard(c, num);
                 _mainWindow.ClearBoardCards();
+                _calculator.CalculatePreFlopOdds(_currentRound.Hole);
             }
         }
 
         public void UpdateBoardCard(Card c, int num)
         {
-            if (num == 0)
-                _mainWindow.UpdateBoardOne(c);
-            else if (num == 1)
-                _mainWindow.UpdateBoardTwo(c);
-            else if (num == 2)
-                _mainWindow.UpdateBoardThree(c);
-            else if (num == 3)
-                _mainWindow.UpdateBoardFour(c);
-            else if (num == 4)
-                _mainWindow.UpdateBoardFive(c);
-        }
-
-        public bool InjectDll()
-        {
-            try
+            switch (num)
             {
-                RemoteHooking.IpcCreateServer<RemoteMonitor>(ref ChannelName, WellKnownObjectMode.SingleCall);
-                var processId = -1;
-
-                foreach (var p in Process.GetProcessesByName("PokerStars"))
-                {
-                    processId = p.Id;
-                    break;
-                }
-
-                if (processId == -1)
-                {
-                    Console.WriteLine("No PokerStars.exe process running");
-                    Console.ReadLine();
-                }
-
-                RemoteHooking.Inject(processId, InjectionOptions.DoNotRequireStrongName, DllPath, DllPath, ChannelName);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"There was an error while connecting to target: \r\n {ex}");
-                Console.ReadLine();
-                return false;
+                case 0:
+                    _currentRound.SetFlopCard(c, num);
+                    _mainWindow.UpdateBoardOne(c);
+                    return;
+                case 1:
+                    _currentRound.SetFlopCard(c, num);
+                    _mainWindow.UpdateBoardTwo(c);
+                    return;
+                case 2:
+                    _currentRound.SetFlopCard(c, num);
+                    _mainWindow.UpdateBoardThree(c);
+                    _calculator.CalculateTurnOuts(_currentRound.AllCards.GetRange(0,5));
+                    return;
+                case 3:
+                    _currentRound.SetTurnCard(c);
+                    _mainWindow.UpdateBoardFour(c);
+                    _calculator.CalculateRiverOuts(_currentRound.AllCards.GetRange(0,6));
+                    return;
+                case 4:
+                    _currentRound.SetRiverCard(c);
+                    _mainWindow.UpdateBoardFive(c);
+                    _calculator.CalculateFinalWinChance(_currentRound.AllCards);
+                    return;
             }
         }
     }

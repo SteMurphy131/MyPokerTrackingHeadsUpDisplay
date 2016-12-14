@@ -5,15 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyPokerTrackingHeadsUpDisplay"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="484.348">
-    <Grid Margin="0,0,-8,-21">
-        <Image Source ="Images/2_of_diamonds.png" x:Name="holeImageOne" HorizontalAlignment="Left" Height="70" Margin="10,242,0,0" VerticalAlignment="Top" Width="60"/>
-        <Image x:Name="holeImageTwo" HorizontalAlignment="Left" Height="70" Margin="79,242,0,0" VerticalAlignment="Top" Width="60"/>
-        <Image x:Name="boardImageOne" HorizontalAlignment="Left" Height="70" Margin="138,242,0,0" VerticalAlignment="Top" Width="60"/>
-        <Image x:Name="boardImageTwo" HorizontalAlignment="Left" Height="70" Margin="191,242,0,0" VerticalAlignment="Top" Width="60"/>
-        <Image x:Name="boardImageThree" HorizontalAlignment="Left" Height="70" Margin="247,242,0,0" VerticalAlignment="Top" Width="60"/>
-        <Image x:Name="boardImageFour" HorizontalAlignment="Left" Height="70" Margin="300,242,0,0" VerticalAlignment="Top" Width="60"/>
-        <Image x:Name="boardImageFive" HorizontalAlignment="Left" Height="70" Margin="358,242,0,0" VerticalAlignment="Top" Width="60"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="70" Margin="138,86,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="181"/>
+        Title="MainWindow" Height="358" Width="897.348">
+    <Grid Background="Maroon" Margin="0,0,2,1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="491*"/>
+            <ColumnDefinition Width="396*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="223*"/>
+            <RowDefinition Height="103*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="31" Margin="10,152,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="129"/>
+        <Image Source ="Images/2_of_diamonds.png" x:Name="holeImageOne" HorizontalAlignment="Left" Height="80" Margin="19,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/7_of_diamonds.png" x:Name="holeImageTwo" HorizontalAlignment="Left" Height="80" Margin="79,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/10_of_spades.png" x:Name="boardImageOne" HorizontalAlignment="Left" Height="80" Margin="173,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/jack_of_spades.png" x:Name="boardImageTwo" HorizontalAlignment="Left" Height="80" Margin="234,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/queen_of_spades.png" x:Name="boardImageThree" HorizontalAlignment="Left" Height="80" Margin="294,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/king_of_spades.png" x:Name="boardImageFour" HorizontalAlignment="Left" Height="80" Margin="359,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/ace_of_spades2.png" x:Name="boardImageFive" HorizontalAlignment="Left" Height="80" Margin="424,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,10,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
+        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,36,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
+        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,62,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
+        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,88,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
+        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,114,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
+        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,140,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
+        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,166,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
+        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,192,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
+
     </Grid>
+
+
 </Window>

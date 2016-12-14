@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Injector.cs" />
     <Compile Include="MessageHandler.cs" />
     <Compile Include="PokerImageHelper.cs" />
     <Compile Include="RemoteMonitor.cs" />

@@ -14,7 +14,8 @@ namespace MyPokerTrackingHeadsUpDisplay
             InitializeComponent();
             _controller = Controller.Instance;
             _controller._mainWindow = this;
-            if (_controller.InjectDll())
+
+            if (Injector.InjectDll())
             {
                 UpdateTextBox("Dll Injected");
             }
