@@ -29,4 +29,12 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         }
     }
+
+    public class FlushCalculator
+    {
+        public void CalculateFlushOutsPreFlop(List<Card> cards)
+        {
+
+        }
+    }
 }

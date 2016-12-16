@@ -33,11 +33,9 @@ namespace PokerStructures
 
         public Card this[int index]
         {
-            get
-            {
-                return hand[index];
-            }
+            get { return hand[index]; }
         }
+
         public void Sort()
         {
             Array.Sort(hand);

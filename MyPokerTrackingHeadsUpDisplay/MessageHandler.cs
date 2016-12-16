@@ -20,7 +20,7 @@ namespace MyPokerTrackingHeadsUpDisplay
         public MessageHandler()
         {
             _controller = Controller.Instance;
-            _controller._messageHandler = this;
+            _controller.MessageHandler = this;
             _controller.InitEvents();
         }
 
