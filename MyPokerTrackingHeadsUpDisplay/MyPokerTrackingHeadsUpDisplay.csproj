@@ -42,6 +42,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -61,9 +62,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Injector.cs" />
+    <Compile Include="LogInWindow.xaml.cs">
+      <DependentUpon>LogInWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MessageHandler.cs" />
     <Compile Include="PokerImageHelper.cs" />
     <Compile Include="RemoteMonitor.cs" />
+    <Page Include="LogInWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -183,6 +191,10 @@
     <ProjectReference Include="..\PokerStructures\PokerStructures.csproj">
       <Project>{a4203a50-e5cc-45a3-b703-7e8f919d1c1f}</Project>
       <Name>PokerStructures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserStructures\UserStructures.csproj">
+      <Project>{7c59889e-5b3e-405f-93fe-71d790092610}</Project>
+      <Name>UserStructures</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

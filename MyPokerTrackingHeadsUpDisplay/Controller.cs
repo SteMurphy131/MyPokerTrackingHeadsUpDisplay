@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using PokerStructures;
+using UserStructures;
 
 namespace MyPokerTrackingHeadsUpDisplay
 {
@@ -9,8 +10,9 @@ namespace MyPokerTrackingHeadsUpDisplay
         public MessageHandler MessageHandler { get; set; }
 
         private static volatile Controller _instance;
-        private static readonly object _mutex = new object();
+        private static readonly object Mutex = new object();
 
+        private Session _session = new Session();
         private readonly Round _currentRound = new Round();
         private readonly List<Round> _rounds = new List<Round>();
         private readonly PokerCalculator _calculator = new PokerCalculator();
@@ -23,7 +25,7 @@ namespace MyPokerTrackingHeadsUpDisplay
             {
                 if (_instance == null)
                 {
-                    lock (_mutex)
+                    lock (Mutex)
                     {
                         if (_instance == null)
                         {

@@ -15,15 +15,29 @@ namespace MyPokerTrackingHeadsUpDisplay
             _controller = Controller.Instance;
             _controller.MainWindow = this;
 
-            if (Injector.InjectDll())
+
+            if (LogIn())
             {
-                UpdateTextBox("Dll Injected");
+                if (Injector.InjectDll())
+                {
+                    UpdateTextBox("Dll Injected");
+                }
             }
+        }
+
+        private bool LogIn()
+        {
+            LogInWindow window = new LogInWindow();
+            window.ShowDialog();
+
+            while (!window.LoggedIn){}
+
+            return true;
         }
 
         public void UpdateTextBox(string text)
         {
-            this.Dispatcher.BeginInvoke((Action)delegate
+            Dispatcher.BeginInvoke((Action)delegate
             {
                 textBox.Text = text;
             });
