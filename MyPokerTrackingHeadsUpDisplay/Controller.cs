@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using PokerStructures;
+using PokerStructures.Calculation;
+using PokerStructures.Enums;
 using UserStructures;
 
 namespace MyPokerTrackingHeadsUpDisplay
@@ -12,10 +14,15 @@ namespace MyPokerTrackingHeadsUpDisplay
         private static volatile Controller _instance;
         private static readonly object Mutex = new object();
 
+        public User User;
         private Session _session = new Session();
         private readonly Round _currentRound = new Round();
         private readonly List<Round> _rounds = new List<Round>();
-        private readonly PokerCalculator _calculator = new PokerCalculator();
+
+        //this boolean keeps track of whether or not the user is still betting on the round (ie they haven't folded yet)
+        private bool _inPlay;
+        private PokerGameState _gameState;
+        private Pokerscore _pokerScore;
 
         private Controller(){}
 
@@ -39,29 +46,34 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         public void InitEvents()
         {
-            MessageHandler.updateHole += UpdateHoleCard;
-            MessageHandler.updateBoard += UpdateBoardCard;
+            MessageHandler.UpdateHoleEvent += UpdateHoleEventCard;
+            MessageHandler.UpdateBoardEvent += UpdateBoardEventCard;
+            MessageHandler.RaiseEvent += HandleRaiseEvent;
+            MessageHandler.FoldEvent += HandleFoldEvent;
         }
 
-        public void UpdateHoleCard(Card c, int num)
+        public void UpdateHoleEventCard(Card c, int num)
         {
-            if (num == 0)
+            switch (num)
             {
-                _rounds.Add(_currentRound);
-                _currentRound.ClearRoundData();
-                MainWindow.UpdateHoleOne(c);
-                _currentRound.SetHoleCard(c, num);
-            }
-            else if (num == 1)
-            {
-                MainWindow.UpdateHoleTwo(c);
-                _currentRound.SetHoleCard(c, num);
-                MainWindow.ClearBoardCards();
-                _calculator.CalculatePreFlopOdds(_currentRound.Hole);
+                case 0:
+                    _rounds.Add(_currentRound);
+                    _currentRound.ClearRoundData();
+                    MainWindow.UpdateHoleOne(c);
+                    _currentRound.SetHoleCard(c, num);
+                    _inPlay = true;
+                    break;
+                case 1:
+                    MainWindow.UpdateHoleTwo(c);
+                    _currentRound.SetHoleCard(c, num);
+                    MainWindow.ClearBoardCards();
+                    _gameState = PokerGameState.PreFlop;
+                    PokerOutsCalculator.CalculatePreFlopOdds(_currentRound.Hole);
+                    break;
             }
         }
 
-        public void UpdateBoardCard(Card c, int num)
+        public void UpdateBoardEventCard(Card c, int num)
         {
             switch (num)
             {
@@ -76,19 +88,37 @@ namespace MyPokerTrackingHeadsUpDisplay
                 case 2:
                     _currentRound.SetFlopCard(c, num);
                     MainWindow.UpdateBoardThree(c);
-                    _calculator.CalculateTurnOuts(_currentRound.AllCards.GetRange(0,5));
+                    _gameState = PokerGameState.Flop;
+                    _pokerScore = PokerEvaluator.CalculateFlopScore(_currentRound.AllCards.GetRange(0,5));
+                    PokerOutsCalculator.CalculateTurnOuts(
+                        new FiveCardHand(_currentRound.AllCards.GetRange(0,5)), _pokerScore);
                     return;
                 case 3:
                     _currentRound.SetTurnCard(c);
                     MainWindow.UpdateBoardFour(c);
-                    _calculator.CalculateRiverOuts(_currentRound.AllCards.GetRange(0,6));
+                    _gameState = PokerGameState.Turn;
+                    _pokerScore = PokerEvaluator.CalculateTurnScore(_currentRound.AllCards.GetRange(0, 6));
+                    PokerOutsCalculator.CalculateRiverOuts(
+                        new SixCardHand(_currentRound.AllCards.GetRange(0,6)), _pokerScore);
                     return;
                 case 4:
                     _currentRound.SetRiverCard(c);
                     MainWindow.UpdateBoardFive(c);
-                    _calculator.CalculateFinalWinChance(_currentRound.AllCards);
+                    _gameState = PokerGameState.River;
+                    _pokerScore = PokerEvaluator.CalculateRiverScore(_currentRound.AllCards.GetRange(0, 7));
+                    PokerOutsCalculator.CalculateFinalWinChance(_currentRound.AllCards);
                     return;
             }
+        }
+
+        private void HandleRaiseEvent()
+        {
+
+        }
+
+        private void HandleFoldEvent()
+        {
+            _inPlay = false;
         }
     }
 }

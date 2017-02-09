@@ -1,4 +1,4 @@
-﻿namespace PokerStructures
+﻿namespace PokerStructures.Enums
 {
     public enum Rank
     {

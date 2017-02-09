@@ -1,4 +1,5 @@
 ﻿using System;
+using PokerStructures.Enums;
 
 namespace PokerStructures
 {
@@ -7,16 +8,16 @@ namespace PokerStructures
         private Rank _rank;
         private Suit _suit;
 
-        public Rank rank
+        public Rank Rank
         {
             get { return _rank; }
-            set { _rank = rank; }
+            set { _rank = Rank; }
         }
 
-        public Suit suit
+        public Suit Suit
         {
             get { return _suit; }
-            set { _suit = suit; }
+            set { _suit = Suit; }
         }
 
         // IComparable interface method
@@ -25,9 +26,9 @@ namespace PokerStructures
             if (o is Card)
             {
                 Card c = (Card)o;
-                if (_rank < c.rank)
+                if (_rank < c.Rank)
                     return -1;
-                if (_rank > c.rank)
+                if (_rank > c.Rank)
                     return 1;
                 return 0;
             }
@@ -48,7 +49,7 @@ namespace PokerStructures
             return $"{_rank}{_suit}";
         }
 
-        public bool isJacksOrBetter()
+        public bool IsJacksOrBetter()
         {
             if (_rank == Rank.Ace)
                 return true;

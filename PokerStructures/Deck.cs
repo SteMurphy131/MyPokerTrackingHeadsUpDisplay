@@ -1,4 +1,5 @@
 ﻿using System;
+using PokerStructures.Enums;
 
 namespace PokerStructures
 {

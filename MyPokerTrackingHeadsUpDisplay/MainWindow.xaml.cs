@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Media.Imaging;
 using PokerStructures;
 
 namespace MyPokerTrackingHeadsUpDisplay
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow 
     {
         private readonly Controller _controller;
 
@@ -15,24 +14,19 @@ namespace MyPokerTrackingHeadsUpDisplay
             _controller = Controller.Instance;
             _controller.MainWindow = this;
 
+            LogIn();
 
-            if (LogIn())
+            if (Injector.InjectDll())
             {
-                if (Injector.InjectDll())
-                {
-                    UpdateTextBox("Dll Injected");
-                }
+                UpdateTextBox("Dll Injected");
             }
         }
 
-        private bool LogIn()
+        private void LogIn()
         {
             LogInWindow window = new LogInWindow();
             window.ShowDialog();
-
-            while (!window.LoggedIn){}
-
-            return true;
+            _controller.User = window.User;
         }
 
         public void UpdateTextBox(string text)

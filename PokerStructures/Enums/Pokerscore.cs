@@ -1,8 +1,8 @@
-﻿namespace PokerStructures
+﻿namespace PokerStructures.Enums
 {
     public enum Pokerscore
     {
-        None, JacksOrBetter, TwoPair, ThreeOfAKind,
+        None, Pair, TwoPair, ThreeOfAKind,
         Straight, Flush, FullHouse, FourOfAKind, StraightFlush,
         RoyalFlush
     }

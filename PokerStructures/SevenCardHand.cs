@@ -4,24 +4,24 @@ using PokerStructures.Enums;
 
 namespace PokerStructures
 {
-    public class FiveCardHand
+    public class SevenCardHand
     {
-        public readonly List<Card> Hand;
+        private readonly List<Card> _hand;
         private readonly int[] _counters = new int[4];
 
-        public FiveCardHand(IEnumerable<Card> cards)
+        public SevenCardHand(List<Card> cards)
         {
-            Hand = cards.ToList();
+            _hand = cards;
         }
 
         public void Sort()
         {
-            Hand.Sort();
+            _hand.Sort();
         }
 
         public int CountFlush()
         {
-            foreach (Card c in Hand)
+            foreach (Card c in _hand)
             {
                 switch (c.Suit)
                 {

@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A4203A50-E5CC-45A3-B703-7E8F919D1C1F}</ProjectGuid>
+    <ProjectGuid>{D38E2558-C9EC-40A3-99A5-9DB7E7429984}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokerStructures</RootNamespace>
-    <AssemblyName>PokerStructures</AssemblyName>
+    <RootNamespace>PokerCalculator</RootNamespace>
+    <AssemblyName>PokerCalculator</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,34 +41,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculation\FlushCalculator.cs" />
-    <Compile Include="Calculation\FourOfAKindCalculator.cs" />
-    <Compile Include="Calculation\FullHouseCalculator.cs" />
-    <Compile Include="Calculation\PairCalculator.cs" />
-    <Compile Include="Calculation\PokerScoreOuts.cs" />
-    <Compile Include="Enumeration\PokerEnumerator.cs" />
-    <Compile Include="Calculation\PokerEvaluator.cs" />
-    <Compile Include="Calculation\OutsCollection.cs" />
-    <Compile Include="Calculation\PokerOutsCalculator.cs" />
-    <Compile Include="Calculation\RoyalFlushCalculator.cs" />
-    <Compile Include="Calculation\StraightCalculator.cs" />
-    <Compile Include="Calculation\StraightFlushCalculator.cs" />
-    <Compile Include="Calculation\ThreeOfAKindCalculator.cs" />
-    <Compile Include="Calculation\TwoPairCalculator.cs" />
-    <Compile Include="Card.cs" />
-    <Compile Include="Deck.cs" />
-    <Compile Include="FiveCardHand.cs" />
-    <Compile Include="Enums\PokerGameState.cs" />
-    <Compile Include="PokerHand.cs" />
-    <Compile Include="PokerHelper.cs" />
-    <Compile Include="PokerLogic.cs" />
-    <Compile Include="Enums\Pokerscore.cs" />
+    <Compile Include="FlushCalculator.cs" />
+    <Compile Include="FourOfAKindCalculator.cs" />
+    <Compile Include="FullHouseCalculator.cs" />
+    <Compile Include="OutsCalculator.cs" />
+    <Compile Include="PairCalculator.cs" />
+    <Compile Include="PokerEvaluator.cs" />
+    <Compile Include="PokerEnumerator.cs" />
+    <Compile Include="PokerOuts.cs" />
+    <Compile Include="PokerOutsCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Enums\Rank.cs" />
-    <Compile Include="Round.cs" />
-    <Compile Include="SevenCardHand.cs" />
-    <Compile Include="SixCardHand.cs" />
-    <Compile Include="Enums\Suit.cs" />
+    <Compile Include="RoyalFlushCalculator.cs" />
+    <Compile Include="StraightCalculator.cs" />
+    <Compile Include="StraightFlushCalculator.cs" />
+    <Compile Include="ThreeOfAKindCalculator.cs" />
+    <Compile Include="TwoPairCalculator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PokerStructures\PokerStructures.csproj">
+      <Project>{a4203a50-e5cc-45a3-b703-7e8f919d1c1f}</Project>
+      <Name>PokerStructures</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

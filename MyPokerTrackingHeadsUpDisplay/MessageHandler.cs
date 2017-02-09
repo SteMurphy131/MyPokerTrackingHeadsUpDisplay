@@ -1,27 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PokerStructures;
+﻿using PokerStructures;
+using PokerStructures.Enums;
 
 namespace MyPokerTrackingHeadsUpDisplay
 {
     public class MessageHandler
     {
         public delegate void UpdateHole(Card c, int pos);
-
         public delegate void UpdateBoard(Card c, int pos);
+        public delegate void Raise();
+        public delegate void Fold();
 
-        public event UpdateHole updateHole;
-        public event UpdateBoard updateBoard;
-        private Controller _controller;
+        public event UpdateHole UpdateHoleEvent;
+        public event UpdateBoard UpdateBoardEvent;
+        public event Raise RaiseEvent;
+        public event Fold FoldEvent;
 
         public MessageHandler()
         {
-            _controller = Controller.Instance;
-            _controller.MessageHandler = this;
-            _controller.InitEvents();
+            var controller = Controller.Instance;
+            controller.MessageHandler = this;
+            controller.InitEvents();
         }
 
         public void ProcessUpdateBoardMessage(string message)
@@ -31,7 +29,7 @@ namespace MyPokerTrackingHeadsUpDisplay
             var position = (int)char.GetNumericValue(splitMessage[2][1]);
             var card = CreateCardFromText(splitMessage[1]);
 
-            updateBoard?.Invoke(card, position);
+            UpdateBoardEvent?.Invoke(card, position);
         }
 
         public void ProcessUpdateHoleCardMessage(string message)
@@ -41,7 +39,17 @@ namespace MyPokerTrackingHeadsUpDisplay
             var position = (int)char.GetNumericValue(splitMessage[1][0]);
             var card = CreateCardFromText(splitMessage[2]);
 
-            updateHole?.Invoke(card, position);
+            UpdateHoleEvent?.Invoke(card, position);
+        }
+
+        public void HandleRaise()
+        {
+            RaiseEvent?.Invoke();
+        }
+
+        public void HandleFold()
+        {
+            FoldEvent?.Invoke();
         }
 
         public Card CreateCardFromText(string cardString)

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MyPokerTrackingHeadsUpDisplay
 {
@@ -27,6 +24,16 @@ namespace MyPokerTrackingHeadsUpDisplay
                 _workerThread = new Thread(() => _messageHandler.ProcessUpdateHoleCardMessage(result));
                 _workerThread.Start();
                 return;
+            }
+            if (result.Contains("RaiseX"))
+            {
+                _workerThread = new Thread(() => _messageHandler.HandleRaise());
+                _workerThread.Start();
+                return;
+            }
+            if (result.Contains("Fold"))
+            {
+                _workerThread = new Thread(() => _messageHandler.HandleFold());
             }
         }
 

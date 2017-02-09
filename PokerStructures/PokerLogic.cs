@@ -1,14 +1,15 @@
-﻿namespace PokerStructures
+﻿using PokerStructures.Enums;
+
+namespace PokerStructures
 {
     public class PokerLogic
     {
-        // flush is when all of the suits are the same
-        private static bool isFlush(PokerHand h)
+        private static bool IsFlush(FiveCardHand h)
         {
-            if (h[0].suit == h[1].suit &&
-                h[1].suit == h[2].suit &&
-                h[2].suit == h[3].suit &&
-                h[3].suit == h[4].suit)
+            if (h.Hand[0].Suit == h.Hand[1].Suit &&
+                h.Hand[1].Suit == h.Hand[2].Suit &&
+                h.Hand[2].Suit == h.Hand[3].Suit &&
+                h.Hand[3].Suit == h.Hand[4].Suit)
                 return true;
             return false;
         }
@@ -16,41 +17,41 @@
         // make sure the rank differs by one
         // we can do this since the Hand is 
         // sorted by this point
-        private static bool isStraight(PokerHand h)
+        private static bool IsStraight(FiveCardHand h)
         {
-            if (h[0].rank == h[1].rank - 1 &&
-                h[1].rank == h[2].rank - 1 &&
-                h[2].rank == h[3].rank - 1 &&
-                h[3].rank == h[4].rank - 1)
+            if (h.Hand[0].Rank == h.Hand[1].Rank - 1 &&
+                h.Hand[1].Rank == h.Hand[2].Rank - 1 &&
+                h.Hand[2].Rank == h.Hand[3].Rank - 1 &&
+                h.Hand[3].Rank == h.Hand[4].Rank - 1)
                 return true;
             // special case cause ace ranks lower
             // than 10 or higher
-            if (h[0].rank == Rank.Ace &&
-                h[1].rank == Rank.Two &&
-                h[2].rank == Rank.Three &&
-                h[3].rank == Rank.Four &&
-                h[4].rank == Rank.Five)
+            if (h.Hand[4].Rank == Rank.Ace &&
+                h.Hand[0].Rank == Rank.Two &&
+                h.Hand[1].Rank == Rank.Three &&
+                h.Hand[2].Rank == Rank.Four &&
+                h.Hand[3].Rank == Rank.Five)
                 return true;
             return false;
         }
 
         // must be flush and straight and
         // be certain cards. No wonder I have
-        private static bool isRoyalFlush(PokerHand h)
+        private static bool IsRoyalFlush(FiveCardHand h)
         {
-            if (isStraight(h) && isFlush(h) &&
-                h[0].rank == Rank.Ace &&
-                h[1].rank == Rank.Ten &&
-                h[2].rank == Rank.Jack &&
-                h[3].rank == Rank.Queen &&
-                h[4].rank == Rank.King)
+            if (IsStraight(h) && IsFlush(h) &&
+                h.Hand[0].Rank == Rank.Ten &&
+                h.Hand[1].Rank == Rank.Jack &&
+                h.Hand[2].Rank == Rank.Queen &&
+                h.Hand[3].Rank == Rank.King &&
+                h.Hand[4].Rank == Rank.Ace)
                 return true;
             return false;
         }
 
-        private static bool isStraightFlush(PokerHand h)
+        private static bool IsStraightFlush(FiveCardHand h)
         {
-            if (isStraight(h) && isFlush(h))
+            if (IsStraight(h) && IsFlush(h))
                 return true;
             return false;
         }
@@ -61,15 +62,15 @@
          * must match in rank. Only because the hand
          * is sorted
          */
-        private static bool isFourOfAKind(PokerHand h)
+        private static bool IsFourOfAKind(FiveCardHand h)
         {
-            if (h[0].rank == h[1].rank &&
-                h[1].rank == h[2].rank &&
-                h[2].rank == h[3].rank)
+            if (h.Hand[0].Rank == h.Hand[1].Rank &&
+                h.Hand[1].Rank == h.Hand[2].Rank &&
+                h.Hand[2].Rank == h.Hand[3].Rank)
                 return true;
-            if (h[1].rank == h[2].rank &&
-                h[2].rank == h[3].rank &&
-                h[3].rank == h[4].rank)
+            if (h.Hand[1].Rank == h.Hand[2].Rank &&
+                h.Hand[2].Rank == h.Hand[3].Rank &&
+                h.Hand[3].Rank == h.Hand[4].Rank)
                 return true;
             return false;
         }
@@ -79,15 +80,15 @@
          * front of the hand or in the back of the
          * hand, because it is sorted
          */
-        private static bool isFullHouse(PokerHand h)
+        private static bool IsFullHouse(FiveCardHand h)
         {
-            if (h[0].rank == h[1].rank &&
-                h[2].rank == h[3].rank &&
-                h[3].rank == h[4].rank)
+            if (h.Hand[0].Rank == h.Hand[1].Rank &&
+                h.Hand[2].Rank == h.Hand[3].Rank &&
+                h.Hand[3].Rank == h.Hand[4].Rank)
                 return true;
-            if (h[0].rank == h[1].rank &&
-                h[1].rank == h[2].rank &&
-                h[3].rank == h[4].rank)
+            if (h.Hand[0].Rank == h.Hand[1].Rank &&
+                h.Hand[1].Rank == h.Hand[2].Rank &&
+                h.Hand[3].Rank == h.Hand[4].Rank)
                 return true;
             return false;
         }
@@ -97,16 +98,16 @@
          * middle three cards match or last three cards
          * match
          */
-        private static bool isThreeOfAKind(PokerHand h)
+        private static bool IsThreeOfAKind(FiveCardHand h)
         {
-            if (h[0].rank == h[1].rank &&
-                h[1].rank == h[2].rank)
+            if (h.Hand[0].Rank == h.Hand[1].Rank &&
+                h.Hand[1].Rank == h.Hand[2].Rank)
                 return true;
-            if (h[1].rank == h[2].rank &&
-                h[2].rank == h[3].rank)
+            if (h.Hand[1].Rank == h.Hand[2].Rank &&
+                h.Hand[2].Rank == h.Hand[3].Rank)
                 return true;
-            if (h[2].rank == h[3].rank &&
-                h[3].rank == h[4].rank)
+            if (h.Hand[2].Rank == h.Hand[3].Rank &&
+                h.Hand[3].Rank == h.Hand[4].Rank)
                 return true;
             return false;
         }
@@ -116,62 +117,58 @@
          * separated by a single card or
          * two pair in the back
          */
-        private static bool isTwoPair(PokerHand h)
+        private static bool IsTwoPair(FiveCardHand h)
         {
-            if (h[0].rank == h[1].rank &&
-                h[2].rank == h[3].rank)
+            if (h.Hand[0].Rank == h.Hand[1].Rank &&
+                h.Hand[2].Rank == h.Hand[3].Rank)
                 return true;
-            if (h[0].rank == h[1].rank &&
-                h[3].rank == h[4].rank)
+            if (h.Hand[0].Rank == h.Hand[1].Rank &&
+                h.Hand[3].Rank == h.Hand[4].Rank)
                 return true;
-            if (h[1].rank == h[2].rank &&
-                h[3].rank == h[4].rank)
+            if (h.Hand[1].Rank == h.Hand[2].Rank &&
+                h.Hand[3].Rank == h.Hand[4].Rank)
                 return true;
             return false;
         }
 
-        /*
-         * 4 choices here
-         */
-        private static bool isJacksOrBetter(PokerHand h)
+        private static bool IsPair(FiveCardHand h)
         {
-            if (h[0].rank == h[1].rank &&
-                h[0].isJacksOrBetter())
+            if (h.Hand[0].Rank == h.Hand[1].Rank)
                 return true;
-            if (h[1].rank == h[2].rank &&
-                h[1].isJacksOrBetter())
+            if (h.Hand[1].Rank == h.Hand[2].Rank)
                 return true;
-            if (h[2].rank == h[3].rank &&
-                h[2].isJacksOrBetter())
+            if (h.Hand[2].Rank == h.Hand[3].Rank)
                 return true;
-            if (h[3].rank == h[4].rank &&
-                h[3].isJacksOrBetter())
+            if (h.Hand[3].Rank == h.Hand[4].Rank)
                 return true;
+
             return false;
         }
 
         // must be in order of hands and must be
         // mutually exclusive choices
-        public static Pokerscore score(PokerHand h)
+        public static Pokerscore Score(FiveCardHand h)
         {
-            if (isRoyalFlush(h))
+            h.Sort();
+
+            if (IsRoyalFlush(h))
                 return Pokerscore.RoyalFlush;
-            if (isStraightFlush(h))
+            if (IsStraightFlush(h))
                 return Pokerscore.StraightFlush;
-            if (isFourOfAKind(h))
+            if (IsFourOfAKind(h))
                 return Pokerscore.FourOfAKind;
-            if (isFullHouse(h))
+            if (IsFullHouse(h))
                 return Pokerscore.FullHouse;
-            if (isFlush(h))
+            if (IsFlush(h))
                 return Pokerscore.Flush;
-            if (isStraight(h))
+            if (IsStraight(h))
                 return Pokerscore.Straight;
-            if (isThreeOfAKind(h))
+            if (IsThreeOfAKind(h))
                 return Pokerscore.ThreeOfAKind;
-            if (isTwoPair(h))
+            if (IsTwoPair(h))
                 return Pokerscore.TwoPair;
-            if (isJacksOrBetter(h))
-                return Pokerscore.JacksOrBetter;
+            if(IsPair(h))
+                return Pokerscore.Pair;
             return Pokerscore.None;
         }
     }

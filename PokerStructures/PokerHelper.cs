@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using PokerStructures.Calculation;
+using PokerStructures.Enums;
 
 namespace PokerStructures
 {
@@ -28,5 +30,15 @@ namespace PokerStructures
             {13, Rank.King},
             {14, Rank.Ace}
         };
+
+        public static PokerScoreOuts CreateRiverOuts(int outs)
+        {
+            return new PokerScoreOuts {Outs = outs, Percentage = (outs / 46) * 100, RunnerRunner = false};
+        }
+
+        public static PokerScoreOuts CreateTurnOuts(int outs, bool runner)
+        {
+            return new PokerScoreOuts { Outs = outs, Percentage = (outs / 47) * 100, RunnerRunner = runner};
+        }
     }
 }

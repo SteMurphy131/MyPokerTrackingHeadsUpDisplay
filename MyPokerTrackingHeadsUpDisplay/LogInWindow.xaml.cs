@@ -18,9 +18,9 @@ using UserStructures;
 
 namespace MyPokerTrackingHeadsUpDisplay
 {
-    public partial class LogInWindow : Window
+    public partial class LogInWindow
     {
-        public bool LoggedIn = false;
+        public User User { get; set; }
 
         public LogInWindow()
         {
@@ -32,9 +32,9 @@ namespace MyPokerTrackingHeadsUpDisplay
             string username = UsernameBox.Text;
             string password = PasswordBox.Text;
 
-            User user = new User {UserName = username, Password = password, Email = "Email@Hotmail.com"};
+            User user = new User {UserName = username, ConfirmPassword = password, Password = password, Email = "Email@Hotmail.com", ConfirmEmail = "Email@Hotmail.com"};
 
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:64724/api/user/loginuser");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:64724/api/user/LogInUserApi");
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 
@@ -45,16 +45,24 @@ namespace MyPokerTrackingHeadsUpDisplay
             }
 
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-                LoggedIn = ProcessHttpReponse(result);
-            }
+                
+            if (ProcessHttpReponse(httpResponse))
+                Close();
         }
 
-        private bool ProcessHttpReponse(string response)
+        private bool ProcessHttpReponse(HttpWebResponse response)
         {
-            return true;
+            if (response.StatusCode == HttpStatusCode.Created)
+            {
+                using (var streamReader = new StreamReader(response.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                    User = new JavaScriptSerializer().Deserialize<User>(result);
+                    return true;
+                }       
+            }
+
+            return false;
         }
     }
 }
