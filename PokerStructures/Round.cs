@@ -4,12 +4,15 @@ namespace PokerStructures
 {
     public class Round
     {
-        public List<Card> Hole = new List<Card>();
-        public List<Card> Flop = new List<Card>();
+        public Dictionary<int, Card> Hole = new Dictionary<int, Card>();
+        public Dictionary<int, Card> Flop = new Dictionary<int, Card>();
+        public Dictionary<int, Card> AllCards = new Dictionary<int, Card>();
+
         public Card Turn;
         public Card River;
-        public List<Card> AllCards = new List<Card>();
 
+        public bool PreFlopRaise;
+        
         public void SetHoleCard(Card c, int position)
         {
             Hole[position] = c;
@@ -18,8 +21,8 @@ namespace PokerStructures
 
         public void SetFlopCard(Card c, int position)
         {
-            Flop[position] = c;
-            AllCards[position + 2] = c;
+            Flop[position] =  c;
+            AllCards[position+2] = c;
         }
 
         public void SetTurnCard(Card c)
@@ -31,7 +34,7 @@ namespace PokerStructures
         public void SetRiverCard(Card c)
         {
             River = c;
-            AllCards[6] = c;
+            AllCards[6] =  c;
         }
 
         public void ClearRoundData()

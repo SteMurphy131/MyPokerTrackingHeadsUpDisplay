@@ -14,7 +14,7 @@ namespace MyPokerTrackingHeadsUpDisplay
             _controller = Controller.Instance;
             _controller.MainWindow = this;
 
-            LogIn();
+            //LogIn();
 
             if (Injector.InjectDll())
             {

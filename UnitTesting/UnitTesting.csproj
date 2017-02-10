@@ -57,6 +57,7 @@
     <Compile Include="EnumerationTesting.cs" />
     <Compile Include="RiverStraightOutsEvaluationTesting.cs" />
     <Compile Include="RiverEvaluationTesting.cs" />
+    <Compile Include="RoundTesting.cs" />
     <Compile Include="TurnEvaluationTesting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

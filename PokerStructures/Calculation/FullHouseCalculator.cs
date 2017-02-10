@@ -7,6 +7,11 @@ namespace PokerStructures.Calculation
     {
         public static PokerScoreOuts CalculateTurn(FiveCardHand cards)
         {
+            if(cards.HasThreeOfAKind())
+                return TurnOutsDictionary[Pokerscore.ThreeOfAKind];
+            if (cards.HasTwoPair())
+                return TurnOutsDictionary[Pokerscore.TwoPair];
+
             return PokerHelper.CreateTurnOuts(0, false);
         }
 
@@ -30,6 +35,7 @@ namespace PokerStructures.Calculation
 
         public static Dictionary<Pokerscore, PokerScoreOuts> TurnOutsDictionary = new Dictionary<Pokerscore, PokerScoreOuts>
         {
+            {Pokerscore.Pair, new PokerScoreOuts {Outs = 0, Percentage = 1.665, RunnerRunner = false}},
             {Pokerscore.TwoPair, PokerHelper.CreateTurnOuts(4, false)},
             {Pokerscore.ThreeOfAKind, PokerHelper.CreateTurnOuts(6, false)}
         };

@@ -36,48 +36,48 @@ namespace PokerStructures.Calculation
                 case Pokerscore.Flush:
                     OutsCollection.RoyalFlush = RoyalFlushCalculator.CalculateTurn(cards);
                     OutsCollection.StraightFlush = StraightFlushCalculator.CalculateTurn(cards);
-                    OutsCollection.FourOfAKind = FourOfAKindCalculator.CalculateTurn(cards);
-                    OutsCollection.FullHouse = FullHouseCalculator.CalculateTurn(cards);
+                    OutsCollection.FourOfAKind = FourOfAKindCalculator.CalculateTurn(cards);//done
+                    OutsCollection.FullHouse = FullHouseCalculator.CalculateTurn(cards);//done
                     return OutsCollection;
                 case Pokerscore.Straight:
                     OutsCollection.RoyalFlush = RoyalFlushCalculator.CalculateTurn(cards);
                     OutsCollection.StraightFlush = StraightFlushCalculator.CalculateTurn(cards);
-                    OutsCollection.FourOfAKind = FourOfAKindCalculator.CalculateTurn(cards);
-                    OutsCollection.FullHouse = FullHouseCalculator.CalculateTurn(cards);
-                    OutsCollection.Flush = FlushCalculator.CalculateTurn(cards);
+                    OutsCollection.FourOfAKind = FourOfAKindCalculator.CalculateTurn(cards);//done
+                    OutsCollection.FullHouse = FullHouseCalculator.CalculateTurn(cards);//done
+                    OutsCollection.Flush = FlushCalculator.CalculateTurn(cards);//done
                     return OutsCollection;
                 case Pokerscore.ThreeOfAKind:
                     OutsCollection.RoyalFlush = RoyalFlushCalculator.CalculateTurn(cards);
                     OutsCollection.StraightFlush = StraightFlushCalculator.CalculateTurn(cards);
                     OutsCollection.FourOfAKind = FourOfAKindCalculator.TurnOutsDictionary[currentScore];//done
                     OutsCollection.FullHouse = FullHouseCalculator.TurnOutsDictionary[currentScore];//done
-                    OutsCollection.Flush = FlushCalculator.CalculateTurn(cards);
+                    OutsCollection.Flush = FlushCalculator.CalculateTurn(cards);//done
                     return OutsCollection;
                 case Pokerscore.TwoPair:
                     OutsCollection.RoyalFlush = RoyalFlushCalculator.CalculateTurn(cards);
                     OutsCollection.StraightFlush = StraightFlushCalculator.CalculateTurn(cards);
-                    OutsCollection.FourOfAKind = FourOfAKindCalculator.CalculateTurn(cards);
+                    OutsCollection.FourOfAKind = FourOfAKindCalculator.TurnOutsDictionary[currentScore];//done
                     OutsCollection.FullHouse = FullHouseCalculator.TurnOutsDictionary[currentScore];//done
-                    OutsCollection.Flush = FlushCalculator.CalculateTurn(cards);
+                    OutsCollection.Flush = FlushCalculator.CalculateTurn(cards);//done
                     OutsCollection.Straight = StraightCalculator.CalculateTurn(cards);
                     return OutsCollection;
                 case Pokerscore.Pair:
                     OutsCollection.RoyalFlush = RoyalFlushCalculator.CalculateTurn(cards);
                     OutsCollection.StraightFlush = StraightFlushCalculator.CalculateTurn(cards);
-                    OutsCollection.FourOfAKind = FourOfAKindCalculator.CalculateTurn(cards);
-                    OutsCollection.FullHouse = FullHouseCalculator.CalculateTurn(cards);
-                    OutsCollection.Flush = FlushCalculator.CalculateTurn(cards);
-                    OutsCollection.ThreeOfAKind = ThreeOfAKindCalculator.CalculateTurn(cards);
+                    OutsCollection.FourOfAKind = FourOfAKindCalculator.TurnOutsDictionary[currentScore];//done 
+                    OutsCollection.FullHouse = FullHouseCalculator.TurnOutsDictionary[currentScore];//done
+                    OutsCollection.Flush = FlushCalculator.CalculateTurn(cards);//done
+                    OutsCollection.ThreeOfAKind = ThreeOfAKindCalculator.TurnOutsDictionary[currentScore];//done
                     OutsCollection.Straight = StraightCalculator.CalculateTurn(cards);
                     OutsCollection.TwoPair = TwoPairCalculator.TurnOutsDictionary[currentScore];//done
                     return OutsCollection;
                 case Pokerscore.None:
                     OutsCollection.RoyalFlush = RoyalFlushCalculator.CalculateTurn(cards);
                     OutsCollection.StraightFlush = StraightFlushCalculator.CalculateTurn(cards);
-                    OutsCollection.Flush = FlushCalculator.CalculateTurn(cards);
-                    OutsCollection.ThreeOfAKind = ThreeOfAKindCalculator.CalculateTurn(cards);
+                    OutsCollection.Flush = FlushCalculator.CalculateTurn(cards);//done
+                    OutsCollection.ThreeOfAKind = ThreeOfAKindCalculator.TurnOutsDictionary[currentScore];//done
                     OutsCollection.Straight = StraightCalculator.CalculateTurn(cards);
-                    OutsCollection.TwoPair = TwoPairCalculator.CalculateTurn(cards);
+                    OutsCollection.TwoPair = TwoPairCalculator.TurnOutsDictionary[currentScore];//done
                     OutsCollection.Pair = PairCalculator.CalculateTurn(cards);//done
                     return OutsCollection;
                 default:

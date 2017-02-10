@@ -7,7 +7,7 @@
             if (cards.CountFlush() == 4)
                 return PokerHelper.CreateTurnOuts(9, false);
             if (cards.CountFlush() == 3)
-                return PokerHelper.CreateTurnOuts(10, true);
+                return new PokerScoreOuts {Outs = 0, Percentage = 4.163, RunnerRunner = true};
             
             return PokerHelper.CreateTurnOuts(0, false);
         }
