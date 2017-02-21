@@ -5,7 +5,7 @@ using PokerStructures;
 using PokerStructures.Enumeration;
 using PokerStructures.Enums;
 
-namespace UnitTesting
+namespace UnitTesting.Enumeration
 {
     [TestFixture]
     public class EnumerationTesting

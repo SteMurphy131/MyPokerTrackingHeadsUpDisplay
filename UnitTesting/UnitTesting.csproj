@@ -54,12 +54,32 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="EnumerationTesting.cs" />
-    <Compile Include="RiverStraightOutsEvaluationTesting.cs" />
-    <Compile Include="RiverEvaluationTesting.cs" />
-    <Compile Include="RoundTesting.cs" />
-    <Compile Include="TurnEvaluationTesting.cs" />
+    <Compile Include="Enumeration\EnumerationTesting.cs" />
+    <Compile Include="RiverOuts\RiverFlushOutsEvaluation.cs" />
+    <Compile Include="RiverOuts\RiverFourOfAKindEvaluation.cs" />
+    <Compile Include="RiverOuts\RiverFullHouseEvaluation.cs" />
+    <Compile Include="RiverOuts\RiverPairOutsEvalution.cs" />
+    <Compile Include="RiverOuts\RiverRoyalFlushOutsEvaluation.cs" />
+    <Compile Include="RiverOuts\RiverStraightFlushOutsEvaluation.cs" />
+    <Compile Include="RiverOuts\RiverStraightOutsEvaluationTesting.cs" />
+    <Compile Include="Evaluation\RiverEvaluationTesting.cs" />
+    <Compile Include="RiverOuts\RiverTwoPairOutsEvaluation.cs" />
+    <Compile Include="RiverOuts\RiverThreeOfAKindOutsEvaluation.cs" />
+    <Compile Include="Structures\RoundTesting.cs" />
+    <Compile Include="TurnOuts\TurnFourOfAKindOutsEvaluation.cs" />
+    <Compile Include="TurnOuts\TurnFullHouseOutsEvaluation.cs" />
+    <Compile Include="TurnOuts\TurnPairOutsEvaluation.cs" />
+    <Compile Include="TurnOuts\TurnStraightInsideRunnerRunnerOuts.cs" />
+    <Compile Include="Evaluation\TurnEvaluationTesting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TurnOuts\TurnRoyalFlushInsideRunnerRunnerOuts.cs" />
+    <Compile Include="TurnOuts\TurnRoyalFlushOutsideRunnerRunnerOuts.cs" />
+    <Compile Include="TurnOuts\TurnStraightFlushInsideRunnerRunnerOuts.cs" />
+    <Compile Include="TurnOuts\TurnStraightAndRoyalFlushOutEvaluationTesting.cs" />
+    <Compile Include="TurnOuts\TurnStraightFlushOutsideRunnerRunnerOuts.cs" />
+    <Compile Include="TurnOuts\TurnStraightOutsideRunnerRunnerOuts.cs" />
+    <Compile Include="TurnOuts\TurnThreeOfAKindOutsEvaluation.cs" />
+    <Compile Include="TurnOuts\TurnTwoPairOutsEvaluation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

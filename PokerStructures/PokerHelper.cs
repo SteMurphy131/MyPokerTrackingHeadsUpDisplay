@@ -33,12 +33,14 @@ namespace PokerStructures
 
         public static PokerScoreOuts CreateRiverOuts(int outs)
         {
-            return new PokerScoreOuts {Outs = outs, Percentage = (outs / 46) * 100, RunnerRunner = false};
+            double percentage = ((double)outs/46)*100;
+            return new PokerScoreOuts {Outs = outs, Percentage = percentage, RunnerRunner = false};
         }
 
         public static PokerScoreOuts CreateTurnOuts(int outs, bool runner)
         {
-            return new PokerScoreOuts { Outs = outs, Percentage = (outs / 47) * 100, RunnerRunner = runner};
+            double percentage = (double)outs/47 * 100;
+            return new PokerScoreOuts { Outs = outs, Percentage = percentage, RunnerRunner = runner};
         }
     }
 }

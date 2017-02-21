@@ -114,7 +114,15 @@ namespace MyPokerTrackingHeadsUpDisplay
         private void HandleRaiseEvent()
         {
             if (_gameState == PokerGameState.PreFlop)
+            {
                 _session.Statistics.PreFlopRaises++;
+                _currentRound.PreFlopRaise = true;
+            }
+            if (_gameState > PokerGameState.PreFlop)
+            {
+                if (_currentRound.PreFlopRaise)
+                    _session.Statistics.ContinuationBets++;
+            }
         }
 
         private void HandleFoldEvent()

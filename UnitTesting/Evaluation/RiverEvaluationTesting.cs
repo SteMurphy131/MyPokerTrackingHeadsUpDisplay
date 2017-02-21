@@ -5,7 +5,7 @@ using PokerStructures;
 using PokerStructures.Calculation;
 using PokerStructures.Enums;
 
-namespace UnitTesting
+namespace UnitTesting.Evaluation
 {
     [TestFixture]
     public class RiverEvaluationTesting

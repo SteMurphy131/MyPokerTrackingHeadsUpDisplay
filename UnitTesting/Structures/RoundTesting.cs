@@ -2,7 +2,7 @@
 using PokerStructures;
 using PokerStructures.Enums;
 
-namespace UnitTesting
+namespace UnitTesting.Structures
 {
     [TestFixture]
     public class RoundTesting

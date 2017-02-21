@@ -17,7 +17,7 @@ namespace PokerStructures.Calculation
 
         public static Dictionary<Pokerscore, PokerScoreOuts> TurnOutsDictionary = new Dictionary<Pokerscore, PokerScoreOuts>
         {
-            {Pokerscore.None, new PokerScoreOuts {Outs = 0, Percentage = 8.326, RunnerRunner = true} },
+            {Pokerscore.None, new PokerScoreOuts {Outs = 0, Percentage = 8.33, RunnerRunner = true} },
             {Pokerscore.Pair, new PokerScoreOuts {Outs = 9, Percentage = 35.0, RunnerRunner = false} }
         };
     }

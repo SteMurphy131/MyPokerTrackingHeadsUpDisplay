@@ -2,163 +2,14 @@
 using System.Diagnostics;
 using NUnit.Framework;
 using PokerStructures;
+using PokerStructures.Calculation;
 using PokerStructures.Enums;
 
-namespace UnitTesting
+namespace UnitTesting.RiverOuts
 {
     [TestFixture]
     public class RiverStraightOutsEvaluationTesting
     {
-        [Test]
-        public void NoRoyalFlushDraw()
-        {
-            Stopwatch watch = new Stopwatch();
-            List<Card> cards = new List<Card>
-            {
-                new Card(Rank.Ten, Suit.Hearts),
-                new Card(Rank.Jack, Suit.Hearts),
-                new Card(Rank.Queen, Suit.Hearts),
-                new Card(Rank.Nine, Suit.Hearts),
-                new Card(Rank.Seven, Suit.Hearts),
-                new Card(Rank.Ten, Suit.Diamonds),
-            };
-
-            SixCardHand hand = new SixCardHand(cards);
-            hand.Sort();
-
-            watch.Start();
-            int outsideDraw = hand.CountOutsideRoyalFlushDraws();
-            watch.Stop();
-
-            Assert.AreEqual(0, outsideDraw);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
-        }
-
-        [Test]
-        public void OutsideRoyalFlushDraw()
-        {
-            Stopwatch watch = new Stopwatch();
-            List<Card> cards = new List<Card>
-            {
-                new Card(Rank.Ten, Suit.Hearts),
-                new Card(Rank.Jack, Suit.Hearts),
-                new Card(Rank.Queen, Suit.Hearts),
-                new Card(Rank.King, Suit.Hearts),
-                new Card(Rank.Seven, Suit.Hearts),
-                new Card(Rank.Ten, Suit.Diamonds),
-            };
-
-            SixCardHand hand = new SixCardHand(cards);
-            hand.Sort();
-
-            watch.Start();
-            int outsideDraw = hand.CountOutsideRoyalFlushDraws();
-            watch.Stop();
-
-            Assert.AreEqual(1, outsideDraw);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
-        }
-
-        [Test]
-        public void InsideRoyalFlushDraw()
-        {
-            Stopwatch watch = new Stopwatch();
-            List<Card> cards = new List<Card>
-            {
-                new Card(Rank.Ten, Suit.Hearts),
-                new Card(Rank.Jack, Suit.Hearts),
-                new Card(Rank.Queen, Suit.Hearts),
-                new Card(Rank.Ace, Suit.Hearts),
-                new Card(Rank.Seven, Suit.Hearts),
-                new Card(Rank.Ten, Suit.Diamonds),
-            };
-
-            SixCardHand hand = new SixCardHand(cards);
-            hand.Sort();
-
-            watch.Start();
-            int inside = hand.CountInsideRoyalFlushDraws();
-            watch.Stop();
-
-            Assert.AreEqual(1, inside);
-            Assert.Greater(25, watch.ElapsedMilliseconds);
-        }
-
-        [Test]
-        public void OutsideStraightFlushDraw()
-        {
-            Stopwatch watch = new Stopwatch();
-            List<Card> cards = new List<Card>
-            {
-                new Card(Rank.Two, Suit.Hearts),
-                new Card(Rank.Four, Suit.Hearts),
-                new Card(Rank.Five, Suit.Hearts),
-                new Card(Rank.Six, Suit.Hearts),
-                new Card(Rank.Seven, Suit.Hearts),
-                new Card(Rank.Ten, Suit.Diamonds),
-            };
-
-            SixCardHand hand = new SixCardHand(cards);
-            hand.Sort();
-
-            watch.Start();
-            int outsideDraw = hand.CountOutsideStraightFlushDraws();
-            watch.Stop();
-
-            Assert.AreEqual(2, outsideDraw);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
-        }
-
-        [Test]
-        public void TwoInsideStraightFlushDraws()
-        {
-            Stopwatch watch = new Stopwatch();
-            List<Card> cards = new List<Card>
-            {
-                new Card(Rank.Two, Suit.Hearts),
-                new Card(Rank.Four, Suit.Hearts),
-                new Card(Rank.Five, Suit.Hearts),
-                new Card(Rank.Six, Suit.Hearts),
-                new Card(Rank.Eight, Suit.Hearts),
-                new Card(Rank.Ten, Suit.Diamonds),
-            };
-
-            SixCardHand hand = new SixCardHand(cards);
-            hand.Sort();
-
-            watch.Start();
-            int outsideDraw = hand.CountInsideStraightFlushDraws();
-            watch.Stop();
-
-            Assert.AreEqual(2, outsideDraw);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
-        }
-
-        [Test]
-        public void OneInsideStraightFlushDraw()
-        {
-            Stopwatch watch = new Stopwatch();
-            List<Card> cards = new List<Card>
-            {
-                new Card(Rank.Ace, Suit.Hearts),
-                new Card(Rank.Four, Suit.Hearts),
-                new Card(Rank.Five, Suit.Hearts),
-                new Card(Rank.Six, Suit.Hearts),
-                new Card(Rank.Eight, Suit.Hearts),
-                new Card(Rank.Ten, Suit.Diamonds),
-            };
-
-            SixCardHand hand = new SixCardHand(cards);
-            hand.Sort();
-
-            watch.Start();
-            int outsideDraw = hand.CountInsideStraightFlushDraws();
-            watch.Stop();
-
-            Assert.AreEqual(1, outsideDraw);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
-        }
-
         [Test]
         public void OutsideStraightDraw()
         {
@@ -178,10 +29,13 @@ namespace UnitTesting
 
             watch.Start();
             int outsideDraw = hand.CountOutsideStraightDraws();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
             watch.Stop();
 
             Assert.AreEqual(2, outsideDraw);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
+            Assert.AreEqual(8, outs.Straight.Outs);
+            Assert.Greater(200, watch.ElapsedMilliseconds);
         }
 
         [Test]
@@ -203,10 +57,13 @@ namespace UnitTesting
 
             watch.Start();
             int outsideDraw = hand.CountOutsideStraightDraws();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
             watch.Stop();
 
+            Assert.AreEqual(4, outs.Straight.Outs);
             Assert.AreEqual(1, outsideDraw);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
+            Assert.Greater(200, watch.ElapsedMilliseconds);
         }
 
         [Test]
@@ -228,10 +85,13 @@ namespace UnitTesting
 
             watch.Start();
             int outsideDraw = hand.CountOutsideStraightDraws();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
             watch.Stop();
 
+            Assert.AreEqual(4, outs.Straight.Outs);
             Assert.AreEqual(1, outsideDraw);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
+            Assert.Greater(200, watch.ElapsedMilliseconds);
         }
 
         [Test]
@@ -253,10 +113,13 @@ namespace UnitTesting
 
             watch.Start();
             int insideDraws = hand.CountInsideStraightDraws();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
             watch.Stop();
 
+            Assert.AreEqual(8, outs.Straight.Outs);
             Assert.AreEqual(2, insideDraws);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
+            Assert.Greater(200, watch.ElapsedMilliseconds);
         }
 
         [Test]
@@ -278,10 +141,13 @@ namespace UnitTesting
 
             watch.Start();
             int insideDraws = hand.CountInsideStraightDraws();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
             watch.Stop();
 
+            Assert.AreEqual(4, outs.Straight.Outs);
             Assert.AreEqual(1, insideDraws);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
+            Assert.Greater(200, watch.ElapsedMilliseconds);
         }
 
         [Test]
@@ -303,10 +169,13 @@ namespace UnitTesting
 
             watch.Start();
             int insideDraws = hand.CountInsideStraightDraws();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
             watch.Stop();
 
+            Assert.AreEqual(4, outs.Straight.Outs);
             Assert.AreEqual(1, insideDraws);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
+            Assert.Greater(200, watch.ElapsedMilliseconds);
         }
 
         [Test]
@@ -328,10 +197,13 @@ namespace UnitTesting
 
             watch.Start();
             int insideDraws = hand.CountInsideStraightDraws();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
             watch.Stop();
 
+            Assert.AreEqual(8, outs.Straight.Outs);
             Assert.AreEqual(2, insideDraws);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
+            Assert.Greater(200, watch.ElapsedMilliseconds);
         }
 
         [Test]
@@ -353,10 +225,13 @@ namespace UnitTesting
 
             watch.Start();
             int insideDraws = hand.CountInsideStraightDraws();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
             watch.Stop();
 
+            Assert.AreEqual(4, outs.Straight.Outs);
             Assert.AreEqual(1, insideDraws);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
+            Assert.Greater(200, watch.ElapsedMilliseconds);
         }
 
         [Test]
@@ -378,10 +253,13 @@ namespace UnitTesting
 
             watch.Start();
             int insideDraws = hand.CountInsideStraightDraws();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
             watch.Stop();
 
+            Assert.AreEqual(0, outs.Straight.Outs);
             Assert.AreEqual(0, insideDraws);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
+            Assert.Greater(200, watch.ElapsedMilliseconds);
         }
     }
 }

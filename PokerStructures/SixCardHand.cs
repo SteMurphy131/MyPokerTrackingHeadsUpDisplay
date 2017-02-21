@@ -1,29 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using PokerStructures.Enumeration;
 using PokerStructures.Enums;
+using PokerStructures.ExtensionMethods;
 
 namespace PokerStructures
 {
     public class SixCardHand
     {
-        private readonly List<Card> _hand;
+        public readonly List<Card> Hand;
         private readonly int[] _counters = new int[4];
 
         public SixCardHand(List<Card> cards)
         {
-            _hand = cards;
+            Hand = cards;
         }
 
         public void Sort()
         {
-            _hand.Sort();
+            Hand.Sort();
         }
 
         public int CountFlush()
         {
-            foreach (Card c in _hand)
+            foreach (Card c in Hand)
             {
                 switch (c.Suit)
                 {
@@ -46,20 +46,20 @@ namespace PokerStructures
 
         public bool HasTwoPair()
         {
-            if (_hand[0].Rank == _hand[1].Rank &&
-                _hand[2].Rank == _hand[3].Rank)
+            if (Hand[0].Rank == Hand[1].Rank &&
+                Hand[2].Rank == Hand[3].Rank)
                 return true;
-            if (_hand[0].Rank == _hand[1].Rank &&
-                _hand[3].Rank == _hand[4].Rank)
+            if (Hand[0].Rank == Hand[1].Rank &&
+                Hand[3].Rank == Hand[4].Rank)
                 return true;
-            if (_hand[0].Rank == _hand[1].Rank &&
-                _hand[4].Rank == _hand[5].Rank)
+            if (Hand[0].Rank == Hand[1].Rank &&
+                Hand[4].Rank == Hand[5].Rank)
                 return true;
-            if (_hand[1].Rank == _hand[2].Rank &&
-                _hand[3].Rank == _hand[4].Rank)
+            if (Hand[1].Rank == Hand[2].Rank &&
+                Hand[3].Rank == Hand[4].Rank)
                 return true;
-            if (_hand[1].Rank == _hand[2].Rank &&
-                _hand[4].Rank == _hand[5].Rank)
+            if (Hand[1].Rank == Hand[2].Rank &&
+                Hand[4].Rank == Hand[5].Rank)
                 return true;
 
             return false;
@@ -67,9 +67,9 @@ namespace PokerStructures
 
         public bool HasThreePair()
         {
-            if (_hand[0].Rank == _hand[1].Rank &&
-                _hand[2].Rank == _hand[3].Rank &&
-                _hand[4].Rank == _hand[5].Rank)
+            if (Hand[0].Rank == Hand[1].Rank &&
+                Hand[2].Rank == Hand[3].Rank &&
+                Hand[4].Rank == Hand[5].Rank)
                 return true;
 
             return false;
@@ -77,42 +77,42 @@ namespace PokerStructures
 
         public bool HasThreeOfAKind()
         {
-            if (_hand[0].Rank == _hand[1].Rank &&
-                _hand[1].Rank == _hand[2].Rank)
+            if (Hand[0].Rank == Hand[1].Rank &&
+                Hand[1].Rank == Hand[2].Rank)
                 return true;
-            if (_hand[1].Rank == _hand[2].Rank &&
-                _hand[2].Rank == _hand[3].Rank)
+            if (Hand[1].Rank == Hand[2].Rank &&
+                Hand[2].Rank == Hand[3].Rank)
                 return true;
-            if (_hand[2].Rank == _hand[3].Rank &&
-                _hand[3].Rank == _hand[4].Rank)
+            if (Hand[2].Rank == Hand[3].Rank &&
+                Hand[3].Rank == Hand[4].Rank)
                 return true;
-            if (_hand[3].Rank == _hand[4].Rank &&
-                _hand[4].Rank == _hand[5].Rank)
+            if (Hand[3].Rank == Hand[4].Rank &&
+                Hand[4].Rank == Hand[5].Rank)
                 return true;
             return false;
         }
 
         public int CountOutsideRoyalFlushDraws()
         {
-            if (_hand[2].Rank == Rank.Jack &&
-                _hand[3].Rank == Rank.Queen &&
-                _hand[4].Rank == Rank.King &&
-                _hand[5].Rank == Rank.Ace)
+            if (Hand[2].Rank == Rank.Jack &&
+                Hand[3].Rank == Rank.Queen &&
+                Hand[4].Rank == Rank.King &&
+                Hand[5].Rank == Rank.Ace)
             {
-                if(_hand[2].Suit == _hand[3].Suit &&
-                   _hand[3].Suit == _hand[4].Suit &&
-                   _hand[4].Suit == _hand[5].Suit)
+                if(Hand[2].Suit == Hand[3].Suit &&
+                   Hand[3].Suit == Hand[4].Suit &&
+                   Hand[4].Suit == Hand[5].Suit)
                 return 1;
             }
 
-            if (_hand[2].Rank == Rank.Ten &&
-                _hand[3].Rank == Rank.Jack &&
-                _hand[4].Rank == Rank.Queen &&
-                _hand[5].Rank == Rank.King)
+            if (Hand[2].Rank == Rank.Ten &&
+                Hand[3].Rank == Rank.Jack &&
+                Hand[4].Rank == Rank.Queen &&
+                Hand[5].Rank == Rank.King)
             {
-                if (_hand[2].Suit == _hand[3].Suit &&
-                   _hand[3].Suit == _hand[4].Suit &&
-                   _hand[4].Suit == _hand[5].Suit)
+                if (Hand[2].Suit == Hand[3].Suit &&
+                   Hand[3].Suit == Hand[4].Suit &&
+                   Hand[4].Suit == Hand[5].Suit)
                     return 1;
             }
 
@@ -121,45 +121,55 @@ namespace PokerStructures
 
         public int CountInsideRoyalFlushDraws()
         {
-            int count = (from comb in PokerEnumerator.GetFourCardsFromSix(_hand)
-                             where comb[0].Rank == comb[3].Rank - 4
-                             where  comb[0].Rank != comb[1].Rank && 
-                                    comb[1].Rank != comb[2].Rank && 
-                                    comb[2].Rank != comb[3].Rank
-                             where comb[0].Rank == Rank.Ten || comb[3].Rank == Rank.Ace
-                                select comb)
-                                    .Count(comb =>  comb[0].Suit == comb[1].Suit && 
-                                                    comb[1].Suit == comb[2].Suit && 
-                                                    comb[2].Suit == comb[3].Suit);
+            var missing = new List<int>();
+            var handList = new List<int> { Hand[0].ToInt(), Hand[1].ToInt(), Hand[2].ToInt(), Hand[3].ToInt(), Hand[4].ToInt(), Hand[5].ToInt()};
 
-            if (count == 3)
-                count--;
+            foreach (var comb in PokerEnumerator.GetFourCardsFromSix(Hand))
+            {
+                if (comb[0].Rank == comb[3].Rank - 4 && !comb.HasPair() && comb.AreSameSuit() && comb.AreTenOrAbove())
+                {
+                    var list = new List<int> { comb[0].ToInt(), comb[1].ToInt(), comb[2].ToInt(), comb[3].ToInt() };
+                    missing.AddRange(Enumerable.Range(list[0], 5).Except(handList));
+                }
+            }
 
-            return count;
+            var missingSet = new HashSet<int>(missing);
+            return missingSet.Count;
         }
 
         public int CountOutsideStraightFlushDraws()
         {
-            if (_hand[5].Rank == Rank.Ace &&
-                _hand[0].Rank == Rank.Two &&
-                _hand[1].Rank == Rank.Three &&
-                _hand[2].Rank == Rank.Four)
+            if (Hand[5].Rank == Rank.Ace &&
+                Hand[0].Rank == Rank.Two &&
+                Hand[1].Rank == Rank.Three &&
+                Hand[2].Rank == Rank.Four)
             {
-                if(_hand[0].Suit == _hand[1].Suit &&
-                   _hand[1].Suit == _hand[2].Suit && 
-                   _hand[2].Suit == _hand[5].Suit)
+                if(Hand[0].Suit == Hand[1].Suit &&
+                   Hand[1].Suit == Hand[2].Suit && 
+                   Hand[2].Suit == Hand[5].Suit)
                 return 1;
+            }
+
+            if (Hand[2].Rank == Rank.Jack &&
+                Hand[3].Rank == Rank.Queen &&
+                Hand[4].Rank == Rank.King &&
+                Hand[5].Rank == Rank.Ace)
+            {
+                if (Hand[0].Suit == Hand[1].Suit &&
+                   Hand[1].Suit == Hand[2].Suit &&
+                   Hand[2].Suit == Hand[5].Suit)
+                    return 1;
             }
 
             for (int i = 0; i < 3; i++)
             {
-                if (_hand[i].Rank == _hand[i + 1].Rank - 1 &&
-                    _hand[i + 1].Rank == _hand[i + 2].Rank - 1 &&
-                    _hand[i + 2].Rank == _hand[i + 3].Rank - 1)
+                if (Hand[i].Rank == Hand[i + 1].Rank - 1 &&
+                    Hand[i + 1].Rank == Hand[i + 2].Rank - 1 &&
+                    Hand[i + 2].Rank == Hand[i + 3].Rank - 1)
                 {
-                    if (_hand[i].Suit == _hand[i + 1].Suit &&
-                        _hand[i + 1].Suit == _hand[i + 2].Suit &&
-                        _hand[i + 2].Suit == _hand[i + 3].Suit)
+                    if (Hand[i].Suit == Hand[i + 1].Suit &&
+                        Hand[i + 1].Suit == Hand[i + 2].Suit &&
+                        Hand[i + 2].Suit == Hand[i + 3].Suit)
                     {
                         return 2;
                     }
@@ -171,49 +181,43 @@ namespace PokerStructures
 
         public int CountInsideStraightFlushDraws()
         {
-            int count = 0;
+            var missing = new List<int>();
+            var handList = new List<int> { Hand[0].ToInt(), Hand[1].ToInt(), Hand[2].ToInt(), Hand[3].ToInt(), Hand[4].ToInt(), Hand[5].ToInt()};
 
-            if (_hand[5].Rank == Rank.Ace &&
-                _hand[2].Rank == Rank.Five)
+            if (Hand[5].Rank == Rank.Ace && Hand[2].Rank == Rank.Five)
+                missing.AddRange(Enumerable.Range(2, 4).Except(handList));
+
+            foreach (var comb in PokerEnumerator.GetFourCardsFromSix(Hand))
             {
-                if (_hand[0].Suit == _hand[1].Suit &&
-                   _hand[1].Suit == _hand[2].Suit &&
-                   _hand[2].Suit == _hand[5].Suit)
-                    count++;
+                if (comb[0].Rank == comb[3].Rank - 4 && !comb.HasPair() && comb.AreSameSuit())
+                {
+                    var list = new List<int> { comb[0].ToInt(), comb[1].ToInt(), comb[2].ToInt(), comb[3].ToInt() };
+                    missing.AddRange(Enumerable.Range(list[0], 5).Except(handList));
+                }
             }
 
-            count += PokerEnumerator.GetFourCardsFromSix(_hand)
-                .Where(comb => comb[0].Rank == comb[3].Rank - 4)
-                .Where(comb => comb[0].Rank != comb[1].Rank &&
-                                comb[1].Rank != comb[2].Rank &&
-                                comb[2].Rank != comb[3].Rank)
-                    .Count(comb => comb[0].Suit == comb[1].Suit &&
-                                    comb[1].Suit == comb[2].Suit &&
-                                    comb[2].Suit == comb[3].Suit);
-
-            if (count == 3)
-                count--;
-            return count;
+            var missingSet = new HashSet<int>(missing);
+            return missingSet.Count;
         }
 
         public int CountOutsideStraightDraws()
         {
-            if (_hand[2].Rank == Rank.Jack &&
-                _hand[3].Rank == Rank.Queen &&
-                _hand[4].Rank == Rank.King &&
-                _hand[5].Rank == Rank.Ace)
+            if (Hand[2].Rank == Rank.Jack &&
+                Hand[3].Rank == Rank.Queen &&
+                Hand[4].Rank == Rank.King &&
+                Hand[5].Rank == Rank.Ace)
                 return 1;
-            if (_hand[5].Rank == Rank.Ace &&
-                _hand[0].Rank == Rank.Two &&
-                _hand[1].Rank == Rank.Three &&
-                _hand[2].Rank == Rank.Four)
+            if (Hand[5].Rank == Rank.Ace &&
+                Hand[0].Rank == Rank.Two &&
+                Hand[1].Rank == Rank.Three &&
+                Hand[2].Rank == Rank.Four)
                 return 1;
 
             for (int i = 0; i < 3; i++)
             {
-                if (_hand[i].Rank == _hand[i+1].Rank - 1 &&
-                    _hand[i+1].Rank == _hand[i+2].Rank - 1 &&
-                    _hand[i+2].Rank == _hand[i+3].Rank - 1)
+                if (Hand[i].Rank == Hand[i+1].Rank - 1 &&
+                    Hand[i+1].Rank == Hand[i+2].Rank - 1 &&
+                    Hand[i+2].Rank == Hand[i+3].Rank - 1)
                     return 2;
             }
 
@@ -222,21 +226,25 @@ namespace PokerStructures
 
         public int CountInsideStraightDraws()
         {
-            int count = 0;
+            var missing = new List<int>();
+            var handList = new List<int> { Hand[0].ToInt(), Hand[1].ToInt(), Hand[2].ToInt(), Hand[3].ToInt(), Hand[4].ToInt(), Hand[5].ToInt() };
 
-            if (_hand[5].Rank == Rank.Ace &&
-                _hand[2].Rank == Rank.Five)
-                count++;
+            if (Hand[5].Rank == Rank.Ace && Hand[2].Rank == Rank.Five)
+                missing.AddRange(Enumerable.Range(2,4).Except(handList));
 
-            count += PokerEnumerator.GetFourCardsFromSix(_hand)
-                    .Where(comb => comb[0].Rank == comb[3].Rank - 4)
-                        .Count(comb =>  comb[0].Rank != comb[1].Rank && 
-                                        comb[1].Rank != comb[2].Rank && 
-                                        comb[2].Rank != comb[3].Rank);
+            foreach (var comb in PokerEnumerator.GetFourCardsFromSix(Hand))
+            {
+                if (comb[0].Rank == comb[3].Rank - 4 && !comb.HasPair())
+                {
+                    var list = new List<int> {comb[0].ToInt(), comb[1].ToInt(), comb[2].ToInt(), comb[3].ToInt()};
+                    if(comb[3].Rank == Rank.Ace)
+                        list.Add(1);
+                    missing.AddRange(Enumerable.Range(list[0], 5).Except(handList));
+                }
+            }
 
-            if (count == 3)
-                count--;
-            return count;
+            var missingSet = new HashSet<int>(missing);
+            return missingSet.Count;
         }
     }
 }

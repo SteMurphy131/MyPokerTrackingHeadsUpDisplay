@@ -57,5 +57,10 @@ namespace PokerStructures
                 return true;
             return false;
         }
+
+        public int ToInt()
+        {
+            return (int)Rank;
+        }
     }
 }
