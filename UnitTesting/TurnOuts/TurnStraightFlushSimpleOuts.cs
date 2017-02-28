@@ -8,100 +8,8 @@ using PokerStructures.Enums;
 namespace UnitTesting.TurnOuts
 {
     [TestFixture]
-    public class TurnStraightAndRoyalFlushOutEvaluationTesting
+    public class TurnStraightFlushSimpleOuts
     {
-        [Test]
-        public void NoRFlushDraw()
-        {
-            Stopwatch watch = new Stopwatch();
-            List<Card> cards = new List<Card>
-            {
-                new Card(Rank.Ten, Suit.Hearts),
-                new Card(Rank.Jack, Suit.Hearts),
-                new Card(Rank.Queen, Suit.Hearts),
-                new Card(Rank.Nine, Suit.Hearts),
-                new Card(Rank.Seven, Suit.Hearts),
-            };
-
-            FiveCardHand hand = new FiveCardHand(cards);
-            hand.Sort();
-
-            watch.Start();
-
-            int outsideDraw = hand.CountOutsideRoyalFlushDraws();
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
-            var outs = PokerOutsCalculator.CalculateTurnOuts(hand, score);
-
-            watch.Stop();
-
-            Assert.AreEqual(0, outs.RoyalFlush.Outs);
-
-            Assert.AreEqual(0, outsideDraw);
-            Assert.Greater(200, watch.ElapsedMilliseconds);
-        }
-
-        [Test]
-        public void OutsideRFlushDraw()
-        {
-            Stopwatch watch = new Stopwatch();
-            List<Card> cards = new List<Card>
-            {
-                new Card(Rank.Ten, Suit.Hearts),
-                new Card(Rank.Jack, Suit.Hearts),
-                new Card(Rank.Queen, Suit.Hearts),
-                new Card(Rank.King, Suit.Hearts),
-                new Card(Rank.Seven, Suit.Hearts),
-            };
-
-            FiveCardHand hand = new FiveCardHand(cards);
-            hand.Sort();
-
-            watch.Start();
-
-            int outsideDraw = hand.CountOutsideRoyalFlushDraws();
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
-            var outs = PokerOutsCalculator.CalculateTurnOuts(hand, score);
-
-            watch.Stop();
-
-            Assert.AreEqual(1, outs.RoyalFlush.Outs);
-            Assert.AreEqual(false, outs.RoyalFlush.RunnerRunner);
-
-            Assert.AreEqual(1, outsideDraw);
-            Assert.Greater(200, watch.ElapsedMilliseconds);
-        }
-
-        [Test]
-        public void InsideRFlushDraw()
-        {
-            Stopwatch watch = new Stopwatch();
-            List<Card> cards = new List<Card>
-            {
-                new Card(Rank.Ten, Suit.Hearts),
-                new Card(Rank.Jack, Suit.Hearts),
-                new Card(Rank.Queen, Suit.Hearts),
-                new Card(Rank.Ace, Suit.Hearts),
-                new Card(Rank.Seven, Suit.Hearts),
-            };
-
-            FiveCardHand hand = new FiveCardHand(cards);
-            hand.Sort();
-
-            watch.Start();
-
-            int inside = hand.CountInsideRoyalFlushDraws();
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
-            var outs = PokerOutsCalculator.CalculateTurnOuts(hand, score);
-
-            watch.Stop();
-
-            Assert.AreEqual(1, outs.RoyalFlush.Outs);
-            Assert.AreEqual(false, outs.RoyalFlush.RunnerRunner);
-
-            Assert.AreEqual(1, inside);
-            Assert.Greater(200, watch.ElapsedMilliseconds);
-        }
-
         [Test]
         public void OutsideSFlushDraw()
         {
@@ -119,17 +27,38 @@ namespace UnitTesting.TurnOuts
             hand.Sort();
 
             watch.Start();
-
-            int outsideDraw = hand.CountOutsideStraightFlushDraws();
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateTurnOuts(hand, score);
-
             watch.Stop();
 
             Assert.AreEqual(2, outs.StraightFlush.Outs);
             Assert.AreEqual(false, outs.StraightFlush.RunnerRunner);
+            Assert.Greater(200, watch.ElapsedMilliseconds);
+        }
 
-            Assert.AreEqual(2, outsideDraw);
+        [Test]
+        public void OutsideSFlushDrawWihPair()
+        {
+            Stopwatch watch = new Stopwatch();
+            List<Card> cards = new List<Card>
+            {
+                new Card(Rank.Five, Suit.Spades),
+                new Card(Rank.Four, Suit.Hearts),
+                new Card(Rank.Five, Suit.Hearts),
+                new Card(Rank.Six, Suit.Hearts),
+                new Card(Rank.Seven, Suit.Hearts),
+            };
+
+            FiveCardHand hand = new FiveCardHand(cards);
+            hand.Sort();
+
+            watch.Start();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
+            var outs = PokerOutsCalculator.CalculateTurnOuts(hand, score);
+            watch.Stop();
+
+            Assert.AreEqual(2, outs.StraightFlush.Outs);
+            Assert.AreEqual(false, outs.StraightFlush.RunnerRunner);
             Assert.Greater(200, watch.ElapsedMilliseconds);
         }
 
@@ -150,17 +79,12 @@ namespace UnitTesting.TurnOuts
             hand.Sort();
 
             watch.Start();
-
-            int outsideDraw = hand.CountInsideStraightFlushDraws();
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateTurnOuts(hand, score);
-
             watch.Stop();
 
             Assert.AreEqual(2, outs.StraightFlush.Outs);
             Assert.AreEqual(false, outs.StraightFlush.RunnerRunner);
-
-            Assert.AreEqual(2, outsideDraw);
             Assert.Greater(200, watch.ElapsedMilliseconds);
         }
 
@@ -181,17 +105,38 @@ namespace UnitTesting.TurnOuts
             hand.Sort();
 
             watch.Start();
-
-            int outsideDraw = hand.CountInsideStraightFlushDraws();
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateTurnOuts(hand, score);
-
             watch.Stop();
 
             Assert.AreEqual(1, outs.StraightFlush.Outs);
             Assert.AreEqual(false, outs.StraightFlush.RunnerRunner);
+            Assert.Greater(200, watch.ElapsedMilliseconds);
+        }
 
-            Assert.AreEqual(1, outsideDraw);
+        [Test]
+        public void OneInsideSFlushDrawWithPair()
+        {
+            Stopwatch watch = new Stopwatch();
+            List<Card> cards = new List<Card>
+            {
+                new Card(Rank.Five, Suit.Spades),
+                new Card(Rank.Four, Suit.Hearts),
+                new Card(Rank.Five, Suit.Hearts),
+                new Card(Rank.Six, Suit.Hearts),
+                new Card(Rank.Eight, Suit.Hearts),
+            };
+
+            FiveCardHand hand = new FiveCardHand(cards);
+            hand.Sort();
+
+            watch.Start();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
+            var outs = PokerOutsCalculator.CalculateTurnOuts(hand, score);
+            watch.Stop();
+
+            Assert.AreEqual(1, outs.StraightFlush.Outs);
+            Assert.AreEqual(false, outs.StraightFlush.RunnerRunner);
             Assert.Greater(200, watch.ElapsedMilliseconds);
         }
     }

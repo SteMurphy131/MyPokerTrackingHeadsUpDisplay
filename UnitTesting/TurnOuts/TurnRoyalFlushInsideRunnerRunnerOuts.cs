@@ -27,24 +27,12 @@ namespace UnitTesting.TurnOuts
             hand.Sort();
 
             watch.Start();
-
-            var joined = hand.CountThreeOpenEndedJoinedCardsRoyalFlush();
-            var missingOne = hand.CountThreeCardMissingOneMiddleRoyalFlush();
-            var missingTwo = hand.CountThreeCardMissingTwoMiddleRoyalFlush();
-
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateTurnOuts(hand, score);
-
             watch.Stop();
-
-            Assert.AreEqual(0, joined.Count);
-            Assert.AreEqual(2, missingOne.Count);
-            Assert.AreEqual(0, missingTwo.Count);
-            Assert.AreEqual(true, missingOne.Contains(11) && missingOne.Contains(14));
-
+            
             Assert.AreEqual(.09, outs.RoyalFlush.Percentage);
             Assert.AreEqual(true, outs.RoyalFlush.RunnerRunner);
-
             Assert.Greater(200, watch.ElapsedMilliseconds);
         }
 
@@ -65,24 +53,12 @@ namespace UnitTesting.TurnOuts
             hand.Sort();
 
             watch.Start();
-
-            var joined = hand.CountThreeOpenEndedJoinedCardsRoyalFlush();
-            var missingOne = hand.CountThreeCardMissingOneMiddleRoyalFlush();
-            var missingTwo = hand.CountThreeCardMissingTwoMiddleRoyalFlush();
-
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateTurnOuts(hand, score);
-
             watch.Stop();
-
-            Assert.AreEqual(0, joined.Count);
-            Assert.AreEqual(0, missingOne.Count);
-            Assert.AreEqual(2, missingTwo.Count);
-            Assert.AreEqual(true, missingTwo.Contains(11) && missingTwo.Contains(12));
-
+            
             Assert.AreEqual(.09, outs.RoyalFlush.Percentage);
             Assert.AreEqual(true, outs.RoyalFlush.RunnerRunner);
-
             Assert.Greater(50, watch.ElapsedMilliseconds);
         }
 
@@ -103,24 +79,12 @@ namespace UnitTesting.TurnOuts
             hand.Sort();
 
             watch.Start();
-
-            var joined = hand.CountThreeOpenEndedJoinedCardsRoyalFlush();
-            var missingOne = hand.CountThreeCardMissingOneMiddleRoyalFlush();
-            var missingTwo = hand.CountThreeCardMissingTwoMiddleRoyalFlush();
-
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateTurnOuts(hand, score);
-
             watch.Stop();
-
-            Assert.AreEqual(0, joined.Count);
-            Assert.AreEqual(2, missingOne.Count);
-            Assert.AreEqual(0, missingTwo.Count);
-            Assert.AreEqual(true, missingOne.Contains(10) && missingOne.Contains(12));
-
+            
             Assert.AreEqual(.09, outs.RoyalFlush.Percentage);
             Assert.AreEqual(true, outs.RoyalFlush.RunnerRunner);
-
             Assert.Greater(50, watch.ElapsedMilliseconds);
         }
     }

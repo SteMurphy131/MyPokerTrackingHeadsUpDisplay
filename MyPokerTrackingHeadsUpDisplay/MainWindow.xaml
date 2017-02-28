@@ -5,32 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyPokerTrackingHeadsUpDisplay"
         mc:Ignorable="d"
-        Title="MainWindow" Height="358" Width="897.348">
-    <Grid Background="Maroon" Margin="0,0,2,1">
+        Title="MainWindow" Height="486.518" Width="519.706">
+    <Grid Background="Maroon" Margin="0,0,2,1" RenderTransformOrigin="0.554,0.685">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="491*"/>
-            <ColumnDefinition Width="396*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="223*"/>
             <RowDefinition Height="103*"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="31" Margin="10,152,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="129"/>
-        <Image Source ="Images/2_of_diamonds.png" x:Name="holeImageOne" HorizontalAlignment="Left" Height="80" Margin="19,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/7_of_diamonds.png" x:Name="holeImageTwo" HorizontalAlignment="Left" Height="80" Margin="79,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/10_of_spades.png" x:Name="boardImageOne" HorizontalAlignment="Left" Height="80" Margin="173,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/jack_of_spades.png" x:Name="boardImageTwo" HorizontalAlignment="Left" Height="80" Margin="234,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/queen_of_spades.png" x:Name="boardImageThree" HorizontalAlignment="Left" Height="80" Margin="294,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/king_of_spades.png" x:Name="boardImageFour" HorizontalAlignment="Left" Height="80" Margin="359,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/ace_of_spades2.png" x:Name="boardImageFive" HorizontalAlignment="Left" Height="80" Margin="424,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,10,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
-        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,36,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
-        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,62,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
-        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,88,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
-        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,114,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
-        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,140,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
-        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,166,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
-        <ProgressBar HorizontalAlignment="Left" Height="21" Margin="146,192,0,0" VerticalAlignment="Top" Width="240" Grid.Column="1"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="31" Margin="165,270,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="129"/>
+        <Image Source ="Images/2_of_diamonds.png" x:Name="HoleImageOne" HorizontalAlignment="Left" Height="80" Margin="19,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/7_of_diamonds.png" x:Name="HoleImageTwo" HorizontalAlignment="Left" Height="80" Margin="79,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/10_of_spades.png" x:Name="BoardImageOne" HorizontalAlignment="Left" Height="80" Margin="173,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/jack_of_spades.png" x:Name="BoardImageTwo" HorizontalAlignment="Left" Height="80" Margin="234,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/queen_of_spades.png" x:Name="BoardImageThree" HorizontalAlignment="Left" Height="80" Margin="294,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/king_of_spades.png" x:Name="BoardImageFour" HorizontalAlignment="Left" Height="80" Margin="359,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <Image Source ="Images/ace_of_spades2.png" x:Name="BoardImageFive" HorizontalAlignment="Left" Height="80" Margin="424,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
+        <ProgressBar x:Name ="PairProgressBar"  HorizontalAlignment="Left" Height="21" Margin="244,10,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
+        <ProgressBar x:Name ="TwoPairProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,36,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
+        <ProgressBar x:Name ="ThreeOfAKindProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,62,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
+        <ProgressBar x:Name ="StraightProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,88,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
+        <ProgressBar x:Name ="FlushProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,114,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
+        <ProgressBar x:Name ="FullHouseProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,140,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
+        <ProgressBar x:Name ="FourOfAKindProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,166,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
+        <ProgressBar x:Name ="StraightFlushProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,192,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
+        <ProgressBar x:Name ="RoyalFlushProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,218,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
+        <Label x:Name="label" Content="Pair:" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
+        <Label x:Name="label_Copy" Content="Two Pair" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
+        <Label x:Name="label_Copy1" Content="Three Of A Kind&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
+        <Label x:Name="label_Copy2" Content="Straight" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
+        <Label x:Name="label_Copy3" Content="Flush" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
+        <Label x:Name="label_Copy4" Content="Full House" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
+        <Label x:Name="label_Copy5" Content="Four Of A Kind&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,161,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
+        <Label x:Name="label_Copy6" Content="Straight Flush" HorizontalAlignment="Left" Margin="10,187,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
+        <Label x:Name="label_Copy7" Content="Royal Flush" HorizontalAlignment="Left" Margin="10,218,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
+        <TextBox x:Name="PairOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,8,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
+        <TextBox x:Name="TwoPairOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,34,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
+        <TextBox x:Name="TripsOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,60,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
+        <TextBox x:Name="StraightOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,86,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
+        <TextBox x:Name="FlushOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,112,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
+        <TextBox x:Name="FullHouseOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,138,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
+        <TextBox x:Name="QuadsOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,164,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
+        <TextBox x:Name="SFlushOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,190,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
+        <TextBox x:Name="RFlushOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,216,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
 
     </Grid>
 

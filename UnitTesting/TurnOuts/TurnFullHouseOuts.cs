@@ -8,7 +8,7 @@ using PokerStructures.Enums;
 namespace UnitTesting.TurnOuts
 {
     [TestFixture]
-    public class TurnFullHouseOutsEvaluation
+    public class TurnFullHouseOuts
     {
         [Test]
         public void PairToFullHouseOuts()
@@ -27,7 +27,7 @@ namespace UnitTesting.TurnOuts
             hand.Sort();
 
             watch.Start();
-            var current = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var current = PokerEvaluator.CalculateFlopScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateTurnOuts(hand, current);
             watch.Stop();
 
@@ -54,7 +54,7 @@ namespace UnitTesting.TurnOuts
             hand.Sort();
 
             watch.Start();
-            var current = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var current = PokerEvaluator.CalculateFlopScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateTurnOuts(hand, current);
             watch.Stop();
 
@@ -81,7 +81,7 @@ namespace UnitTesting.TurnOuts
             hand.Sort();
 
             watch.Start();
-            var current = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var current = PokerEvaluator.CalculateFlopScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateTurnOuts(hand, current);
             watch.Stop();
 

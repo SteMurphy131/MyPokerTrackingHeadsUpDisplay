@@ -47,5 +47,13 @@ namespace PokerStructures.Enumeration
                 yield return cards.GetRange(i, 3);
             }
         }
+
+        public static IEnumerable<List<Card>> GetThreeCardsFromFour(List<Card> cards)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                yield return cards.GetRange(i, 3);
+            }
+        }
     }
 }

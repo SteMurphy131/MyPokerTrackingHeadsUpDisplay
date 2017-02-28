@@ -5,13 +5,13 @@ using PokerStructures;
 using PokerStructures.Calculation;
 using PokerStructures.Enums;
 
-namespace UnitTesting.RiverOuts
+namespace UnitTesting.TurnOuts
 {
     [TestFixture]
-    public class RiverFlushOutsEvaluation
+    public class TurnPairOuts
     {
         [Test]
-        public void FourToAFlushOuts()
+        public void NothingToPairOuts()
         {
             Stopwatch watch = new Stopwatch();
             List<Card> cards = new List<Card>
@@ -20,20 +20,21 @@ namespace UnitTesting.RiverOuts
                 new Card(Rank.Four, Suit.Hearts),
                 new Card(Rank.Five, Suit.Hearts),
                 new Card(Rank.Six, Suit.Clubs),
-                new Card(Rank.Six, Suit.Hearts),
-                new Card(Rank.Queen, Suit.Clubs),
+                new Card(Rank.Seven, Suit.Hearts)
             };
 
-            SixCardHand hand = new SixCardHand(cards);
+            FiveCardHand hand = new FiveCardHand(cards);
             hand.Sort();
 
             watch.Start();
-            var current = PokerEvaluator.CalculateTurnScore(hand.Hand);
-            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, current);
+            var current = PokerEvaluator.CalculateFlopScore(hand.Cards);
+            var outs = PokerOutsCalculator.CalculateTurnOuts(hand, current);
             watch.Stop();
 
-            Assert.AreEqual(9, outs.Flush.Outs);
-            Assert.AreEqual(false, outs.Flush.RunnerRunner);
+            Assert.AreEqual(15, outs.Pair.Outs);
+            Assert.AreEqual(false, outs.Pair.RunnerRunner);
+
+            Assert.AreEqual(8, outs.Straight.Outs);
 
             Assert.Greater(200, watch.ElapsedMilliseconds);
         }

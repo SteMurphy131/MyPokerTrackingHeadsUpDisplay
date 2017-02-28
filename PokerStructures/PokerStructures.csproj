@@ -59,6 +59,7 @@
     <Compile Include="ExtensionMethods\Extensions.cs" />
     <Compile Include="FiveCardHand.cs" />
     <Compile Include="Enums\PokerGameState.cs" />
+    <Compile Include="Hand.cs" />
     <Compile Include="PokerHand.cs" />
     <Compile Include="PokerHelper.cs" />
     <Compile Include="PokerLogic.cs" />

@@ -8,10 +8,10 @@ using PokerStructures.Enums;
 namespace UnitTesting.RiverOuts
 {
     [TestFixture]
-    public class RiverTwoPairOutsEvaluation
+    public class RiverThreeOfAKindOuts
     {
         [Test]
-        public void PairToTwoPairOuts()
+        public void PairToThreeOfAKindOuts()
         {
             Stopwatch watch = new Stopwatch();
             List<Card> cards = new List<Card>
@@ -28,11 +28,11 @@ namespace UnitTesting.RiverOuts
             hand.Sort();
 
             watch.Start();
-            var current = PokerEvaluator.CalculateTurnScore(hand.Hand);
+            var current = PokerEvaluator.CalculateTurnScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateRiverOuts(hand, current);
             watch.Stop();
 
-            Assert.AreEqual(12, outs.TwoPair.Outs);
+            Assert.AreEqual(2, outs.ThreeOfAKind.Outs);
             Assert.AreEqual(false, outs.TwoPair.RunnerRunner);
 
             Assert.Greater(200, watch.ElapsedMilliseconds);

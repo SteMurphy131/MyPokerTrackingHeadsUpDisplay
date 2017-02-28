@@ -54,28 +54,38 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Control\ControllerTest.cs" />
     <Compile Include="Enumeration\EnumerationTesting.cs" />
-    <Compile Include="RiverOuts\RiverFlushOutsEvaluation.cs" />
-    <Compile Include="RiverOuts\RiverFourOfAKindEvaluation.cs" />
-    <Compile Include="RiverOuts\RiverFullHouseEvaluation.cs" />
-    <Compile Include="RiverOuts\RiverPairOutsEvalution.cs" />
-    <Compile Include="RiverOuts\RiverRoyalFlushOutsEvaluation.cs" />
-    <Compile Include="RiverOuts\RiverStraightFlushOutsEvaluation.cs" />
-    <Compile Include="RiverOuts\RiverStraightOutsEvaluationTesting.cs" />
+    <Compile Include="RiverOuts\RiverFlushOuts.cs" />
+    <Compile Include="RiverOuts\RiverFourOfAKindOuts.cs" />
+    <Compile Include="RiverOuts\RiverFullHouseOuts.cs" />
+    <Compile Include="RiverOuts\RiverPairOuts.cs" />
+    <Compile Include="RiverOuts\RiverRoyalFlushInsideOuts.cs" />
+    <Compile Include="RiverOuts\RiverRoyalFlushOutsideOuts.cs" />
+    <Compile Include="RiverOuts\RiverStraightFlushInsideOuts.cs" />
+    <Compile Include="RiverOuts\RiverStraightFlushOutsideOuts.cs" />
+    <Compile Include="RiverOuts\RiverStraightInsideOuts.cs" />
     <Compile Include="Evaluation\RiverEvaluationTesting.cs" />
-    <Compile Include="RiverOuts\RiverTwoPairOutsEvaluation.cs" />
-    <Compile Include="RiverOuts\RiverThreeOfAKindOutsEvaluation.cs" />
+    <Compile Include="RiverOuts\RiverStraightOutsideOuts.cs" />
+    <Compile Include="RiverOuts\RiverTwoPairOuts.cs" />
+    <Compile Include="RiverOuts\RiverThreeOfAKindOuts.cs" />
+    <Compile Include="Structures\FiveCardHandRemovingPairs.cs" />
+    <Compile Include="Structures\FiveCardHandRemovingThreeOfAKind.cs" />
+    <Compile Include="Structures\SixCardHandRemovingPairs.cs" />
     <Compile Include="Structures\RoundTesting.cs" />
-    <Compile Include="TurnOuts\TurnFourOfAKindOutsEvaluation.cs" />
-    <Compile Include="TurnOuts\TurnFullHouseOutsEvaluation.cs" />
-    <Compile Include="TurnOuts\TurnPairOutsEvaluation.cs" />
+    <Compile Include="Structures\SixCardHandRemovingThreeOfAKind.cs" />
+    <Compile Include="Structures\SixHandRemovingPairsOnSuit.cs" />
+    <Compile Include="TurnOuts\TurnFourOfAKindOuts.cs" />
+    <Compile Include="TurnOuts\TurnFullHouseOuts.cs" />
+    <Compile Include="TurnOuts\TurnPairOuts.cs" />
+    <Compile Include="TurnOuts\TurnStraightFlushSimpleOuts.cs" />
     <Compile Include="TurnOuts\TurnStraightInsideRunnerRunnerOuts.cs" />
     <Compile Include="Evaluation\TurnEvaluationTesting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TurnOuts\TurnRoyalFlushInsideRunnerRunnerOuts.cs" />
     <Compile Include="TurnOuts\TurnRoyalFlushOutsideRunnerRunnerOuts.cs" />
     <Compile Include="TurnOuts\TurnStraightFlushInsideRunnerRunnerOuts.cs" />
-    <Compile Include="TurnOuts\TurnStraightAndRoyalFlushOutEvaluationTesting.cs" />
+    <Compile Include="TurnOuts\TurnRoyalFlushSimpleOuts.cs" />
     <Compile Include="TurnOuts\TurnStraightFlushOutsideRunnerRunnerOuts.cs" />
     <Compile Include="TurnOuts\TurnStraightOutsideRunnerRunnerOuts.cs" />
     <Compile Include="TurnOuts\TurnThreeOfAKindOutsEvaluation.cs" />
@@ -85,6 +95,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MyPokerTrackingHeadsUpDisplay\MyPokerTrackingHeadsUpDisplay.csproj">
+      <Project>{0a5bec42-6ec2-41b0-86fa-fa77e8cb5e43}</Project>
+      <Name>MyPokerTrackingHeadsUpDisplay</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PokerStructures\PokerStructures.csproj">
       <Project>{a4203a50-e5cc-45a3-b703-7e8f919d1c1f}</Project>
       <Name>PokerStructures</Name>

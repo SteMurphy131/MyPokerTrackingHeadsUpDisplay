@@ -6,31 +6,31 @@ namespace PokerStructures
     {
         private static bool IsFlush(FiveCardHand h)
         {
-            if (h.Hand[0].Suit == h.Hand[1].Suit &&
-                h.Hand[1].Suit == h.Hand[2].Suit &&
-                h.Hand[2].Suit == h.Hand[3].Suit &&
-                h.Hand[3].Suit == h.Hand[4].Suit)
+            if (h.Cards[0].Suit == h.Cards[1].Suit &&
+                h.Cards[1].Suit == h.Cards[2].Suit &&
+                h.Cards[2].Suit == h.Cards[3].Suit &&
+                h.Cards[3].Suit == h.Cards[4].Suit)
                 return true;
             return false;
         }
 
         // make sure the rank differs by one
-        // we can do this since the Hand is 
+        // we can do this since the Cards is 
         // sorted by this point
         private static bool IsStraight(FiveCardHand h)
         {
-            if (h.Hand[0].Rank == h.Hand[1].Rank - 1 &&
-                h.Hand[1].Rank == h.Hand[2].Rank - 1 &&
-                h.Hand[2].Rank == h.Hand[3].Rank - 1 &&
-                h.Hand[3].Rank == h.Hand[4].Rank - 1)
+            if (h.Cards[0].Rank == h.Cards[1].Rank - 1 &&
+                h.Cards[1].Rank == h.Cards[2].Rank - 1 &&
+                h.Cards[2].Rank == h.Cards[3].Rank - 1 &&
+                h.Cards[3].Rank == h.Cards[4].Rank - 1)
                 return true;
             // special case cause ace ranks lower
             // than 10 or higher
-            if (h.Hand[4].Rank == Rank.Ace &&
-                h.Hand[0].Rank == Rank.Two &&
-                h.Hand[1].Rank == Rank.Three &&
-                h.Hand[2].Rank == Rank.Four &&
-                h.Hand[3].Rank == Rank.Five)
+            if (h.Cards[4].Rank == Rank.Ace &&
+                h.Cards[0].Rank == Rank.Two &&
+                h.Cards[1].Rank == Rank.Three &&
+                h.Cards[2].Rank == Rank.Four &&
+                h.Cards[3].Rank == Rank.Five)
                 return true;
             return false;
         }
@@ -40,11 +40,11 @@ namespace PokerStructures
         private static bool IsRoyalFlush(FiveCardHand h)
         {
             if (IsStraight(h) && IsFlush(h) &&
-                h.Hand[0].Rank == Rank.Ten &&
-                h.Hand[1].Rank == Rank.Jack &&
-                h.Hand[2].Rank == Rank.Queen &&
-                h.Hand[3].Rank == Rank.King &&
-                h.Hand[4].Rank == Rank.Ace)
+                h.Cards[0].Rank == Rank.Ten &&
+                h.Cards[1].Rank == Rank.Jack &&
+                h.Cards[2].Rank == Rank.Queen &&
+                h.Cards[3].Rank == Rank.King &&
+                h.Cards[4].Rank == Rank.Ace)
                 return true;
             return false;
         }
@@ -64,13 +64,13 @@ namespace PokerStructures
          */
         private static bool IsFourOfAKind(FiveCardHand h)
         {
-            if (h.Hand[0].Rank == h.Hand[1].Rank &&
-                h.Hand[1].Rank == h.Hand[2].Rank &&
-                h.Hand[2].Rank == h.Hand[3].Rank)
+            if (h.Cards[0].Rank == h.Cards[1].Rank &&
+                h.Cards[1].Rank == h.Cards[2].Rank &&
+                h.Cards[2].Rank == h.Cards[3].Rank)
                 return true;
-            if (h.Hand[1].Rank == h.Hand[2].Rank &&
-                h.Hand[2].Rank == h.Hand[3].Rank &&
-                h.Hand[3].Rank == h.Hand[4].Rank)
+            if (h.Cards[1].Rank == h.Cards[2].Rank &&
+                h.Cards[2].Rank == h.Cards[3].Rank &&
+                h.Cards[3].Rank == h.Cards[4].Rank)
                 return true;
             return false;
         }
@@ -82,13 +82,13 @@ namespace PokerStructures
          */
         private static bool IsFullHouse(FiveCardHand h)
         {
-            if (h.Hand[0].Rank == h.Hand[1].Rank &&
-                h.Hand[2].Rank == h.Hand[3].Rank &&
-                h.Hand[3].Rank == h.Hand[4].Rank)
+            if (h.Cards[0].Rank == h.Cards[1].Rank &&
+                h.Cards[2].Rank == h.Cards[3].Rank &&
+                h.Cards[3].Rank == h.Cards[4].Rank)
                 return true;
-            if (h.Hand[0].Rank == h.Hand[1].Rank &&
-                h.Hand[1].Rank == h.Hand[2].Rank &&
-                h.Hand[3].Rank == h.Hand[4].Rank)
+            if (h.Cards[0].Rank == h.Cards[1].Rank &&
+                h.Cards[1].Rank == h.Cards[2].Rank &&
+                h.Cards[3].Rank == h.Cards[4].Rank)
                 return true;
             return false;
         }
@@ -100,14 +100,14 @@ namespace PokerStructures
          */
         private static bool IsThreeOfAKind(FiveCardHand h)
         {
-            if (h.Hand[0].Rank == h.Hand[1].Rank &&
-                h.Hand[1].Rank == h.Hand[2].Rank)
+            if (h.Cards[0].Rank == h.Cards[1].Rank &&
+                h.Cards[1].Rank == h.Cards[2].Rank)
                 return true;
-            if (h.Hand[1].Rank == h.Hand[2].Rank &&
-                h.Hand[2].Rank == h.Hand[3].Rank)
+            if (h.Cards[1].Rank == h.Cards[2].Rank &&
+                h.Cards[2].Rank == h.Cards[3].Rank)
                 return true;
-            if (h.Hand[2].Rank == h.Hand[3].Rank &&
-                h.Hand[3].Rank == h.Hand[4].Rank)
+            if (h.Cards[2].Rank == h.Cards[3].Rank &&
+                h.Cards[3].Rank == h.Cards[4].Rank)
                 return true;
             return false;
         }
@@ -119,27 +119,27 @@ namespace PokerStructures
          */
         private static bool IsTwoPair(FiveCardHand h)
         {
-            if (h.Hand[0].Rank == h.Hand[1].Rank &&
-                h.Hand[2].Rank == h.Hand[3].Rank)
+            if (h.Cards[0].Rank == h.Cards[1].Rank &&
+                h.Cards[2].Rank == h.Cards[3].Rank)
                 return true;
-            if (h.Hand[0].Rank == h.Hand[1].Rank &&
-                h.Hand[3].Rank == h.Hand[4].Rank)
+            if (h.Cards[0].Rank == h.Cards[1].Rank &&
+                h.Cards[3].Rank == h.Cards[4].Rank)
                 return true;
-            if (h.Hand[1].Rank == h.Hand[2].Rank &&
-                h.Hand[3].Rank == h.Hand[4].Rank)
+            if (h.Cards[1].Rank == h.Cards[2].Rank &&
+                h.Cards[3].Rank == h.Cards[4].Rank)
                 return true;
             return false;
         }
 
         private static bool IsPair(FiveCardHand h)
         {
-            if (h.Hand[0].Rank == h.Hand[1].Rank)
+            if (h.Cards[0].Rank == h.Cards[1].Rank)
                 return true;
-            if (h.Hand[1].Rank == h.Hand[2].Rank)
+            if (h.Cards[1].Rank == h.Cards[2].Rank)
                 return true;
-            if (h.Hand[2].Rank == h.Hand[3].Rank)
+            if (h.Cards[2].Rank == h.Cards[3].Rank)
                 return true;
-            if (h.Hand[3].Rank == h.Hand[4].Rank)
+            if (h.Cards[3].Rank == h.Cards[4].Rank)
                 return true;
 
             return false;

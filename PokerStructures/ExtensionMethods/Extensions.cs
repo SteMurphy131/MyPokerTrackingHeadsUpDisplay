@@ -27,6 +27,32 @@ namespace PokerStructures.ExtensionMethods
             return true;
         }
 
+        public static int MaxSuit(this List<Card> cards)
+        {
+            int[] counters = new int[4];
+
+            for (int i = 0; i < cards.Count(); i++)
+            {
+                switch (cards[i].Suit)
+                {
+                    case Suit.Clubs:
+                        counters[0]++;
+                        break;
+                    case Suit.Hearts:
+                        counters[1]++;
+                        break;
+                    case Suit.Spades:
+                        counters[2]++;
+                        break;
+                    case Suit.Diamonds:
+                        counters[3]++;
+                        break;
+                }
+            }
+
+            return counters.Max();
+        }
+
         public static bool AreTenOrAbove(this List<Card> cards)
         {
             for (int i = 0; i < cards.Count() - 1; i++)

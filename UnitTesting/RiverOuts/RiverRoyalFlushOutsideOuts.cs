@@ -8,7 +8,7 @@ using PokerStructures.Enums;
 namespace UnitTesting.RiverOuts
 {
     [TestFixture]
-    public class RiverRoyalFlushOutsEvaluation
+    public class RiverRoyalFlushOutsideOuts
     {
         [Test]
         public void NoRFlushDraw()
@@ -28,42 +28,12 @@ namespace UnitTesting.RiverOuts
             hand.Sort();
 
             watch.Start();
-            int outsideDraw = hand.CountOutsideRoyalFlushDraws();
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
             watch.Stop();
-
-            Assert.AreEqual(0, outsideDraw);
+            
             Assert.AreEqual(0, outs.RoyalFlush.Outs);
-            Assert.Greater(200, watch.ElapsedMilliseconds);
-        }
-
-        [Test]
-        public void OneInsideRFlush()
-        {
-            Stopwatch watch = new Stopwatch();
-            List<Card> cards = new List<Card>
-            {
-                new Card(Rank.Ten, Suit.Hearts),
-                new Card(Rank.Jack, Suit.Hearts),
-                new Card(Rank.Queen, Suit.Hearts),
-                new Card(Rank.Ace, Suit.Hearts),
-                new Card(Rank.Seven, Suit.Hearts),
-                new Card(Rank.Four, Suit.Diamonds),
-            };
-
-            SixCardHand hand = new SixCardHand(cards);
-            hand.Sort();
-
-            watch.Start();
-            int inside = hand.CountInsideRoyalFlushDraws();
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
-            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
-            watch.Stop();
-
-            Assert.AreEqual(1, outs.RoyalFlush.Outs);
-            Assert.AreEqual(1, inside);
-            Assert.Greater(200, watch.ElapsedMilliseconds);
+            Assert.Greater(250, watch.ElapsedMilliseconds);
         }
 
         [Test]
@@ -84,14 +54,64 @@ namespace UnitTesting.RiverOuts
             hand.Sort();
 
             watch.Start();
-            int outsideDraw = hand.CountOutsideRoyalFlushDraws();
-            var score = PokerEvaluator.CalculateFlopScore(hand.Hand);
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
             var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
             watch.Stop();
 
             Assert.AreEqual(1, outs.RoyalFlush.Outs);
-            Assert.AreEqual(1, outsideDraw);
-            Assert.Greater(15, watch.ElapsedMilliseconds);
+            Assert.Greater(250, watch.ElapsedMilliseconds);
+        }
+
+        [Test]
+        public void OneOutsideRFlushWithPair()
+        {
+            Stopwatch watch = new Stopwatch();
+            List<Card> cards = new List<Card>
+            {
+                new Card(Rank.Ten, Suit.Hearts),
+                new Card(Rank.Jack, Suit.Hearts),
+                new Card(Rank.Queen, Suit.Hearts),
+                new Card(Rank.King, Suit.Hearts),
+                new Card(Rank.Seven, Suit.Hearts),
+                new Card(Rank.Queen, Suit.Diamonds),
+            };
+
+            SixCardHand hand = new SixCardHand(cards);
+            hand.Sort();
+
+            watch.Start();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
+            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
+            watch.Stop();
+
+            Assert.AreEqual(1, outs.RoyalFlush.Outs);
+            Assert.Greater(250,watch.ElapsedMilliseconds);
+        }
+
+        [Test]
+        public void OneOutsideRFlushWithTwoPair()
+        {
+            Stopwatch watch = new Stopwatch();
+            List<Card> cards = new List<Card>
+            {
+                new Card(Rank.Ten, Suit.Hearts),
+                new Card(Rank.Jack, Suit.Hearts),
+                new Card(Rank.Queen, Suit.Hearts),
+                new Card(Rank.King, Suit.Hearts),
+                new Card(Rank.Jack, Suit.Clubs),
+                new Card(Rank.Queen, Suit.Diamonds),
+            };
+
+            SixCardHand hand = new SixCardHand(cards);
+            hand.Sort();
+
+            watch.Start();
+            var score = PokerEvaluator.CalculateFlopScore(hand.Cards);
+            var outs = PokerOutsCalculator.CalculateRiverOuts(hand, score);
+            watch.Stop();
+
+            Assert.AreEqual(1, outs.RoyalFlush.Outs);
+            Assert.Greater(250, watch.ElapsedMilliseconds);
         }
     }
 }

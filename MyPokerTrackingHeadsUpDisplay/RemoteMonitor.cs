@@ -34,6 +34,8 @@ namespace MyPokerTrackingHeadsUpDisplay
             if (result.Contains("Fold"))
             {
                 _workerThread = new Thread(() => _messageHandler.HandleFold());
+                _workerThread.Start();
+                return;
             }
         }
 
