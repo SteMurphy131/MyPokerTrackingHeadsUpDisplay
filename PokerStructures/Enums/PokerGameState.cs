@@ -2,6 +2,6 @@
 {
     public enum PokerGameState
     {
-        PreFlop, Flop, Turn, River
+        PreFlop, Flop, Turn, River, Show
     }
 }

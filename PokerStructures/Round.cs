@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PokerStructures.Enums;
 
 namespace PokerStructures
 {
@@ -12,6 +13,11 @@ namespace PokerStructures
         public Card River;
 
         public bool PreFlopRaise;
+        public bool ContinuationBet;
+        public bool Won;
+        public PokerGameState State;
+
+        public string HandNumber { get; set; }
         
         public void SetHoleCard(Card c, int position)
         {
@@ -44,6 +50,11 @@ namespace PokerStructures
             AllCards.Clear();
             Turn = null;
             River = null;
+        }
+
+        public void SetState(PokerGameState state)
+        {
+            State = state;
         }
     }
 }
