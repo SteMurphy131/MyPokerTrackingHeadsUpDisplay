@@ -10,5 +10,7 @@ namespace UserStructures
         public virtual User Owner { get; set; }
 
         public SessionStatistics Statistics { get; set; }
+
+        public Session(){Statistics = new SessionStatistics();}
     }
 }

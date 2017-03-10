@@ -1,4 +1,6 @@
-﻿namespace PokerStructures.Calculation
+﻿using PokerStructures.Enums;
+
+namespace PokerStructures.Calculation
 {
     public class OutsCollection
     {
@@ -36,6 +38,48 @@
             Straight = null;
             TwoPair = null;
             Pair = null;
+        }
+
+        public Pokerscore BestScore()
+        {
+            if (RoyalFlush.Percentage > 0)
+                return Pokerscore.RoyalFlush;
+            if (StraightFlush.Percentage > 0)
+                return Pokerscore.StraightFlush;
+            if (FourOfAKind.Percentage > 0)
+                return Pokerscore.FourOfAKind;
+            if (FullHouse.Percentage > 0)
+                return Pokerscore.FullHouse;
+            if (Flush.Percentage > 0)
+                return Pokerscore.Flush;
+            if (Straight.Percentage > 0)
+                return Pokerscore.Straight;
+            if (ThreeOfAKind.Percentage > 0)
+                return Pokerscore.ThreeOfAKind;
+            if (TwoPair.Percentage > 0)
+                return Pokerscore.TwoPair;
+            return Pokerscore.Pair;
+        }
+
+        public PokerScoreOuts BestPossible()
+        {
+            if (RoyalFlush.Percentage > 0)
+                return RoyalFlush;
+            if (StraightFlush.Percentage > 0)
+                return StraightFlush;
+            if (FourOfAKind.Percentage > 0)
+                return FourOfAKind;
+            if (FullHouse.Percentage > 0)
+                return FullHouse;
+            if (Flush.Percentage > 0)
+                return Flush;
+            if (Straight.Percentage > 0)
+                return Straight;
+            if (ThreeOfAKind.Percentage > 0)
+                return ThreeOfAKind;
+            if (TwoPair.Percentage > 0)
+                return TwoPair;
+            return Pair;
         }
     }
 }

@@ -78,6 +78,8 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         public void ProcessHandHistoryState(string message)
         {
+            System.Diagnostics.Trace.WriteLine(message);
+
             var splitMessage = message.Split(' ');
             SetHandHistoryStateEvent?.Invoke(splitMessage[1]);
         }

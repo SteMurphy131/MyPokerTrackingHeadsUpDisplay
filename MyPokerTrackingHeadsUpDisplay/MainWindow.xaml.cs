@@ -1,30 +1,35 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MahApps.Metro.Controls;
 using PokerStructures;
 using PokerStructures.Calculation;
+using PokerStructures.Enums;
+using PokerStructures.ExtensionMethods;
 
 namespace MyPokerTrackingHeadsUpDisplay
 {
-    public partial class MainWindow 
+    public partial class MainWindow
     {
         private readonly Controller _controller;
-        private PokerScoreOuts _noOuts = new PokerScoreOuts(0,0,false);
+        private readonly PokerScoreOuts _noOuts = new PokerScoreOuts(0, 0, false);
 
         public MainWindow()
         {
             InitializeComponent();
             _controller = Controller.Instance;
+            _controller.SetHttpSender();
             InitEvents();
 
             //LogIn();
 
             if (Injector.InjectDll())
-            {
                 UpdateTextBox("Dll Injected");
-            }
+            //else
+            //    Application.Current.Shutdown(0);
         }
 
         private void InitEvents()
@@ -34,6 +39,13 @@ namespace MyPokerTrackingHeadsUpDisplay
             _controller.UpdateOutsEvent += UpdateOuts;
             _controller.ClearBoardEvent += ClearCards;
             _controller.ClearOutsEvent += ClearOuts;
+            _controller.UpdateCurrentScoreEvent += UpdateCurrentScoreLabel;
+            _controller.UpdateBestPossibleEvent += UpdateBestPossibleLabel;
+            _controller.UpdateOutsToBestEvent += UpdateOutsToBestLabel;
+            _controller.UpdateBestChanceEvent += UpdateBestChanceLabel;
+            _controller.UpdateHandsPlayedEvent += UpdateHandsPlayed;
+            _controller.UpdatePreFlopRaiseEvent += UpdatePreFlopRaise;
+            _controller.UpdateContBetsEvent += UpdateContBets;
         }
 
         private void LogIn()
@@ -43,11 +55,21 @@ namespace MyPokerTrackingHeadsUpDisplay
             _controller.User = window.User;
         }
 
+        private void StopButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _controller.StopSession();
+        }
+
+        private void StartButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _controller.Start();
+        }
+
         public void UpdateTextBox(string text)
         {
-            Dispatcher.BeginInvoke((Action)delegate
+            Dispatcher.BeginInvoke((Action) delegate
             {
-                textBox.Text = text;
+                //textBox.Text = text;
             });
         }
 
@@ -109,7 +131,7 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         public void UpdateHoleOne(Card c)
         {
-            Dispatcher.BeginInvoke((Action)delegate
+            Dispatcher.BeginInvoke((Action) delegate
             {
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
@@ -120,20 +142,20 @@ namespace MyPokerTrackingHeadsUpDisplay
         }
 
         public void UpdateHoleTwo(Card c)
-        { 
-            Dispatcher.BeginInvoke((Action)delegate 
+        {
+            Dispatcher.BeginInvoke((Action) delegate
             {
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.UriSource = PokerImageHelper.CardImageDictionary[c.ToString()].UriSource;
                 bitmap.EndInit();
-                HoleImageTwo.Source = bitmap; 
+                HoleImageTwo.Source = bitmap;
             });
         }
 
         public void UpdateBoardOne(Card c)
         {
-            Dispatcher.BeginInvoke((Action)delegate
+            Dispatcher.BeginInvoke((Action) delegate
             {
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
@@ -144,8 +166,8 @@ namespace MyPokerTrackingHeadsUpDisplay
         }
 
         public void UpdateBoardTwo(Card c)
-        { 
-            Dispatcher.BeginInvoke((Action)delegate
+        {
+            Dispatcher.BeginInvoke((Action) delegate
             {
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
@@ -157,7 +179,7 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         public void UpdateBoardThree(Card c)
         {
-            Dispatcher.BeginInvoke((Action)delegate
+            Dispatcher.BeginInvoke((Action) delegate
             {
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
@@ -169,7 +191,7 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         public void UpdateBoardFour(Card c)
         {
-            Dispatcher.BeginInvoke((Action)delegate
+            Dispatcher.BeginInvoke((Action) delegate
             {
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
@@ -181,13 +203,81 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         public void UpdateBoardFive(Card c)
         {
-            Dispatcher.BeginInvoke((Action)delegate
+            Dispatcher.BeginInvoke((Action) delegate
             {
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.UriSource = PokerImageHelper.CardImageDictionary[c.ToString()].UriSource;
                 bitmap.EndInit();
                 BoardImageFive.Source = bitmap;
+            });
+        }
+
+        public void UpdateRunnerRunnerImage(Image image, bool isRunner)
+        {
+            Dispatcher.BeginInvoke((Action) delegate
+            {
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = PokerImageHelper.RunnerRunnerDictionary[isRunner].UriSource;
+                bitmap.EndInit();
+                image.Source = bitmap;
+            });
+        }
+
+        public void UpdateCurrentScoreLabel(Pokerscore score)
+        {
+            Dispatcher.BeginInvoke((Action) delegate
+            {
+                YourScoreLabel.Text = score.ToNiceString();
+            });
+        }
+
+        public void UpdateBestPossibleLabel(Pokerscore score)
+        {
+            Dispatcher.BeginInvoke((Action) delegate
+            {
+                BestPossibleLabel.Text = score.ToNiceString();
+            });
+        }
+
+        public void UpdateOutsToBestLabel(PokerScoreOuts outs)
+        {
+            Dispatcher.BeginInvoke((Action) delegate
+            {
+                OutsToBestLabel.Text = outs.Outs.ToString(CultureInfo.CurrentCulture);
+            });
+        }
+
+        public void UpdateBestChanceLabel(PokerScoreOuts outs)
+        {
+            Dispatcher.BeginInvoke((Action) delegate
+            {
+                ChanceOfBestLabel.Text = outs.Percentage.ToString(CultureInfo.CurrentCulture);
+            });
+        }
+
+        public void UpdateHandsPlayed(int played)
+        {
+            Dispatcher.BeginInvoke((Action)delegate
+            {
+                HandsPlayedLabel.Text = played.ToString(CultureInfo.CurrentCulture);
+            });
+        }
+
+        public void UpdatePreFlopRaise(int pfr)
+        {
+            Dispatcher.BeginInvoke((Action)delegate
+            {
+                PreFlopRaisesLabel.Text = pfr.ToString(CultureInfo.CurrentCulture);
+            });
+        }
+
+        public void UpdateContBets(int cBets)
+        {
+            Dispatcher.BeginInvoke((Action)delegate
+            {
+                ContBetsLabel.Text = cBets.ToString(CultureInfo.CurrentCulture);
             });
         }
 
@@ -223,7 +313,9 @@ namespace MyPokerTrackingHeadsUpDisplay
             {
                 PairProgressBar.Value = pairOuts.Percentage;
                 PairProgressBar.SetColour(pairOuts.Percentage);
-                PairOutsBox.Text = pairOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                UpdateRunnerRunnerImage(PairRRImage, pairOuts.RunnerRunner);
+                PairOutsLabel.Text = pairOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                PairPercentageLabel.Text = pairOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
             });
         }
 
@@ -233,7 +325,9 @@ namespace MyPokerTrackingHeadsUpDisplay
             {
                 TwoPairProgressBar.Value = twoPairOuts.Percentage;
                 TwoPairProgressBar.SetColour(twoPairOuts.Percentage);
-                TwoPairOutsBox.Text = twoPairOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                UpdateRunnerRunnerImage(TwoPairRRImage, twoPairOuts.RunnerRunner);
+                TwoPairOutsLabel.Text = twoPairOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                TwoPairPercentageLabel.Text = twoPairOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
             });
         }
 
@@ -241,9 +335,11 @@ namespace MyPokerTrackingHeadsUpDisplay
         {
             Dispatcher.BeginInvoke((Action)delegate
             {
-                ThreeOfAKindProgressBar.Value = tripsOuts.Percentage;
-                ThreeOfAKindProgressBar.SetColour(tripsOuts.Percentage);
-                TripsOutsBox.Text = tripsOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                TripsProgressBar.Value = tripsOuts.Percentage;
+                TripsProgressBar.SetColour(tripsOuts.Percentage);
+                UpdateRunnerRunnerImage(TripsRRImage, tripsOuts.RunnerRunner);
+                TripsOutsLabel.Text = tripsOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                TripsrPercentageLabel.Text = tripsOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
             });
         }
 
@@ -253,7 +349,9 @@ namespace MyPokerTrackingHeadsUpDisplay
             {
                 StraightProgressBar.Value = straightOuts.Percentage;
                 StraightProgressBar.SetColour(straightOuts.Percentage);
-                StraightOutsBox.Text = straightOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                UpdateRunnerRunnerImage(StraightRRImage, straightOuts.RunnerRunner);
+                StraightOutsLabel.Text = straightOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                StraightPercentageLabel.Text = straightOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
             });
         }
 
@@ -263,7 +361,9 @@ namespace MyPokerTrackingHeadsUpDisplay
             {
                 FlushProgressBar.Value = flushOuts.Percentage;
                 FlushProgressBar.SetColour(flushOuts.Percentage);
-                FlushOutsBox.Text = flushOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                UpdateRunnerRunnerImage(FlushRRImage, flushOuts.RunnerRunner);
+                FlushOutsLabel.Text = flushOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                FlushPercentageLabel.Text = flushOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
             });
         }
 
@@ -271,9 +371,11 @@ namespace MyPokerTrackingHeadsUpDisplay
         {
             Dispatcher.BeginInvoke((Action)delegate
             {
-                FourOfAKindProgressBar.Value = quadOuts.Percentage;
-                FourOfAKindProgressBar.SetColour(quadOuts.Percentage);
-                QuadsOutsBox.Text = quadOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                QuadsProgressBar.Value = quadOuts.Percentage;
+                QuadsProgressBar.SetColour(quadOuts.Percentage);
+                UpdateRunnerRunnerImage(QuadsRRImage, quadOuts.RunnerRunner);
+                QuadsOutsLabel.Text = quadOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                QuadsPercentageLabel.Text = quadOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
             });
         }
 
@@ -283,7 +385,9 @@ namespace MyPokerTrackingHeadsUpDisplay
             {
                 FullHouseProgressBar.Value = fullHouseOuts.Percentage;
                 FullHouseProgressBar.SetColour(fullHouseOuts.Percentage);
-                FullHouseOutsBox.Text = fullHouseOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                UpdateRunnerRunnerImage(FullHouseRRImage, fullHouseOuts.RunnerRunner);
+                FullHouseOutsLabel.Text = fullHouseOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                FullHousePercentageLabel.Text = fullHouseOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
             });
         }
 
@@ -291,9 +395,11 @@ namespace MyPokerTrackingHeadsUpDisplay
         {
             Dispatcher.BeginInvoke((Action)delegate
             {
-                StraightFlushProgressBar.Value = sFlushOuts.Percentage;
-                StraightFlushProgressBar.SetColour(sFlushOuts.Percentage);
-                SFlushOutsBox.Text = sFlushOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                SFlushProgressBar.Value = sFlushOuts.Percentage;
+                SFlushProgressBar.SetColour(sFlushOuts.Percentage);
+                UpdateRunnerRunnerImage(SFlushRRImage, sFlushOuts.RunnerRunner);
+                SFlushOutsLabel.Text = sFlushOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                SFlushPercentageLabel.Text = sFlushOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
             });
         }
 
@@ -301,9 +407,11 @@ namespace MyPokerTrackingHeadsUpDisplay
         {
             Dispatcher.BeginInvoke((Action)delegate
             {
-                RoyalFlushProgressBar.Value = rFlushOuts.Percentage;
-                RoyalFlushProgressBar.SetColour(rFlushOuts.Percentage);
-                RFlushOutsBox.Text = rFlushOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                RFlushProgressBar.Value = rFlushOuts.Percentage;
+                RFlushProgressBar.SetColour(rFlushOuts.Percentage);
+                UpdateRunnerRunnerImage(RFlushRRImage, rFlushOuts.RunnerRunner);
+                RFlushOutsLabel.Text = rFlushOuts.Outs.ToString(CultureInfo.CurrentCulture);
+                RFlushPercentageLabel.Text = rFlushOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
             });
         }
     }

@@ -1,58 +1,180 @@
-﻿<Window x:Class="MyPokerTrackingHeadsUpDisplay.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MyPokerTrackingHeadsUpDisplay"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="486.518" Width="519.706">
-    <Grid Background="Maroon" Margin="0,0,2,1" RenderTransformOrigin="0.554,0.685">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="0*"/>
-        </Grid.ColumnDefinitions>
+﻿<controls:MetroWindow x:Class="MyPokerTrackingHeadsUpDisplay.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      Title="PokerTrackingHUD" Height="400" Width="600"
+                      ShowMaxRestoreButton="False"
+                      BorderThickness="0" 
+                      GlowBrush="Black"
+
+                      WindowStartupLocation="CenterScreen">
+    
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Content="Start" Click ="StartButton_OnClick"></Button>
+            <Button Content ="Stop" Click ="StopButton_OnClick"></Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="Images/Metallic-Floor-slick.jpg" ></ImageBrush>
+        </Grid.Background>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="223*"/>
-            <RowDefinition Height="103*"/>
+            <RowDefinition Height ="2*"/>
+            <RowDefinition Height ="1*"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="31" Margin="165,270,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="129"/>
-        <Image Source ="Images/2_of_diamonds.png" x:Name="HoleImageOne" HorizontalAlignment="Left" Height="80" Margin="19,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/7_of_diamonds.png" x:Name="HoleImageTwo" HorizontalAlignment="Left" Height="80" Margin="79,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/10_of_spades.png" x:Name="BoardImageOne" HorizontalAlignment="Left" Height="80" Margin="173,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/jack_of_spades.png" x:Name="BoardImageTwo" HorizontalAlignment="Left" Height="80" Margin="234,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/queen_of_spades.png" x:Name="BoardImageThree" HorizontalAlignment="Left" Height="80" Margin="294,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/king_of_spades.png" x:Name="BoardImageFour" HorizontalAlignment="Left" Height="80" Margin="359,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <Image Source ="Images/ace_of_spades2.png" x:Name="BoardImageFive" HorizontalAlignment="Left" Height="80" Margin="424,8,0,0" VerticalAlignment="Top" Width="60" Grid.Row="1"/>
-        <ProgressBar x:Name ="PairProgressBar"  HorizontalAlignment="Left" Height="21" Margin="244,10,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
-        <ProgressBar x:Name ="TwoPairProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,36,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
-        <ProgressBar x:Name ="ThreeOfAKindProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,62,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
-        <ProgressBar x:Name ="StraightProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,88,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
-        <ProgressBar x:Name ="FlushProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,114,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
-        <ProgressBar x:Name ="FullHouseProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,140,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
-        <ProgressBar x:Name ="FourOfAKindProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,166,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
-        <ProgressBar x:Name ="StraightFlushProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,192,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
-        <ProgressBar x:Name ="RoyalFlushProgressBar" HorizontalAlignment="Left" Height="21" Margin="244,218,0,0" VerticalAlignment="Top" Width="240" Minimum="0" Maximum="100"/>
-        <Label x:Name="label" Content="Pair:" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
-        <Label x:Name="label_Copy" Content="Two Pair" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
-        <Label x:Name="label_Copy1" Content="Three Of A Kind&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
-        <Label x:Name="label_Copy2" Content="Straight" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
-        <Label x:Name="label_Copy3" Content="Flush" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
-        <Label x:Name="label_Copy4" Content="Full House" HorizontalAlignment="Left" Margin="10,135,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
-        <Label x:Name="label_Copy5" Content="Four Of A Kind&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,161,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
-        <Label x:Name="label_Copy6" Content="Straight Flush" HorizontalAlignment="Left" Margin="10,187,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
-        <Label x:Name="label_Copy7" Content="Royal Flush" HorizontalAlignment="Left" Margin="10,218,0,0" VerticalAlignment="Top" Foreground="AliceBlue"/>
-        <TextBox x:Name="PairOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,8,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
-        <TextBox x:Name="TwoPairOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,34,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
-        <TextBox x:Name="TripsOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,60,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
-        <TextBox x:Name="StraightOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,86,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
-        <TextBox x:Name="FlushOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,112,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
-        <TextBox x:Name="FullHouseOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,138,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
-        <TextBox x:Name="QuadsOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,164,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
-        <TextBox x:Name="SFlushOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,190,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
-        <TextBox x:Name="RFlushOutsBox" HorizontalAlignment="Left" Height="23" Margin="122,216,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" RenderTransformOrigin="-1.31,0.652"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width ="2*"/>
+            <ColumnDefinition Width ="5*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Row="0" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height ="1*"/>
+                <RowDefinition Height ="1*"/>
+                <RowDefinition Height ="1*"/>
+                <RowDefinition Height ="1*"/>
+                <RowDefinition Height ="1*"/>
+                <RowDefinition Height ="1*"/>
+                <RowDefinition Height ="1*"/>
+                <RowDefinition Height ="1*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
 
+            <TextBlock Text="Your Score: " Foreground="OliveDrab" Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+            <TextBlock Text="Best Possible: " Foreground="OliveDrab" Grid.Row ="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+            <TextBlock Text="Outs to Best: " Foreground="OliveDrab" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+            <TextBlock Text="Chance of Best: " Foreground="OliveDrab" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+            <TextBlock Text="This Session" Foreground="White" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5" FontSize="15"  VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+            <TextBlock Text="Hands Played: " Foreground="OliveDrab" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+            <TextBlock Text="Pre Flop Raises: " Foreground="OliveDrab" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+            <TextBlock Text="Contin. Bets: " Foreground="OliveDrab" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+
+            <TextBlock Text ="None" x:Name="YourScoreLabel" Foreground="LightGreen" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+            <TextBlock Text ="Full House" x:Name="BestPossibleLabel" Foreground="LightGreen" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+            <TextBlock Text ="0" x:Name="OutsToBestLabel" Foreground="LightGreen" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+            <TextBlock Text ="0%" x:Name="ChanceOfBestLabel" Foreground="LightGreen" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+            <TextBlock Text ="0" x:Name="HandsPlayedLabel" Foreground="LightGreen" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+            <TextBlock Text ="0" x:Name="PreFlopRaisesLabel" Foreground="LightGreen" Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+            <TextBlock Text ="0" x:Name="ContBetsLabel" Foreground="LightGreen" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+        </Grid>
+
+        <Border CornerRadius="5" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Margin ="5" BorderBrush="DarkGreen">
+
+            <Grid>
+                <Grid.Background>
+                    <ImageBrush ImageSource="Images/GreenBackground.jpg" ></ImageBrush>
+                </Grid.Background>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Source="Images/2_of_diamonds.png" x:Name="HoleImageOne" Margin="10" Grid.Column="0"></Image>
+                <Image Source="Images/7_of_clubs.png" x:Name="HoleImageTwo" Margin="10" Grid.Column="1"></Image>
+                <Image Source="Images/10_of_hearts.png" x:Name="BoardImageOne" Margin="10" Grid.Column="2"></Image>
+                <Image Source="Images/jack_of_spades.png" x:Name="BoardImageTwo" Margin="10" Grid.Column="3"></Image>
+                <Image Source="Images/4_of_clubs.png" x:Name="BoardImageThree" Margin="10" Grid.Column="4"></Image>
+                <Image Source="Images/king_of_hearts.png" x:Name="BoardImageFour" Margin="10" Grid.Column="5"></Image>
+                <Image Source="Images/ace_of_spades2.png" x:Name="BoardImageFive" Margin="10" Grid.Column="6"></Image>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row ="0" Grid.Column="1" Margin="5" >
+            <Grid.Background>
+                <ImageBrush ImageSource="Images/GreenBackground.jpg" ></ImageBrush>
+            </Grid.Background>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="10*" />
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="Score" Foreground="White" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="Outs" Foreground="White" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="RR" Foreground="White" Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="Percentage" Foreground="White" Grid.Row="0" Grid.Column="3" VerticalAlignment="Top" HorizontalAlignment="Center"></TextBlock>
+            
+            <TextBlock Text="Pair: " Foreground="Black" Width="65" Height ="20" Margin="5" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0"></TextBlock>
+            <TextBlock Text="Two Pair: " Foreground="Black" Width="65" Height ="20" Margin="5" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0"></TextBlock>
+            <TextBlock Text="Trips: " Foreground="Black" Width="65" Height ="20" Margin="5" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="0"></TextBlock>
+            <TextBlock Text="Straight: " Foreground="Black" Width="65" Height ="20" Margin="5" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="0"></TextBlock>
+            <TextBlock Text="Flush: " Foreground="Black" Width="65" Height ="20" Margin="5" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="0"></TextBlock>
+            <TextBlock Text="Full House: " Foreground="Black" Width="65" Height ="20" Margin="5" HorizontalAlignment="Left" Grid.Row="6" Grid.Column="0"></TextBlock>
+            <TextBlock Text="Quads: " Foreground="Black" Width="65" Height ="20" Margin="5" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="0"></TextBlock>
+            <TextBlock Text="S Flush: " Foreground="Black" Width="65" Height ="20" Margin="5" HorizontalAlignment="Left" Grid.Row="8" Grid.Column="0"></TextBlock>
+            <TextBlock Text="R Flush: " Foreground="Black" Width="65" Height ="20" Margin="5" HorizontalAlignment="Left" Grid.Row="9" Grid.Column="0"></TextBlock>
+            
+            <TextBlock Text="0" x:Name="PairOutsLabel" Foreground="LightGreen" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="0" x:Name="TwoPairOutsLabel" Foreground="LightGreen" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="0" x:Name="TripsOutsLabel" Foreground="LightGreen" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="0" x:Name="StraightOutsLabel" Foreground="LightGreen" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="0" x:Name="FlushOutsLabel" Foreground="LightGreen" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="0" x:Name="FullHouseOutsLabel" Foreground="LightGreen" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="0" x:Name="QuadsOutsLabel" Foreground="LightGreen" Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="0" x:Name="SFlushOutsLabel"  Foreground="LightGreen" Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="0" x:Name="RFlushOutsLabel" Foreground="LightGreen" Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            
+            <TextBlock Text="0%" x:Name="PairPercentageLabel" Foreground="White" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"/>
+            <TextBlock Text="0%" x:Name="TwoPairPercentageLabel" Foreground="White" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"/>
+            <TextBlock Text="0%" x:Name="TripsrPercentageLabel" Foreground="White" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"/>
+            <TextBlock Text="0%" x:Name="StraightPercentageLabel" Foreground="White" Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"/>
+            <TextBlock Text="0%" x:Name="FlushPercentageLabel" Foreground="White" Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"/>
+            <TextBlock Text="0%" x:Name="FullHousePercentageLabel" Foreground="White" Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"/>
+            <TextBlock Text="0%" x:Name="QuadsPercentageLabel" Foreground="White" Grid.Row="7" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"/>
+            <TextBlock Text="0%" x:Name="SFlushPercentageLabel" Foreground="White" Grid.Row="8" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"/>
+            <TextBlock Text="0%" x:Name="RFlushPercentageLabel" Foreground="White" Grid.Row="9" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"/>
+            
+            <Image Source="Images/GreenTick.png" Width="45" Height="20" HorizontalAlignment="Center" x:Name="PairRRImage" Margin="0" Grid.Row="1" Grid.Column="2"></Image>
+            <Image Source="Images/GreenTick.png" Width="45" Height="20" HorizontalAlignment="Center" x:Name="TwoPairRRImage" Margin="0" Grid.Row="2" Grid.Column="2"></Image>
+            <Image Source="Images/GreenTick.png" Width="45" Height="20" HorizontalAlignment="Center" x:Name="TripsRRImage" Margin="0" Grid.Row="3" Grid.Column="2"></Image>
+            <Image Source="Images/RedX.png" Width="45" Height="20" HorizontalAlignment="Center" x:Name="StraightRRImage" Margin="0" Grid.Row="4" Grid.Column="2"></Image>
+            <Image Source="Images/GreenTick.png" Width="45" Height="20" HorizontalAlignment="Center" x:Name="FlushRRImage" Margin="0" Grid.Row="5" Grid.Column="2"></Image>
+            <Image Source="Images/GreenTick.png" Width="45" Height="20" HorizontalAlignment="Center" x:Name="FullHouseRRImage" Margin="0" Grid.Row="6" Grid.Column="2"></Image>
+            <Image Source="Images/GreenTick.png" Width="45" Height="20" HorizontalAlignment="Center" x:Name="QuadsRRImage" Margin="0" Grid.Row="7" Grid.Column="2"></Image>
+            <Image Source="Images/GreenTick.png" Width="45" Height="20" HorizontalAlignment="Center" x:Name="SFlushRRImage" Margin="0" Grid.Row="8" Grid.Column="2"></Image>
+            <Image Source="Images/GreenTick.png" Width="45" Height="20" HorizontalAlignment="Center" x:Name="RFlushRRImage" Margin="0" Grid.Row="9" Grid.Column="2"></Image>
+
+
+            <controls:MetroProgressBar x:Name="PairProgressBar" Height="20" HorizontalAlignment="Stretch" Minimum="0" Maximum="100" Grid.Row="1" Grid.Column="3" Value="10"/>
+            <controls:MetroProgressBar x:Name="TwoPairProgressBar" Height="20" HorizontalAlignment="Stretch" Minimum="0" Maximum="100" Grid.Row="2" Grid.Column="3" Value="10"/>
+            <controls:MetroProgressBar x:Name="TripsProgressBar" Height="20" HorizontalAlignment="Stretch" Minimum="0" Maximum="100" Grid.Row="3" Grid.Column="3" Value="10"/>
+            <controls:MetroProgressBar x:Name="StraightProgressBar" Height="20" HorizontalAlignment="Stretch" Minimum="0" Maximum="100" Grid.Row="4" Grid.Column="3" Value="10"/>
+            <controls:MetroProgressBar x:Name="FlushProgressBar" Height="20" HorizontalAlignment="Stretch" Minimum="0" Maximum="100" Grid.Row="5" Grid.Column="3" Value="10"/>
+            <controls:MetroProgressBar x:Name="FullHouseProgressBar" Height="20" HorizontalAlignment="Stretch" Minimum="0" Maximum="100" Grid.Row="6" Grid.Column="3" Value="10"/>
+            <controls:MetroProgressBar x:Name="QuadsProgressBar" Height="20" HorizontalAlignment="Stretch" Minimum="0" Maximum="100" Grid.Row="7" Grid.Column="3" Value="10"/>
+            <controls:MetroProgressBar x:Name="SFlushProgressBar" Height="20" HorizontalAlignment="Stretch" Minimum="0" Maximum="100" Grid.Row="8" Grid.Column="3" Value="10"/>
+            <controls:MetroProgressBar x:Name="RFlushProgressBar" Height="20" HorizontalAlignment="Stretch" Minimum="0" Maximum="100" Grid.Row="9" Grid.Column="3" Value="10"/>
+        </Grid>
     </Grid>
-
-
-</Window>
+</controls:MetroWindow>

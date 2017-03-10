@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using PokerStructures;
 using PokerStructures.Enums;
 
@@ -78,6 +79,146 @@ namespace UnitTesting.Structures
 
             Assert.AreEqual(round.Turn, null);
             Assert.AreEqual(round.River, null);
+        }
+
+        [Test]
+        public void TestEqualRounds()
+        {
+            var round1 = new Round
+            {
+                Hole = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Six, Suit.Clubs) },
+                    { 1,new Card(Rank.Nine, Suit.Diamonds) }
+                },
+                Flop = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Ace, Suit.Clubs) },
+                    { 1,new Card(Rank.Four, Suit.Clubs) },
+                    { 2,new Card(Rank.Ace, Suit.Diamonds)}
+                },
+                Turn = new Card(Rank.Two, Suit.Clubs),
+                River = new Card(Rank.King, Suit.Clubs),
+                AllCards = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Six, Suit.Clubs)},
+                    { 1,new Card(Rank.Nine, Suit.Diamonds) },
+                    { 2,new Card(Rank.Ace, Suit.Clubs) },
+                    { 3,new Card(Rank.Four, Suit.Clubs) },
+                    {4,new Card(Rank.Ace, Suit.Diamonds) },
+                    { 5,new Card(Rank.Two, Suit.Clubs) },
+                    { 6,new Card(Rank.King, Suit.Clubs) }
+                },
+                State = PokerGameState.Show,
+                PreFlopRaise = false,
+                ContinuationBet = false,
+                Won = true,
+                HandNumber = "#12312313"
+            };
+
+            var round2 = new Round
+            {
+                Hole = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Six, Suit.Clubs)},
+                    {1, new Card(Rank.Nine, Suit.Diamonds)}
+                },
+                Flop = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Ace, Suit.Clubs)},
+                    {1, new Card(Rank.Four, Suit.Clubs)},
+                    {2, new Card(Rank.Ace, Suit.Diamonds)}
+                },
+                Turn = new Card(Rank.Two, Suit.Clubs),
+                River = new Card(Rank.King, Suit.Clubs),
+                AllCards = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Six, Suit.Clubs)},
+                    {1, new Card(Rank.Nine, Suit.Diamonds)},
+                    {2, new Card(Rank.Ace, Suit.Clubs)},
+                    {3, new Card(Rank.Four, Suit.Clubs)},
+                    {4, new Card(Rank.Ace, Suit.Diamonds)},
+                    {5, new Card(Rank.Two, Suit.Clubs)},
+                    {6, new Card(Rank.King, Suit.Clubs)}
+                },
+                State = PokerGameState.Show,
+                PreFlopRaise = false,
+                ContinuationBet = false,
+                Won = true,
+                HandNumber = "#12312313"
+            };
+
+            Assert.AreEqual(true, round1.Equals(round2));
+        }
+
+        [Test]
+        public void TestUnequalRounds()
+        {
+            var round1 = new Round
+            {
+                Hole = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Six, Suit.Clubs) },
+                    { 1,new Card(Rank.Nine, Suit.Diamonds) }
+                },
+                Flop = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Ace, Suit.Clubs) },
+                    { 1,new Card(Rank.Four, Suit.Clubs) },
+                    { 2,new Card(Rank.Ace, Suit.Diamonds)}
+                },
+                Turn = new Card(Rank.Two, Suit.Clubs),
+                River = new Card(Rank.King, Suit.Clubs),
+                AllCards = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Six, Suit.Clubs)},
+                    { 1,new Card(Rank.Nine, Suit.Diamonds) },
+                    { 2,new Card(Rank.Jack, Suit.Clubs) },
+                    { 3,new Card(Rank.Four, Suit.Clubs) },
+                    {4,new Card(Rank.Ace, Suit.Diamonds) },
+                    { 5,new Card(Rank.Two, Suit.Clubs) },
+                    { 6,new Card(Rank.King, Suit.Clubs) }
+                },
+                State = PokerGameState.Show,
+                PreFlopRaise = false,
+                ContinuationBet = false,
+                Won = true,
+                HandNumber = "#12312313"
+            };
+
+            var round2 = new Round
+            {
+                Hole = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Six, Suit.Clubs)},
+                    {1, new Card(Rank.Nine, Suit.Diamonds)}
+                },
+                Flop = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Ace, Suit.Clubs)},
+                    {1, new Card(Rank.Four, Suit.Clubs)},
+                    {2, new Card(Rank.Ace, Suit.Diamonds)}
+                },
+                Turn = new Card(Rank.Two, Suit.Clubs),
+                River = new Card(Rank.King, Suit.Clubs),
+                AllCards = new Dictionary<int, Card>
+                {
+                    {0, new Card(Rank.Six, Suit.Clubs)},
+                    {1, new Card(Rank.Nine, Suit.Diamonds)},
+                    {2, new Card(Rank.Ace, Suit.Clubs)},
+                    {3, new Card(Rank.Four, Suit.Clubs)},
+                    {4, new Card(Rank.Ace, Suit.Diamonds)},
+                    {5, new Card(Rank.Two, Suit.Clubs)},
+                    {6, new Card(Rank.King, Suit.Clubs)}
+                },
+                State = PokerGameState.Show,
+                PreFlopRaise = false,
+                ContinuationBet = false,
+                Won = true,
+                HandNumber = "#12312313"
+            };
+
+            Assert.AreEqual(false, round1.Equals(round2));
         }
     }
 }

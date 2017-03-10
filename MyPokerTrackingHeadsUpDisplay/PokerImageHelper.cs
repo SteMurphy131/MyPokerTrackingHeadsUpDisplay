@@ -8,6 +8,12 @@ namespace MyPokerTrackingHeadsUpDisplay
 {
     public class PokerImageHelper
     {
+        public static Dictionary<bool, BitmapImage> RunnerRunnerDictionary = new Dictionary<bool, BitmapImage>
+        {
+            {true,  new BitmapImage(new Uri(@"../../Images/GreenTick.png", UriKind.Relative))},
+            {false, new BitmapImage(new Uri(@"../../Images/RedX.png", UriKind.Relative)) }
+        };
+
         public static Dictionary <string, BitmapImage> CardImageDictionary = new Dictionary<string, BitmapImage>
         {
             {"na", new BitmapImage(new Uri("../../Images/na.png", UriKind.Relative))},

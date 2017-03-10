@@ -62,5 +62,34 @@ namespace PokerStructures.ExtensionMethods
             }
             return true;
         }
+
+        public static string ToNiceString(this Pokerscore score)
+        {
+            switch (score)
+            {
+                case Pokerscore.None:
+                    return "None";
+                case Pokerscore.Pair:
+                    return "Pair";
+                case Pokerscore.TwoPair:
+                    return "Two Pair";
+                case Pokerscore.ThreeOfAKind:
+                    return "Trips";
+                case Pokerscore.Straight:
+                    return "Straight";
+                case Pokerscore.Flush:
+                    return "Flush";
+                case Pokerscore.FullHouse:
+                    return "Full House";
+                case Pokerscore.FourOfAKind:
+                    return "Quads";
+                case Pokerscore.StraightFlush:
+                    return "S Flush";
+                case Pokerscore.RoyalFlush:
+                    return "R Flush";
+                default:
+                    return "None";
+            }
+        }
     }
 }

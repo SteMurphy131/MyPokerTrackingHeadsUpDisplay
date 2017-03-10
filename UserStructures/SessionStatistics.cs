@@ -20,7 +20,15 @@
         public int HandsFoldedBeforeRiver { get; set; }
         public int HandsFoldedBeforeFlop { get; set; }
 
-        public int PreFlopRaisePercentage { get; set; }
-        public int PreFlopRaiseWinPercentage { get; set; }
+        public double PreFlopRaisePercentage { get; set; }
+        public double PreFlopRaiseWinPercentage { get; set; }
+        public double ContinuationBetWinPercentage { get; set; }
+
+        public void Calculate()
+        {
+            PreFlopRaisePercentage = PreFlopRaises/(double) HandsPlayed*100;
+            PreFlopRaiseWinPercentage = PreFlopRaiseWin/(double) PreFlopRaises*100;
+            ContinuationBetWinPercentage = ContinuationBetsWin/(double) ContinuationBets*100;
+        }
     }
 }
