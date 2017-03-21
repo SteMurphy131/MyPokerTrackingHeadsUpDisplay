@@ -5,10 +5,8 @@ namespace UserStructures
 {
     public class Session
     {
-        public int UserId { get; set; }
-
-        public virtual User Owner { get; set; }
-
+        public int SessionId { get; set; }
+        public string Username { get; set; }
         public SessionStatistics Statistics { get; set; }
 
         public Session(){Statistics = new SessionStatistics();}

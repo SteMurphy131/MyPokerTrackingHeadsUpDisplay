@@ -6,9 +6,9 @@ namespace PokerStructures
 {
     public class Round : IEquatable<Round>
     {
-        public Dictionary<int, Card> Hole = new Dictionary<int, Card>();
-        public Dictionary<int, Card> Flop = new Dictionary<int, Card>();
-        public Dictionary<int, Card> AllCards = new Dictionary<int, Card>();
+        public Dictionary<int, Card> Hole;
+        public Dictionary<int, Card> Flop;
+        public Dictionary<int, Card> AllCards;
 
         public Card Turn;
         public Card River;
@@ -16,9 +16,29 @@ namespace PokerStructures
         public bool PreFlopRaise;
         public bool ContinuationBet;
         public bool Won;
+        public bool Vpip;
         public PokerGameState State;
 
         public string HandNumber { get; set; }
+
+        public Round()
+        {
+            Hole = new Dictionary<int, Card>
+            {
+                {0, new Card(Rank.None, Suit.None)}, {1, new Card(Rank.None, Suit.None)}
+            };
+            Flop = new Dictionary<int, Card>
+            {
+                {0, new Card(Rank.None, Suit.None)}, {1, new Card(Rank.None, Suit.None)}, {2, new Card(Rank.None, Suit.None)}
+            };
+            AllCards = new Dictionary<int, Card>
+            {
+                {0, new Card(Rank.None, Suit.None)}, {1, new Card(Rank.None, Suit.None)}, {2, new Card(Rank.None, Suit.None)}, {3, new Card(Rank.None, Suit.None)},
+                {4, new Card(Rank.None, Suit.None)}, {5, new Card(Rank.None, Suit.None)}, {6, new Card(Rank.None, Suit.None)}
+            };
+            Turn = new Card(Rank.None, Suit.None);
+            River = new Card(Rank.None, Suit.None);
+        }
 
         public Round Copy()
         {
@@ -63,11 +83,21 @@ namespace PokerStructures
 
         public void ClearRoundData()
         {
-            Hole.Clear();
-            Flop.Clear();
-            AllCards.Clear();
-            Turn = null;
-            River = null;
+            Hole = new Dictionary<int, Card>
+            {
+                {0, new Card(Rank.None, Suit.None)}, {1, new Card(Rank.None, Suit.None)}
+            };
+            Flop = new Dictionary<int, Card>
+            {
+                {0, new Card(Rank.None, Suit.None)}, {1, new Card(Rank.None, Suit.None)}, {2, new Card(Rank.None, Suit.None)}
+            };
+            AllCards = new Dictionary<int, Card>
+            {
+                {0, new Card(Rank.None, Suit.None)}, {1, new Card(Rank.None, Suit.None)}, {2, new Card(Rank.None, Suit.None)}, {3, new Card(Rank.None, Suit.None)},
+                {4, new Card(Rank.None, Suit.None)}, {5, new Card(Rank.None, Suit.None)}, {6, new Card(Rank.None, Suit.None)}
+            };
+            Turn = new Card(Rank.None, Suit.None);
+            River = new Card(Rank.None, Suit.None);
         }
 
         public void SetState(PokerGameState state)

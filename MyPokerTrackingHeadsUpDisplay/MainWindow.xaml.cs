@@ -24,6 +24,10 @@ namespace MyPokerTrackingHeadsUpDisplay
             _controller.SetHttpSender();
             InitEvents();
 
+            _controller.Log.Info("=======================================================");
+            _controller.Log.Info("                   PokerHUD Started");
+            _controller.Log.Info("=======================================================\n\n");
+
             //LogIn();
 
             if (Injector.InjectDll())
@@ -34,6 +38,7 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         private void InitEvents()
         {
+            _controller.CloseAppEvent += CloseApp;
             _controller.UpdateHoleEvent += UpdateHole;
             _controller.UpdateBoardEvent += UpdateBoard;
             _controller.UpdateOutsEvent += UpdateOuts;
@@ -46,6 +51,11 @@ namespace MyPokerTrackingHeadsUpDisplay
             _controller.UpdateHandsPlayedEvent += UpdateHandsPlayed;
             _controller.UpdatePreFlopRaiseEvent += UpdatePreFlopRaise;
             _controller.UpdateContBetsEvent += UpdateContBets;
+        }
+
+        private void CloseApp()
+        {
+            Application.Current.Shutdown(0);
         }
 
         private void LogIn()
