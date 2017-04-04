@@ -2,6 +2,6 @@
 {
     public enum PlayingStyle
     {
-        Passive, Mid, Aggressive
+        None, Passive, Mid, Aggressive
     }
 }

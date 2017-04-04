@@ -71,6 +71,7 @@
     <Compile Include="RiverOuts\RiverStraightOutsideOuts.cs" />
     <Compile Include="RiverOuts\RiverTwoPairOuts.cs" />
     <Compile Include="RiverOuts\RiverThreeOfAKindOuts.cs" />
+    <Compile Include="SessionData\CalculationSessionData.cs" />
     <Compile Include="SessionData\SendingSessionData.cs" />
     <Compile Include="Structures\FiveCardHandRemovingPairs.cs" />
     <Compile Include="Structures\FiveCardHandRemovingThreeOfAKind.cs" />

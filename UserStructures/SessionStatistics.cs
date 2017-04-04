@@ -1,4 +1,5 @@
-﻿using PokerStructures.Enums;
+﻿using System;
+using PokerStructures.Enums;
 
 namespace UserStructures
 {
@@ -43,10 +44,12 @@ namespace UserStructures
         public double FlopsSeen { get; set; }
         public double FlopsSeenPercentage { get; set; }
         public double HandsWonPercentage { get; set; }
-
-        public PlayingStyle VpipStyle { get; set; }
+        
         public PlayingStyle PfrStyle { get; set; }
-        public PlayingStyle AggStyle { get; set; }
+        public PlayingStyle CBetStyle { get; set; }
+        public PlayingStyle AggFreqStyle { get; set; }
+        public PlayingStyle AggFactStyle { get; set; }
+        public PlayingStyle AggPercStyle { get; set; }
 
         public int AggressionTotal { get; set; }
 
@@ -65,35 +68,62 @@ namespace UserStructures
             AggressionFrequency = (TotalBets + TotalRaises) / (double) (TotalBets + TotalRaises + TotalCalls + TotalFolds) * 100;
             HandsWonPercentage = HandsWon / FlopsSeen * 100;
 
+            FlopsSeen = Math.Round(FlopsSeen, 2);
+            FlopsSeenPercentage = Math.Round(FlopsSeenPercentage, 2);
+            PreFlopRaisePercentage = Math.Round(PreFlopRaisePercentage, 2);
+            PreFlopRaiseWinPercentage = Math.Round(PreFlopRaiseWinPercentage, 2);
+            ContinuationBetsPercentage = Math.Round(ContinuationBetsPercentage, 2);
+            ContinuationBetWinPercentage = Math.Round(ContinuationBetWinPercentage, 2);
+            VpipPercentage = Math.Round(VpipPercentage, 2);
+            VpipWinPercentage = Math.Round(VpipWinPercentage, 2);
+            AggressionFactor = Math.Round(AggressionFactor, 2);
+            AggressionPercentage = Math.Round(AggressionPercentage, 2);
+            AggressionFrequency = Math.Round(AggressionFrequency, 2);
+            HandsWonPercentage = Math.Round(HandsWonPercentage, 2);
+
             CalculateStyle();
         }
 
         private void CalculateStyle()
         {
-            if(VpipPercentage <= 7)
-                VpipStyle = PlayingStyle.Aggressive;
-            else if(VpipPercentage >= 8 && VpipPercentage <= 18)
-                VpipStyle = PlayingStyle.Mid;
-            else 
-                VpipStyle = PlayingStyle.Passive;
-
             var vpipPfrGap = VpipPercentage - PreFlopRaisePercentage;
 
             if(vpipPfrGap <= 3)
                 PfrStyle = PlayingStyle.Aggressive;
-            else if (vpipPfrGap <= 6 && vpipPfrGap >= 4)
+            else if (vpipPfrGap <= 6)
                 PfrStyle = PlayingStyle.Mid;
             else
                 PfrStyle = PlayingStyle.Passive;
 
-            if(AggressionFrequency <= 30)
-                AggStyle = PlayingStyle.Passive;
-            else if (AggressionFrequency <= 60 && AggressionFrequency >= 31)
-                AggStyle = PlayingStyle.Mid;
-            else
-                AggStyle = PlayingStyle.Aggressive;
+            if(ContinuationBetsPercentage <= 30)
+                CBetStyle = PlayingStyle.Passive;
+            else if(ContinuationBetsPercentage <= 60)
+                CBetStyle = PlayingStyle.Mid;
+            else 
+                CBetStyle = PlayingStyle.Aggressive;
 
-            AggressionTotal = (int) VpipStyle + (int) PfrStyle + (int) AggStyle;
+            if(AggressionFactor <= 1)
+                AggFactStyle = PlayingStyle.Passive;
+            else if(AggressionFactor <= 2)
+                AggFactStyle = PlayingStyle.Mid;
+            else
+                AggFactStyle = PlayingStyle.Aggressive;
+
+            if (AggressionFrequency <= 30)
+                AggFreqStyle = PlayingStyle.Passive;
+            else if (AggressionFrequency <= 60)
+                AggFreqStyle = PlayingStyle.Mid;
+            else
+                AggFreqStyle = PlayingStyle.Aggressive;
+
+            if(AggressionPercentage <= 30)
+                AggPercStyle = PlayingStyle.Passive;
+            else if(AggressionPercentage <= 60)
+                AggPercStyle = PlayingStyle.Mid;
+            else 
+                AggPercStyle = PlayingStyle.Aggressive;
+
+            AggressionTotal = (int) PfrStyle + (int) CBetStyle + (int) AggFactStyle + (int) AggFreqStyle + (int) AggPercStyle;
         }
     }
 }

@@ -325,7 +325,7 @@ namespace MyPokerTrackingHeadsUpDisplay
                 PairProgressBar.SetColour(pairOuts.Percentage);
                 UpdateRunnerRunnerImage(PairRRImage, pairOuts.RunnerRunner);
                 PairOutsLabel.Text = pairOuts.Outs.ToString(CultureInfo.CurrentCulture);
-                PairPercentageLabel.Text = pairOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
+                PairPercentageLabel.Text = pairOuts.Percentage.ToString("0.00") + "%";
             });
         }
 
@@ -337,7 +337,7 @@ namespace MyPokerTrackingHeadsUpDisplay
                 TwoPairProgressBar.SetColour(twoPairOuts.Percentage);
                 UpdateRunnerRunnerImage(TwoPairRRImage, twoPairOuts.RunnerRunner);
                 TwoPairOutsLabel.Text = twoPairOuts.Outs.ToString(CultureInfo.CurrentCulture);
-                TwoPairPercentageLabel.Text = twoPairOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
+                TwoPairPercentageLabel.Text = twoPairOuts.Percentage.ToString("0.00") + "%";
             });
         }
 
@@ -349,7 +349,7 @@ namespace MyPokerTrackingHeadsUpDisplay
                 TripsProgressBar.SetColour(tripsOuts.Percentage);
                 UpdateRunnerRunnerImage(TripsRRImage, tripsOuts.RunnerRunner);
                 TripsOutsLabel.Text = tripsOuts.Outs.ToString(CultureInfo.CurrentCulture);
-                TripsrPercentageLabel.Text = tripsOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
+                TripsrPercentageLabel.Text = tripsOuts.Percentage.ToString("0.00") + "%";
             });
         }
 
@@ -361,7 +361,7 @@ namespace MyPokerTrackingHeadsUpDisplay
                 StraightProgressBar.SetColour(straightOuts.Percentage);
                 UpdateRunnerRunnerImage(StraightRRImage, straightOuts.RunnerRunner);
                 StraightOutsLabel.Text = straightOuts.Outs.ToString(CultureInfo.CurrentCulture);
-                StraightPercentageLabel.Text = straightOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
+                StraightPercentageLabel.Text = straightOuts.Percentage.ToString("0.00") + "%";
             });
         }
 
@@ -373,7 +373,7 @@ namespace MyPokerTrackingHeadsUpDisplay
                 FlushProgressBar.SetColour(flushOuts.Percentage);
                 UpdateRunnerRunnerImage(FlushRRImage, flushOuts.RunnerRunner);
                 FlushOutsLabel.Text = flushOuts.Outs.ToString(CultureInfo.CurrentCulture);
-                FlushPercentageLabel.Text = flushOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
+                FlushPercentageLabel.Text = flushOuts.Percentage.ToString("0.00") + "%";
             });
         }
 
@@ -385,7 +385,7 @@ namespace MyPokerTrackingHeadsUpDisplay
                 QuadsProgressBar.SetColour(quadOuts.Percentage);
                 UpdateRunnerRunnerImage(QuadsRRImage, quadOuts.RunnerRunner);
                 QuadsOutsLabel.Text = quadOuts.Outs.ToString(CultureInfo.CurrentCulture);
-                QuadsPercentageLabel.Text = quadOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
+                QuadsPercentageLabel.Text = quadOuts.Percentage.ToString("0.00") + "%";
             });
         }
 
@@ -397,7 +397,7 @@ namespace MyPokerTrackingHeadsUpDisplay
                 FullHouseProgressBar.SetColour(fullHouseOuts.Percentage);
                 UpdateRunnerRunnerImage(FullHouseRRImage, fullHouseOuts.RunnerRunner);
                 FullHouseOutsLabel.Text = fullHouseOuts.Outs.ToString(CultureInfo.CurrentCulture);
-                FullHousePercentageLabel.Text = fullHouseOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
+                FullHousePercentageLabel.Text = fullHouseOuts.Percentage.ToString("0.00") + "%";
             });
         }
 
@@ -409,7 +409,7 @@ namespace MyPokerTrackingHeadsUpDisplay
                 SFlushProgressBar.SetColour(sFlushOuts.Percentage);
                 UpdateRunnerRunnerImage(SFlushRRImage, sFlushOuts.RunnerRunner);
                 SFlushOutsLabel.Text = sFlushOuts.Outs.ToString(CultureInfo.CurrentCulture);
-                SFlushPercentageLabel.Text = sFlushOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
+                SFlushPercentageLabel.Text = sFlushOuts.Percentage.ToString("0.00") + "%";
             });
         }
 
@@ -421,7 +421,7 @@ namespace MyPokerTrackingHeadsUpDisplay
                 RFlushProgressBar.SetColour(rFlushOuts.Percentage);
                 UpdateRunnerRunnerImage(RFlushRRImage, rFlushOuts.RunnerRunner);
                 RFlushOutsLabel.Text = rFlushOuts.Outs.ToString(CultureInfo.CurrentCulture);
-                RFlushPercentageLabel.Text = rFlushOuts.Percentage.ToString(CultureInfo.CurrentCulture) + "%";
+                RFlushPercentageLabel.Text = rFlushOuts.Percentage.ToString("0.00") + "%";
             });
         }
     }
