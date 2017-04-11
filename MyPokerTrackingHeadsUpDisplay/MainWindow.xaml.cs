@@ -30,10 +30,12 @@ namespace MyPokerTrackingHeadsUpDisplay
 
             //LogIn();
 
-            if (Injector.InjectDll())
+            if (Injector.InjectDll(_controller))
                 UpdateTextBox("Dll Injected");
-            //else
-            //    Application.Current.Shutdown(0);
+            else
+            {
+                _controller.Log.Error("Could not inject DLL");
+            }
         }
 
         private void InitEvents()

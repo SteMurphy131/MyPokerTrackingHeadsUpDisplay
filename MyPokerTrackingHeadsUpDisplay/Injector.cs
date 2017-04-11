@@ -8,9 +8,9 @@ namespace MyPokerTrackingHeadsUpDisplay
     public class Injector
     {
         public static string ChannelName = null;
-        public static string DllPath = "C:\\Users\\SteMu\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\MyPokerTrackingHeadsUpDisplay\\PokerHookDll\\bin\\Debug\\PokerHookDll.dll";
+        public static string DllPath = "PokerHookDll.dll";
 
-        public static bool InjectDll()
+        public static bool InjectDll(Controller cont)
         {
             try
             {
@@ -34,8 +34,7 @@ namespace MyPokerTrackingHeadsUpDisplay
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"There was an error while connecting to target: \r\n {ex}");
-                Console.ReadLine();
+                cont.Log.Error($"Error: {ex}");
                 return false;
             }
         }
