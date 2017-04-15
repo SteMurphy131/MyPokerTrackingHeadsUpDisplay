@@ -13,6 +13,11 @@
             RunnerRunner = runner;
         }
 
-        public PokerScoreOuts(){}
+        public PokerScoreOuts()
+        {
+            Outs = 0;
+            Percentage = 0;
+            RunnerRunner = true;
+        }
     }
 }

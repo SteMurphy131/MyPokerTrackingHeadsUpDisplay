@@ -66,7 +66,7 @@ namespace UserStructures
             AggressionFactor = (TotalBets + TotalRaises) / (double) TotalCalls;
             AggressionPercentage = (TotalBets + TotalRaises) / (double) (TotalBets + TotalRaises + TotalCalls + TotalChecks) *100;
             AggressionFrequency = (TotalBets + TotalRaises) / (double) (TotalBets + TotalRaises + TotalCalls + TotalFolds) * 100;
-            HandsWonPercentage = HandsWon / FlopsSeen * 100;
+            HandsWonPercentage = HandsWon / HandsPlayed * 100;
 
             FlopsSeen = Math.Round(FlopsSeen, 2);
             FlopsSeenPercentage = Math.Round(FlopsSeenPercentage, 2);

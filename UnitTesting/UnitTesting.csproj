@@ -57,6 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Control\ControllerTest.cs" />
+    <Compile Include="Control\HandHistoryTest.cs" />
     <Compile Include="Enumeration\EnumerationTesting.cs" />
     <Compile Include="RiverOuts\RiverFlushOuts.cs" />
     <Compile Include="RiverOuts\RiverFourOfAKindOuts.cs" />

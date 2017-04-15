@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -28,7 +29,14 @@ namespace MyPokerTrackingHeadsUpDisplay
             _controller.Log.Info("                   PokerHUD Started");
             _controller.Log.Info("=======================================================\n\n");
 
-            //LogIn();
+            OpponentsGrid.ItemsSource = _controller.Opponents.Values;
+
+            foreach (var opponentsValue in _controller.Opponents.Values)
+            {
+                opponentsValue.Calculate();
+            }
+
+            LogIn();
 
             if (Injector.InjectDll(_controller))
                 UpdateTextBox("Dll Injected");
@@ -52,7 +60,22 @@ namespace MyPokerTrackingHeadsUpDisplay
             _controller.UpdateBestChanceEvent += UpdateBestChanceLabel;
             _controller.UpdateHandsPlayedEvent += UpdateHandsPlayed;
             _controller.UpdatePreFlopRaiseEvent += UpdatePreFlopRaise;
-            _controller.UpdateContBetsEvent += UpdateContBets;
+            _controller.UpdateVpipEvent += UpdateVpipLabel;
+            _controller.UpdateGridEvent += UpdateGrid;
+        }
+
+        private void UpdateGrid()
+        {
+            Dispatcher.BeginInvoke((Action)delegate
+            {
+                OpponentsGrid.ItemsSource = _controller.Opponents.Values.ToList().Where(o => o.InPlay);
+            });
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            _controller.StopSession();
+            base.OnClosing(e);
         }
 
         private void CloseApp()
@@ -65,16 +88,7 @@ namespace MyPokerTrackingHeadsUpDisplay
             LogInWindow window = new LogInWindow();
             window.ShowDialog();
             _controller.User = window.User;
-        }
-
-        private void StopButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            _controller.StopSession();
-        }
-
-        private void StartButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            _controller.Start();
+            _controller.Session.Username = window.User.UserName;
         }
 
         public void UpdateTextBox(string text)
@@ -285,11 +299,11 @@ namespace MyPokerTrackingHeadsUpDisplay
             });
         }
 
-        public void UpdateContBets(int cBets)
+        public void UpdateVpipLabel(int cBets)
         {
             Dispatcher.BeginInvoke((Action)delegate
             {
-                ContBetsLabel.Text = cBets.ToString(CultureInfo.CurrentCulture);
+                VpipLabel.Text = cBets.ToString(CultureInfo.CurrentCulture);
             });
         }
 

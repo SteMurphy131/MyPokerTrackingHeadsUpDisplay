@@ -11,6 +11,8 @@ namespace MyPokerTrackingHeadsUpDisplay
 {
     public class Controller
     {
+        public Dictionary<string, Opponent> Opponents = new Dictionary<string, Opponent>();
+
         public readonly ILog Log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -25,8 +27,9 @@ namespace MyPokerTrackingHeadsUpDisplay
         public delegate void UpdateBestChance(PokerScoreOuts outs);
         public delegate void UpdateHandsPlayed(int played);
         public delegate void UpdatePreFlopRaise(int pfr);
-        public delegate void UpdateContBets(int cBets);
+        public delegate void UpdateVpip(int cBets);
         public delegate void CloseApp();
+        public delegate void UpdateGrid();
 
         public event UpdateHole UpdateHoleEvent;
         public event UpdateBoard UpdateBoardEvent;      
@@ -39,8 +42,9 @@ namespace MyPokerTrackingHeadsUpDisplay
         public event UpdateBestChance UpdateBestChanceEvent;
         public event UpdateHandsPlayed UpdateHandsPlayedEvent;
         public event UpdatePreFlopRaise UpdatePreFlopRaiseEvent;
-        public event UpdateContBets UpdateContBetsEvent;
+        public event UpdateVpip UpdateVpipEvent;
         public event CloseApp CloseAppEvent;
+        public event UpdateGrid UpdateGridEvent;
 
         public MessageHandler MessageHandler { get; set; }
         public HttpSender HttpSender { get; set; }
@@ -101,26 +105,43 @@ namespace MyPokerTrackingHeadsUpDisplay
         {
             MessageHandler.UpdateHoleEvent += UpdateHoleEventCard;
             MessageHandler.UpdateBoardEvent += UpdateBoardEventCard;
+
             MessageHandler.RaiseEvent += HandleRaiseEvent;
             MessageHandler.FoldEvent += HandleFoldEvent;
             MessageHandler.BetEvent += HandleBetEvent;
             MessageHandler.CallEvent += HandleCallEvent;
             MessageHandler.CheckEvent += HandleCheckEvent;
+
+            MessageHandler.OpponentRaiseEvent += HandleOpponentRaise;
+            MessageHandler.OpponentFoldEvent += HandleOpponentFold;
+            MessageHandler.OpponentBetEvent += HandleOpponentBet;
+            MessageHandler.OpponentCallEvent += HandleOpponentCall;
+            MessageHandler.OpponentCheckEvent += HandleOpponentCheck;
+
             MessageHandler.SetGameNumEvent += HandleGameNum;
             MessageHandler.SetHandNumEvent += HandleHandNum;
             MessageHandler.SetHandHistoryStateEvent += HandleHandHistoryState;
             MessageHandler.SetHandWonEvent += HandleHandWon;
+            MessageHandler.ResetOpponentsEvent += ResetOpponents;
         }
 
         public void DisconnectEvents()
         {
             MessageHandler.UpdateHoleEvent -= UpdateHoleEventCard;
             MessageHandler.UpdateBoardEvent -= UpdateBoardEventCard;
+
             MessageHandler.RaiseEvent -= HandleRaiseEvent;
             MessageHandler.FoldEvent -= HandleFoldEvent;
             MessageHandler.BetEvent -= HandleBetEvent;
             MessageHandler.CallEvent -= HandleCallEvent;
             MessageHandler.CheckEvent -= HandleCheckEvent;
+
+            MessageHandler.OpponentRaiseEvent -= HandleOpponentRaise;
+            MessageHandler.OpponentFoldEvent -= HandleOpponentFold;
+            MessageHandler.OpponentBetEvent -= HandleOpponentBet;
+            MessageHandler.OpponentCallEvent -= HandleOpponentCall;
+            MessageHandler.OpponentCheckEvent -= HandleOpponentCheck;
+
             MessageHandler.SetGameNumEvent -= HandleGameNum;
             MessageHandler.SetHandNumEvent -= HandleHandNum;
             MessageHandler.SetHandHistoryStateEvent -= HandleHandHistoryState;
@@ -145,7 +166,8 @@ namespace MyPokerTrackingHeadsUpDisplay
                     HandlePreFlop();
                     break;
                 default:
-                    throw new ArgumentException("Hole card position must be 0 or 1");
+                    Log.Error($"Unexpected Hole card position: {num}");
+                    break;
             }
         }
 
@@ -184,12 +206,98 @@ namespace MyPokerTrackingHeadsUpDisplay
                     HandleRiver();
                     return;
                 default:
-                    throw new ArgumentException("Board card position must be 0 - 4");
+                    Log.Error($"Unexpected Board Card Position : {num}");
+                    break;
+            }
+        }
+
+        private void HandlePreFlop()
+        {
+            try
+            {
+                ClearBoardEvent?.Invoke();
+                ClearOutsEvent?.Invoke();
+                GameState = PokerGameState.PreFlop;
+                PokerOutsCalculator.CalculatePreFlopOdds(CurrentRound.Hole.Values.ToList());
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Error(e.StackTrace);
+            }
+        }
+
+        private void HandleFlop()
+        {
+            try
+            {
+                GameState = PokerGameState.Flop;
+                ClearOutsEvent?.Invoke();
+                PokerScore = PokerEvaluator.CalculateFlopScore(CurrentRound.AllCards.Values.ToList().GetRange(0, 5));
+                Outs = PokerOutsCalculator.CalculateTurnOuts(
+                    new FiveCardHand(CurrentRound.AllCards.Values.ToList().GetRange(0, 5)), PokerScore);
+                UpdateOutsEvent?.Invoke(Outs);
+                UpdateCurrentScoreEvent?.Invoke(PokerScore);
+                UpdateBestPossibleEvent?.Invoke(Outs.BestScore());
+                UpdateBestChanceEvent?.Invoke(Outs.BestPossible());
+                UpdateOutsToBestEvent?.Invoke(Outs.BestPossible());
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Error(e.StackTrace);
+            }
+
+        }
+
+        private void HandleTurn()
+        {
+            try
+            {
+                GameState = PokerGameState.Turn;
+                ClearOutsEvent?.Invoke();
+                PokerScore = PokerEvaluator.CalculateTurnScore(CurrentRound.AllCards.Values.ToList().GetRange(0, 6));
+                Outs = PokerOutsCalculator.CalculateRiverOuts(
+                    new SixCardHand(CurrentRound.AllCards.Values.ToList().GetRange(0, 6)), PokerScore);
+                UpdateOutsEvent?.Invoke(Outs);
+                UpdateCurrentScoreEvent?.Invoke(PokerScore);
+                UpdateBestPossibleEvent?.Invoke(Outs.BestScore());
+                UpdateBestChanceEvent?.Invoke(Outs.BestPossible());
+                UpdateOutsToBestEvent?.Invoke(Outs.BestPossible());
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Error(e.StackTrace);
+            }
+
+        }
+
+        private void HandleRiver()
+        {
+            try
+            {
+                GameState = PokerGameState.River;
+                ClearOutsEvent?.Invoke();
+                PokerScore = PokerEvaluator.CalculateRiverScore(CurrentRound.AllCards.Values.ToList().GetRange(0, 7));
+                PokerOutsCalculator.CalculateFinalWinChance(CurrentRound.AllCards.Values.ToList());
+                UpdateCurrentScoreEvent?.Invoke(PokerScore);
+                UpdateBestPossibleEvent?.Invoke(Pokerscore.None);
+                UpdateBestChanceEvent?.Invoke(_noOuts);
+                UpdateOutsToBestEvent?.Invoke(_noOuts);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Error(e.StackTrace);
             }
         }
 
         public void HandleHandNum(string hand)
         {
+            foreach(var opp in Opponents.Values)
+                opp.Calculate();
+            
             Log.Info($"Last Hand Num {hand}");
             LastRoundNumber = hand.Remove(hand.Length - 1);
             AddRound(CurrentRound.Copy());
@@ -228,11 +336,13 @@ namespace MyPokerTrackingHeadsUpDisplay
                     break;
                 case "SUMMARY":
                     Rounds.FirstOrDefault(r => r.HandNumber == LastRoundNumber)?.SetState(PokerGameState.Summary);
+                    UpdateGridEvent?.Invoke();
                     break;
                 case "Hand":
                     break;
                 default:
-                    throw new ArgumentException("Unexpected value for hand history state");
+                    Log.Error($"Unexpected Value for Hand History State: {message}");
+                    break;
             }
         }
 
@@ -275,7 +385,8 @@ namespace MyPokerTrackingHeadsUpDisplay
                 case PokerGameState.Summary:
                     break;
                 default:
-                    throw new ArgumentException("Game state should never occur");
+                    Log.Error($"Unexpected Game state: {lastHand.State}");
+                    break;
             }
         }
 
@@ -294,12 +405,12 @@ namespace MyPokerTrackingHeadsUpDisplay
                 Session.Statistics.VoluntaryPutInPot++;
                 lastHand.Vpip = true;
                 lastHand.PreFlopRaise = true;
+                UpdateVpipEvent?.Invoke(Session.Statistics.VoluntaryPutInPot);
                 UpdatePreFlopRaiseEvent?.Invoke(Session.Statistics.PreFlopRaises);
             }
             if (lastHand.State == PokerGameState.Flop && lastHand.PreFlopRaise)
             {
                 lastHand.ContinuationBet = true;
-                UpdateContBetsEvent?.Invoke(Session.Statistics.ContinuationBets);
                 Session.Statistics.ContinuationBets++;                
             }
             if(lastHand.State > PokerGameState.PreFlop)
@@ -338,6 +449,7 @@ namespace MyPokerTrackingHeadsUpDisplay
                 lastHand.Vpip = true;
                 Session.Statistics.PreFlopRaises++;
                 Session.Statistics.VoluntaryPutInPot++;
+                UpdateVpipEvent?.Invoke(Session.Statistics.VoluntaryPutInPot);
             }
             if (lastHand.State == PokerGameState.Flop && lastHand.PreFlopRaise)
                 Session.Statistics.ContinuationBets++;
@@ -376,82 +488,129 @@ namespace MyPokerTrackingHeadsUpDisplay
                 Session.Statistics.TotalChecks++;
         }
 
-        private void HandlePreFlop()
+        private void HandleOpponentRaise(string name)
         {
-            try
+            var lastHand = Rounds.FirstOrDefault(r => r.HandNumber == LastRoundNumber);
+            if (lastHand == null)
             {
-                ClearBoardEvent?.Invoke();
-                ClearOutsEvent?.Invoke();
-                GameState = PokerGameState.PreFlop;
-                PokerOutsCalculator.CalculatePreFlopOdds(CurrentRound.Hole.Values.ToList());
+                Log.Error($"Last Hand should not be null {LastRoundNumber}");
+                return;
             }
-            catch (Exception e)
+
+            if (!Opponents.ContainsKey(name))
             {
-                Console.WriteLine(e.StackTrace);
+                Log.Error($"No Opponent named : {name}");
+                return;
+            }
+
+            if (lastHand.State == PokerGameState.PreFlop)
+            {
+                if (!Opponents[name].HandVpip)
+                {
+                    Opponents[name].Vpip++;
+                    Opponents[name].HandVpip = true;
+                }
+
+                Opponents[name].Pfr++;
+            }
+            if (lastHand.State > PokerGameState.PreFlop)
+            {
+                Opponents[name].Raises++;
+                if (Opponents[name].HandPfr)
+                    Opponents[name].CBet++;
             }
         }
 
-        private void HandleFlop()
+        private void HandleOpponentBet(string name)
         {
-            try
+            var lastHand = Rounds.FirstOrDefault(r => r.HandNumber == LastRoundNumber);
+            if (lastHand == null)
             {
-                GameState = PokerGameState.Flop;
-                ClearOutsEvent?.Invoke();
-                PokerScore = PokerEvaluator.CalculateFlopScore(CurrentRound.AllCards.Values.ToList().GetRange(0, 5));
-                Outs = PokerOutsCalculator.CalculateTurnOuts(
-                    new FiveCardHand(CurrentRound.AllCards.Values.ToList().GetRange(0, 5)), PokerScore);
-                UpdateOutsEvent?.Invoke(Outs);
-                UpdateCurrentScoreEvent?.Invoke(PokerScore);
-                UpdateBestPossibleEvent?.Invoke(Outs.BestScore());
-                UpdateBestChanceEvent?.Invoke(Outs.BestPossible());
-                UpdateOutsToBestEvent?.Invoke(Outs.BestPossible());
+                Log.Error($"Last Hand should not be null {LastRoundNumber}");
+                return;
             }
-            catch (Exception e)
+
+            if (!Opponents.ContainsKey(name))
             {
-                Console.WriteLine(e.StackTrace);
+                Log.Error($"No Opponent named : {name}");
+                return;
+            }
+
+            if (lastHand.State == PokerGameState.PreFlop)
+            {
+                if (!Opponents[name].HandVpip)
+                {
+                    Opponents[name].Vpip++;
+                    Opponents[name].HandVpip = true;
+                }
+
+                Opponents[name].Pfr++;
+            }
+            if (lastHand.State > PokerGameState.PreFlop)
+            {
+                Opponents[name].Bets++;
+                if (Opponents[name].HandPfr)
+                    Opponents[name].CBet++;
+            }
+        }
+
+        private void HandleOpponentCheck(string name)
+        {
+            var lastHand = Rounds.FirstOrDefault(r => r.HandNumber == LastRoundNumber);
+            if (lastHand == null)
+            {
+                Log.Error($"Last Hand should not be null {LastRoundNumber}");
+                return;
+            }
+
+            if(!Opponents.ContainsKey(name))
+            {
+                Log.Error($"No Opponent named : {name}");
+                return;
             }
             
+            if (lastHand.State > PokerGameState.PreFlop)
+                Opponents[name].Checks++;
         }
 
-        private void HandleTurn()
+        private void HandleOpponentCall(string name)
         {
-            try
+            var lastHand = Rounds.FirstOrDefault(r => r.HandNumber == LastRoundNumber);
+            if (lastHand == null)
             {
-                GameState = PokerGameState.Turn;
-                ClearOutsEvent?.Invoke();
-                PokerScore = PokerEvaluator.CalculateTurnScore(CurrentRound.AllCards.Values.ToList().GetRange(0, 6));
-                Outs = PokerOutsCalculator.CalculateRiverOuts(
-                    new SixCardHand(CurrentRound.AllCards.Values.ToList().GetRange(0, 6)), PokerScore);
-                UpdateOutsEvent?.Invoke(Outs);
-                UpdateCurrentScoreEvent?.Invoke(PokerScore);
-                UpdateBestPossibleEvent?.Invoke(Outs.BestScore());
-                UpdateBestChanceEvent?.Invoke(Outs.BestPossible());
-                UpdateOutsToBestEvent?.Invoke(Outs.BestPossible());
+                Log.Error($"Last Hand should not be null {LastRoundNumber}");
+                return;
             }
-            catch (Exception e)
+
+            if (!Opponents.ContainsKey(name))
             {
-                Console.WriteLine(e.StackTrace);
+                Log.Error($"No Opponent named : {name}");
+                return;
             }
-            
+
+            if (lastHand.State == PokerGameState.PreFlop )
+                Opponents[name].Vpip++;
+            if (lastHand.State > PokerGameState.PreFlop)
+                Opponents[name].Calls++;
         }
 
-        private void HandleRiver()
+        private void HandleOpponentFold(string name)
         {
-            try
+            var lastHand = Rounds.FirstOrDefault(r => r.HandNumber == LastRoundNumber);
+            if (lastHand == null)
             {
-                GameState = PokerGameState.River;
-                ClearOutsEvent?.Invoke();
-                PokerScore = PokerEvaluator.CalculateRiverScore(CurrentRound.AllCards.Values.ToList().GetRange(0, 7));
-                PokerOutsCalculator.CalculateFinalWinChance(CurrentRound.AllCards.Values.ToList());
-                UpdateCurrentScoreEvent?.Invoke(PokerScore);
-                UpdateBestPossibleEvent?.Invoke(Pokerscore.None);
-                UpdateBestChanceEvent?.Invoke(_noOuts);
-                UpdateOutsToBestEvent?.Invoke(_noOuts);
+                Log.Error($"Last Hand should not be null {LastRoundNumber}");
+                return;
             }
-            catch (Exception e)
+
+            if (!Opponents.ContainsKey(name))
             {
-                Console.WriteLine(e.StackTrace);
+                Log.Error($"No Opponent named : {name}");
+                return;
             }
+
+            if (lastHand.State > PokerGameState.PreFlop)
+                Opponents[name].Folds++;
         }
 
         private void AddRound(Round round)
@@ -472,6 +631,16 @@ namespace MyPokerTrackingHeadsUpDisplay
                 }
                 Rounds.Insert(0, round);
                 Log.Info($"Added Hand Number {round.HandNumber}");
+            }
+        }
+
+        private void ResetOpponents()
+        {
+            foreach (var opp in Opponents.Values)
+            {
+                opp.InPlay = false;
+                opp.HandVpip = false;
+                opp.HandPfr = false;
             }
         }
     }

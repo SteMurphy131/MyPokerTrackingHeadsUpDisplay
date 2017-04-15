@@ -8,7 +8,8 @@ namespace MyPokerTrackingHeadsUpDisplay
     {
         private readonly Controller _controller;
         private readonly JavaScriptSerializer _serializer;
-        private string _httpAddress = "http://localhost:64724/api/user/AddSession";
+        private string _sessionAddAddress = "http://localhost:51520/api/data/addsession";
+        private string _opponentsAddAddress = "http://localhost:51520/api/data/addopponents";
 
         public HttpSender(Controller con)
         {
@@ -21,21 +22,22 @@ namespace MyPokerTrackingHeadsUpDisplay
             _controller.Session.Statistics.Calculate();
 
             var json = _serializer.Serialize(_controller.Session);
+            var oppJson = _serializer.Serialize(_controller.Opponents.Values);
 
-            var httpRequest = (HttpWebRequest) WebRequest.Create(_httpAddress);
-            httpRequest.ContentType = "application/json";
-            httpRequest.Method = "POST";
+            var sessionAddRequest = (HttpWebRequest) WebRequest.Create(_sessionAddAddress);
+            sessionAddRequest.ContentType = "application/json";
+            sessionAddRequest.Method = "POST";
 
-            using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+            using (var streamWriter = new StreamWriter(sessionAddRequest.GetRequestStream()))
             {
                 streamWriter.Write(json);
                 streamWriter.Flush();
                 streamWriter.Close();
             }
 
-            var httpResponse = (HttpWebResponse) httpRequest.GetResponse();
-
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            var sessionResponse = (HttpWebResponse) sessionAddRequest.GetResponse();
+            
+            using (var streamReader = new StreamReader(sessionResponse .GetResponseStream()))
             {
                 var result = streamReader.ReadToEnd();
             }

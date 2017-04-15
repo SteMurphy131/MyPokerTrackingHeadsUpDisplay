@@ -8,8 +8,11 @@ namespace PokerStructures
 {
     public static class PokerHelper
     {
+        
+
         public static readonly Dictionary<string, Suit> SuitDictionary = new Dictionary<string, Suit>
         {
+            {"?", Suit.None},
             {"d", Suit.Diamonds},
             {"h", Suit.Hearts},
             {"c", Suit.Clubs},
@@ -18,6 +21,7 @@ namespace PokerStructures
 
         public static readonly Dictionary<int, Rank> RankDictionary = new Dictionary<int, Rank>
         {
+            {0, Rank.None},
             {2,  Rank.Two},
             {3,  Rank.Three},
             {4,  Rank.Four},
@@ -174,7 +178,12 @@ namespace PokerStructures
 
                     if (one.Count == 4)
                         percentage += 4.44;
-                    else throw new ArgumentException("Unexpected value for missing one & missing two combined sets");
+                    else if (one.Count == 3)
+                        percentage += 2.96;
+                    else
+                    {
+                        throw new ArgumentException("Unexpected value for missing one & missing two combined sets");
+                    }
                 }
                 else
                 {
@@ -235,6 +244,8 @@ namespace PokerStructures
 
                     if (one.Count == 4)
                         percentage += 0.28;
+                    else if (one.Count == 3)
+                        percentage += 0.19;
                     else throw new ArgumentException("Unexpected value for missing one & missing two combined sets");
                 }
                 else

@@ -46,7 +46,7 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         public void ErrorHandler(Exception exception)
         {
-            Console.WriteLine(exception.ToString());
+            _messageHandler.Controller.Log.Error(exception);
         }
     }
 }

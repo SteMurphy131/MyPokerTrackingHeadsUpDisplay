@@ -32,22 +32,37 @@ namespace MyPokerTrackingHeadsUpDisplay
             string username = UsernameBox.Text;
             string password = PasswordBox.Text;
 
-            User user = new User {UserName = username, ConfirmPassword = password, Password = password, Email = "Email@Hotmail.com", ConfirmEmail = "Email@Hotmail.com"};
+            User = new User {UserName = username, ConfirmPassword = password, Password = password, Email = "Email@Hotmail.com", ConfirmEmail = "Email@Hotmail.com"};
 
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:64724/api/user/LogInUserApi");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:51520/api/data/LogIn");
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-                string json = new JavaScriptSerializer().Serialize(user);
+                string json = new JavaScriptSerializer().Serialize(User);
                 streamWriter.Write(json);
             }
 
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                
-            if (ProcessHttpReponse(httpResponse))
-                Close();
+            try
+            {
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                if (ProcessHttpReponse(httpResponse))
+                    Close();
+            }
+            catch (Exception)
+            {
+                SetErrorText();
+            }
+        }
+
+        private void SetErrorText()
+        {
+            Dispatcher.BeginInvoke((Action) delegate
+            {
+                ErrorLabel.Text = "Error: Could not log in with those credentials";
+            });
         }
 
         private bool ProcessHttpReponse(HttpWebResponse response)
@@ -56,9 +71,16 @@ namespace MyPokerTrackingHeadsUpDisplay
             {
                 using (var streamReader = new StreamReader(response.GetResponseStream()))
                 {
-                    var result = streamReader.ReadToEnd();
-                    User = new JavaScriptSerializer().Deserialize<User>(result);
-                    return true;
+                    try
+                    {
+                        var result = streamReader.ReadToEnd();
+                        User = new JavaScriptSerializer().Deserialize<User>(result);
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        return true;
+                    }
                 }       
             }
 
