@@ -9,11 +9,12 @@ using UserStructures;
 
 namespace UnitTesting.SessionData
 {
+    [Ignore]
     [TestFixture]
     public class SendingSessionData
     {
         private readonly JavaScriptSerializer _serializer = new JavaScriptSerializer();
-        private string _httpAddress = "http://localhost:51520/api/Data/AddSession";
+        private string _httpAddress = "http://ocalhost:51520/api/Data/AddSession";
 
         [Test]
         public void SendPassiveSession()

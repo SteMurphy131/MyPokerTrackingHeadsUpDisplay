@@ -8,8 +8,7 @@ namespace MyPokerTrackingHeadsUpDisplay
     {
         private readonly Controller _controller;
         private readonly JavaScriptSerializer _serializer;
-        private string _sessionAddAddress = "http://localhost:51520/api/data/addsession";
-        private string _opponentsAddAddress = "http://localhost:51520/api/data/addopponents";
+        private string _sessionAddAddress = "http://pokerhudweb.azurewebsites.net/api/data/addsession";
 
         public HttpSender(Controller con)
         {

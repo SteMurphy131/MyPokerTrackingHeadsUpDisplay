@@ -279,6 +279,7 @@ namespace MyPokerTrackingHeadsUpDisplay
         {
             Dispatcher.BeginInvoke((Action) delegate
             {
+                outs.Percentage = Math.Round(outs.Percentage, 2);
                 ChanceOfBestLabel.Text = outs.Percentage.ToString(CultureInfo.CurrentCulture);
             });
         }

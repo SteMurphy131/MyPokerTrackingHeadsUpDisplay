@@ -512,12 +512,16 @@ namespace MyPokerTrackingHeadsUpDisplay
                 }
 
                 Opponents[name].Pfr++;
+                Opponents[name].HandPfr = true;
             }
             if (lastHand.State > PokerGameState.PreFlop)
             {
                 Opponents[name].Raises++;
-                if (Opponents[name].HandPfr)
+                if (Opponents[name].HandPfr && !Opponents[name].HandCBet)
+                {
                     Opponents[name].CBet++;
+                    Opponents[name].HandCBet = true;
+                }
             }
         }
 
@@ -545,12 +549,16 @@ namespace MyPokerTrackingHeadsUpDisplay
                 }
 
                 Opponents[name].Pfr++;
+                Opponents[name].HandPfr = true;
             }
             if (lastHand.State > PokerGameState.PreFlop)
             {
                 Opponents[name].Bets++;
-                if (Opponents[name].HandPfr)
+                if (Opponents[name].HandPfr && !Opponents[name].HandCBet)
+                {
                     Opponents[name].CBet++;
+                    Opponents[name].HandCBet = true;
+                }
             }
         }
 
@@ -588,8 +596,11 @@ namespace MyPokerTrackingHeadsUpDisplay
                 return;
             }
 
-            if (lastHand.State == PokerGameState.PreFlop )
+            if (lastHand.State == PokerGameState.PreFlop && !Opponents[name].HandVpip)
+            {
                 Opponents[name].Vpip++;
+                Opponents[name].HandVpip = true;
+            }
             if (lastHand.State > PokerGameState.PreFlop)
                 Opponents[name].Calls++;
         }

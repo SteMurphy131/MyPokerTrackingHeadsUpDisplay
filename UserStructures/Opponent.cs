@@ -25,6 +25,7 @@ namespace UserStructures
         public bool InPlay { get; set; }
         public bool HandVpip { get; set; }
         public bool HandPfr { get; set; }
+        public bool HandCBet { get; set; }
 
         public void Calculate()
         {

@@ -63,25 +63,6 @@ namespace UnitTesting.Structures
         }
 
         [Test]
-        public void TestRoundClearing()
-        {
-            Round round = new Round();
-            Card card1 = new Card(Rank.Ace, Suit.Clubs);
-            Card card2 = new Card(Rank.Ten, Suit.Clubs);
-            Card card3 = new Card(Rank.Six, Suit.Clubs);
-
-
-            round.SetFlopCard(card1, 0);
-            round.SetTurnCard(card2);
-            round.SetRiverCard(card3);
-
-            round.ClearRoundData();
-
-            Assert.AreEqual(round.Turn, null);
-            Assert.AreEqual(round.River, null);
-        }
-
-        [Test]
         public void TestEqualRounds()
         {
             var round1 = new Round

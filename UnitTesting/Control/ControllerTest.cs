@@ -27,7 +27,7 @@ namespace UnitTesting.Control
             Assert.AreEqual(1, cont.Outs.RoyalFlush.Outs);
             Assert.AreEqual(9, cont.Outs.Flush.Outs);
             Assert.False(cont.Outs.Flush.RunnerRunner);
-            Assert.Greater(250, watch.ElapsedMilliseconds);
+            Assert.Greater(1500, watch.ElapsedMilliseconds);
 
             watch.Restart();
             cont.UpdateBoardEventCard(new Card(Rank.Two, Suit.Clubs), 3);

@@ -57,7 +57,7 @@ namespace MyPokerTrackingHeadsUpDisplay
             {new Card(Rank.Jack, Suit.Clubs).ToString(), new BitmapImage(new Uri(@"../../Images/JackClubs.png", UriKind.Relative)) },
             {new Card(Rank.Queen, Suit.Clubs).ToString(), new BitmapImage(new Uri(@"../../Images/QueenClubs.png", UriKind.Relative)) },
             {new Card(Rank.King, Suit.Clubs).ToString(), new BitmapImage(new Uri(@"../../Images/KingClubs.png", UriKind.Relative)) },
-            {new Card(Rank.Ace, Suit.Spades).ToString(), new BitmapImage(new Uri(@"../../Images/AceSpades2.png", UriKind.Relative)) },
+            {new Card(Rank.Ace, Suit.Spades).ToString(), new BitmapImage(new Uri(@"../../Images/AceSpades.png", UriKind.Relative)) },
             {new Card(Rank.Two, Suit.Spades).ToString(), new BitmapImage(new Uri(@"../../Images/TwoSpades.png", UriKind.Relative)) },
             {new Card(Rank.Three, Suit.Spades).ToString(), new BitmapImage(new Uri(@"../../Images/ThreeSpades.png", UriKind.Relative)) },
             {new Card(Rank.Four, Suit.Spades).ToString(), new BitmapImage(new Uri(@"../../Images/FourSpades.png", UriKind.Relative)) },

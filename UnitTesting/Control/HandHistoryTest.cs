@@ -1,5 +1,6 @@
 ﻿using MyPokerTrackingHeadsUpDisplay;
 using NUnit.Framework;
+using UserStructures;
 
 namespace UnitTesting.Control
 {
@@ -19,6 +20,7 @@ namespace UnitTesting.Control
                 "Seat 4: luisp66(big blind) collected(1910) \nSeat 5: feme81 folded before Flop";
 
             MessageHandler handler = new MessageHandler();
+            handler.Controller.User = new User {UserName = "SteMurphy131"};
 
             handler.HandleHandHistory(history);
 

@@ -85,7 +85,7 @@ namespace MyPokerTrackingHeadsUpDisplay
                 {
                     var split = line.Split(':');
                     var name = split[1].Substring(1, split[1].IndexOf('(')-2);
-                    if (name == "SteMurphy131")
+                    if (name == Controller.User.UserName)
                         continue;
 
                     if (!Controller.Opponents.ContainsKey(name))
@@ -105,11 +105,11 @@ namespace MyPokerTrackingHeadsUpDisplay
                     if (line.Contains("SUMMARY"))
                         _summary = true;
                 }
-                else if (line.Contains("SteMurphy131") && line.Contains("collected"))
+                else if (line.Contains(Controller.User.UserName) && line.Contains("collected"))
                 {
                     SetHandWonEvent?.Invoke();
                 }
-                else if (line.Contains("SteMurphy131"))
+                else if (line.Contains(Controller.User.UserName))
                 {
                     if (line.Contains("calls"))
                     {
