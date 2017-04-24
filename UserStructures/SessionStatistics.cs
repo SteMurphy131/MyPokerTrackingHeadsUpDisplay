@@ -56,17 +56,61 @@ namespace UserStructures
         public void Calculate()
         {
             FlopsSeen = HandsPlayed - HandsFoldedBeforeFlop;
-            FlopsSeenPercentage = FlopsSeen / (double) HandsPlayed * 100;
-            PreFlopRaisePercentage = PreFlopRaises/(double) HandsPlayed*100;
-            PreFlopRaiseWinPercentage = PreFlopRaiseWin/(double) PreFlopRaises*100;
-            ContinuationBetsPercentage = ContinuationBets / (double) PreFlopRaises * 100;
-            ContinuationBetWinPercentage = ContinuationBetsWin/(double) ContinuationBets*100;
-            VpipPercentage = VoluntaryPutInPot / (double) HandsPlayed * 100;
-            VpipWinPercentage = VpipWin / (double) VoluntaryPutInPot * 100;
-            AggressionFactor = (TotalBets + TotalRaises) / (double) TotalCalls;
-            AggressionPercentage = (TotalBets + TotalRaises) / (double) (TotalBets + TotalRaises + TotalCalls + TotalChecks) *100;
-            AggressionFrequency = (TotalBets + TotalRaises) / (double) (TotalBets + TotalRaises + TotalCalls + TotalFolds) * 100;
-            HandsWonPercentage = HandsWon / HandsPlayed * 100;
+
+            if (HandsPlayed == 0)
+                FlopsSeenPercentage = 0;
+            else
+                FlopsSeenPercentage = FlopsSeen / (double) HandsPlayed * 100;
+
+            if (HandsPlayed == 0)
+                PreFlopRaisePercentage = 0;
+            else
+                PreFlopRaisePercentage = PreFlopRaises/(double) HandsPlayed*100;
+
+            if (PreFlopRaises == 0)
+                PreFlopRaiseWinPercentage = 0;
+            else
+                PreFlopRaiseWinPercentage = PreFlopRaiseWin/(double) PreFlopRaises*100;
+
+            if (PreFlopRaises == 0)
+                ContinuationBetsPercentage = 0;
+            else
+                ContinuationBetsPercentage = ContinuationBets / (double) PreFlopRaises * 100;
+
+            if (ContinuationBets == 0)
+                ContinuationBetWinPercentage = 0;
+            else
+                ContinuationBetWinPercentage = ContinuationBetsWin/(double) ContinuationBets*100;
+
+            if (HandsPlayed == 0)
+                VpipPercentage = 0;
+            else
+                VpipPercentage = VoluntaryPutInPot / (double) HandsPlayed * 100;
+
+            if (VoluntaryPutInPot == 0)
+                VpipWinPercentage = 0;
+            else
+                VpipWinPercentage = VpipWin / (double) VoluntaryPutInPot * 100;
+            
+            if (TotalCalls == 0)
+                AggressionFactor = TotalBets + TotalRaises;
+            else
+                AggressionFactor = (TotalBets + TotalRaises) / (double) TotalCalls;
+
+            if (TotalBets + TotalRaises + TotalCalls + TotalChecks == 0)
+                AggressionPercentage = 0;
+            else
+                AggressionPercentage = (TotalBets + TotalRaises) / (double) (TotalBets + TotalRaises + TotalCalls + TotalChecks) *100;
+
+            if (TotalBets + TotalRaises + TotalCalls + TotalFolds == 0)
+                AggressionFrequency = 0;
+            else
+                AggressionFrequency = (TotalBets + TotalRaises) / (double) (TotalBets + TotalRaises + TotalCalls + TotalFolds) * 100;
+
+            if (HandsPlayed == 0)
+                HandsWonPercentage = 0;
+            else
+                HandsWonPercentage = HandsWon / (double) HandsPlayed * 100;
 
             FlopsSeen = Math.Round(FlopsSeen, 2);
             FlopsSeenPercentage = Math.Round(FlopsSeenPercentage, 2);

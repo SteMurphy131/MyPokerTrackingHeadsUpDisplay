@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Web.Script.Serialization;
 
@@ -20,25 +21,34 @@ namespace MyPokerTrackingHeadsUpDisplay
         {
             _controller.Session.Statistics.Calculate();
 
-            var json = _serializer.Serialize(_controller.Session);
-            var oppJson = _serializer.Serialize(_controller.Opponents.Values);
-
-            var sessionAddRequest = (HttpWebRequest) WebRequest.Create(_sessionAddAddress);
-            sessionAddRequest.ContentType = "application/json";
-            sessionAddRequest.Method = "POST";
-
-            using (var streamWriter = new StreamWriter(sessionAddRequest.GetRequestStream()))
+            try
             {
-                streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
+                var json = _serializer.Serialize(_controller.Session);
+                var oppJson = _serializer.Serialize(_controller.Opponents.Values);
+
+                _controller.Log.Info($"Session Data: {json}");
+
+                var sessionAddRequest = (HttpWebRequest)WebRequest.Create(_sessionAddAddress);
+                sessionAddRequest.ContentType = "application/json";
+                sessionAddRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(sessionAddRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
+                var sessionResponse = (HttpWebResponse)sessionAddRequest.GetResponse();
+
+                using (var streamReader = new StreamReader(sessionResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                }
             }
-
-            var sessionResponse = (HttpWebResponse) sessionAddRequest.GetResponse();
-            
-            using (var streamReader = new StreamReader(sessionResponse .GetResponseStream()))
+            catch (Exception e)
             {
-                var result = streamReader.ReadToEnd();
+                _controller.Log.Error(e);
             }
         }
     }

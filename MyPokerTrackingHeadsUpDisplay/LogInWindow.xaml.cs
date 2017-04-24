@@ -30,11 +30,11 @@ namespace MyPokerTrackingHeadsUpDisplay
         private void LogInButtonClick(object sender, RoutedEventArgs e)
         {
             string username = UsernameBox.Text;
-            string password = PasswordBox.Text;
+            string password = PasswordBox.Password;
 
             User = new User {UserName = username, ConfirmPassword = password, Password = password, Email = "Email@Hotmail.com", ConfirmEmail = "Email@Hotmail.com"};
 
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:51520/api/data/LogIn");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://pokerhudweb.azurewebsites.net/api/data/LogIn");
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
 

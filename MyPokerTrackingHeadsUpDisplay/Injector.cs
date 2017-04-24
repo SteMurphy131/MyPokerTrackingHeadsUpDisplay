@@ -35,6 +35,7 @@ namespace MyPokerTrackingHeadsUpDisplay
             catch (Exception ex)
             {
                 cont.Log.Error($"Error: {ex}");
+                cont.InjectorErrorMessage = ex.Message;
                 return false;
             }
         }

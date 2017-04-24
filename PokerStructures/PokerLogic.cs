@@ -145,8 +145,6 @@ namespace PokerStructures
             return false;
         }
 
-        // must be in order of hands and must be
-        // mutually exclusive choices
         public static Pokerscore Score(FiveCardHand h)
         {
             h.Sort();

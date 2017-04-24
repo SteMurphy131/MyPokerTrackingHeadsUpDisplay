@@ -55,13 +55,12 @@
     <Compile Include="Calculation\ThreeOfAKindCalculator.cs" />
     <Compile Include="Calculation\TwoPairCalculator.cs" />
     <Compile Include="Card.cs" />
-    <Compile Include="Deck.cs" />
     <Compile Include="Enums\PlayingStyle.cs" />
     <Compile Include="ExtensionMethods\Extensions.cs" />
     <Compile Include="FiveCardHand.cs" />
     <Compile Include="Enums\PokerGameState.cs" />
     <Compile Include="Hand.cs" />
-    <Compile Include="PokerHand.cs" />
+    <Compile Include="Interfaces\IHand.cs" />
     <Compile Include="PokerHelper.cs" />
     <Compile Include="PokerLogic.cs" />
     <Compile Include="Enums\Pokerscore.cs" />

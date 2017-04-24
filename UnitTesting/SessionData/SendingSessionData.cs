@@ -14,7 +14,7 @@ namespace UnitTesting.SessionData
     public class SendingSessionData
     {
         private readonly JavaScriptSerializer _serializer = new JavaScriptSerializer();
-        private string _httpAddress = "http://ocalhost:51520/api/Data/AddSession";
+        private string _httpAddress = "http://pokerhudweb.azurewebsites.net/api/data/addsession";
 
         [Test]
         public void SendPassiveSession()
@@ -24,27 +24,27 @@ namespace UnitTesting.SessionData
                 Username = "SteMurphy131",
                 Statistics = new SessionStatistics
                 {
-                    HandsPlayed = 320,
-                    HandsWon = 28,
-                    HandsFoldedBeforeFlop = 240,
-                    HandsFoldedBeforeRiver = 30,
-                    HandsPlayedToRiver = 50,
-                    HandsWonBeforeFlop = 2,
-                    HandsWonBeforeRiver = 2,
-                    HandsWonAtRiver = 24,
-                    PreFlopRaises = 15,
-                    PreFlopRaiseWin = 6,
+                    HandsPlayed = 34,
+                    HandsWon = 3,
+                    HandsFoldedBeforeFlop = 22,
+                    HandsFoldedBeforeRiver = 29,
+                    HandsPlayedToRiver = 21,
+                    HandsWonBeforeFlop = 0,
+                    HandsWonBeforeRiver = 1,
+                    HandsWonAtRiver = 1,
+                    PreFlopRaises = 4,
+                    PreFlopRaiseWin = 1,
                     ContinuationBets = 3,
                     ContinuationBetsWin = 1,
-                    VoluntaryPutInPot = 85,
-                    VpipWin = 30,
-                    TotalBets = 20,
-                    TotalRaises = 65,
-                    TotalCalls = 140,
-                    TotalFolds = 120,
-                    TotalChecks = 140
+                    VoluntaryPutInPot = 6,
+                    VpipWin = 3,
+                    TotalBets = 4,
+                    TotalRaises = 3,
+                    TotalCalls = 0,
+                    TotalFolds = 7,
+                    TotalChecks = 12
                 },
-                Submitted = DateTime.UtcNow.Subtract(TimeSpan.FromHours(144))
+                Submitted = DateTime.UtcNow
             };
 
             session.Statistics.Calculate();

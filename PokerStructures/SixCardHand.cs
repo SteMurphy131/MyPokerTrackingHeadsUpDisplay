@@ -1,8 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using PokerStructures.Enumeration;
-using PokerStructures.Enums;
-using PokerStructures.ExtensionMethods;
 
 namespace PokerStructures
 {

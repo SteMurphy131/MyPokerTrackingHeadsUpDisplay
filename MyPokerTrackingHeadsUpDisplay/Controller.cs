@@ -11,6 +11,7 @@ namespace MyPokerTrackingHeadsUpDisplay
 {
     public class Controller
     {
+        public string InjectorErrorMessage;
         public Dictionary<string, Opponent> Opponents = new Dictionary<string, Opponent>();
 
         public readonly ILog Log =
@@ -97,7 +98,8 @@ namespace MyPokerTrackingHeadsUpDisplay
         public void StopSession()
         {
             DisconnectEvents();
-            HttpSender.Send();
+            if(Rounds.Count > 0)
+                HttpSender.Send();
             CloseAppEvent?.Invoke();
         }
 
@@ -127,47 +129,61 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         public void DisconnectEvents()
         {
-            MessageHandler.UpdateHoleEvent -= UpdateHoleEventCard;
-            MessageHandler.UpdateBoardEvent -= UpdateBoardEventCard;
+            try
+            {
+                MessageHandler.UpdateHoleEvent -= UpdateHoleEventCard;
+                MessageHandler.UpdateBoardEvent -= UpdateBoardEventCard;
 
-            MessageHandler.RaiseEvent -= HandleRaiseEvent;
-            MessageHandler.FoldEvent -= HandleFoldEvent;
-            MessageHandler.BetEvent -= HandleBetEvent;
-            MessageHandler.CallEvent -= HandleCallEvent;
-            MessageHandler.CheckEvent -= HandleCheckEvent;
+                MessageHandler.RaiseEvent -= HandleRaiseEvent;
+                MessageHandler.FoldEvent -= HandleFoldEvent;
+                MessageHandler.BetEvent -= HandleBetEvent;
+                MessageHandler.CallEvent -= HandleCallEvent;
+                MessageHandler.CheckEvent -= HandleCheckEvent;
 
-            MessageHandler.OpponentRaiseEvent -= HandleOpponentRaise;
-            MessageHandler.OpponentFoldEvent -= HandleOpponentFold;
-            MessageHandler.OpponentBetEvent -= HandleOpponentBet;
-            MessageHandler.OpponentCallEvent -= HandleOpponentCall;
-            MessageHandler.OpponentCheckEvent -= HandleOpponentCheck;
+                MessageHandler.OpponentRaiseEvent -= HandleOpponentRaise;
+                MessageHandler.OpponentFoldEvent -= HandleOpponentFold;
+                MessageHandler.OpponentBetEvent -= HandleOpponentBet;
+                MessageHandler.OpponentCallEvent -= HandleOpponentCall;
+                MessageHandler.OpponentCheckEvent -= HandleOpponentCheck;
 
-            MessageHandler.SetGameNumEvent -= HandleGameNum;
-            MessageHandler.SetHandNumEvent -= HandleHandNum;
-            MessageHandler.SetHandHistoryStateEvent -= HandleHandHistoryState;
-            MessageHandler.SetHandWonEvent -= HandleHandWon;
+                MessageHandler.SetGameNumEvent -= HandleGameNum;
+                MessageHandler.SetHandNumEvent -= HandleHandNum;
+                MessageHandler.SetHandHistoryStateEvent -= HandleHandHistoryState;
+                MessageHandler.SetHandWonEvent -= HandleHandWon;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+            }
         }
 
         public void UpdateHoleEventCard(Card c, int num)
         {
             Log.Info($"Hole Card {num} {c}");
 
-            switch (num)
+            try
             {
-                case 0:
-                    CurrentRound.ClearRoundData();
-                    UpdateHoleEvent?.Invoke(c, num);
-                    CurrentRound.SetHoleCard(c, num);
-                    InPlay = true;
-                    break;
-                case 1:
-                    UpdateHoleEvent?.Invoke(c, num);
-                    CurrentRound.SetHoleCard(c, num);
-                    HandlePreFlop();
-                    break;
-                default:
-                    Log.Error($"Unexpected Hole card position: {num}");
-                    break;
+                switch (num)
+                {
+                    case 0:
+                        CurrentRound.ClearRoundData();
+                        UpdateHoleEvent?.Invoke(c, num);
+                        CurrentRound.SetHoleCard(c, num);
+                        InPlay = true;
+                        break;
+                    case 1:
+                        UpdateHoleEvent?.Invoke(c, num);
+                        CurrentRound.SetHoleCard(c, num);
+                        HandlePreFlop();
+                        break;
+                    default:
+                        Log.Error($"Unexpected Hole card position: {num}");
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
             }
         }
 
@@ -175,39 +191,46 @@ namespace MyPokerTrackingHeadsUpDisplay
         {
             Log.Info($"Board Card {num} {c}");
 
-            switch (num)
+            try
             {
-                case 0:
-                    if (CurrentRound.Hole[0].Rank != Rank.None)
-                    {
-                        Session.Statistics.HandsPlayed++;
-                        UpdateHandsPlayedEvent?.Invoke(Session.Statistics.HandsPlayed);
-                    }
-                    CurrentRound.SetFlopCard(c, num);
-                    UpdateBoardEvent?.Invoke(c, num);
-                    return;
-                case 1:
-                    CurrentRound.SetFlopCard(c, num);
-                    UpdateBoardEvent?.Invoke(c, num);
-                    return;
-                case 2:
-                    CurrentRound.SetFlopCard(c, num);
-                    UpdateBoardEvent?.Invoke(c, num);
-                    HandleFlop();
-                    return;
-                case 3:
-                    CurrentRound.SetTurnCard(c);
-                    UpdateBoardEvent?.Invoke(c, num);
-                    HandleTurn();
-                    return;
-                case 4:
-                    CurrentRound.SetRiverCard(c);
-                    UpdateBoardEvent?.Invoke(c, num);
-                    HandleRiver();
-                    return;
-                default:
-                    Log.Error($"Unexpected Board Card Position : {num}");
-                    break;
+                switch (num)
+                {
+                    case 0:
+                        if (CurrentRound.Hole[0].Rank != Rank.None)
+                        {
+                            Session.Statistics.HandsPlayed++;
+                            UpdateHandsPlayedEvent?.Invoke(Session.Statistics.HandsPlayed);
+                        }
+                        CurrentRound.SetFlopCard(c, num);
+                        UpdateBoardEvent?.Invoke(c, num);
+                        return;
+                    case 1:
+                        CurrentRound.SetFlopCard(c, num);
+                        UpdateBoardEvent?.Invoke(c, num);
+                        return;
+                    case 2:
+                        CurrentRound.SetFlopCard(c, num);
+                        UpdateBoardEvent?.Invoke(c, num);
+                        HandleFlop();
+                        return;
+                    case 3:
+                        CurrentRound.SetTurnCard(c);
+                        UpdateBoardEvent?.Invoke(c, num);
+                        HandleTurn();
+                        return;
+                    case 4:
+                        CurrentRound.SetRiverCard(c);
+                        UpdateBoardEvent?.Invoke(c, num);
+                        HandleRiver();
+                        return;
+                    default:
+                        Log.Error($"Unexpected Board Card Position : {num}");
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
             }
         }
 
@@ -295,23 +318,37 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         public void HandleHandNum(string hand)
         {
-            foreach(var opp in Opponents.Values)
-                opp.Calculate();
-            
-            Log.Info($"Last Hand Num {hand}");
-            LastRoundNumber = hand.Remove(hand.Length - 1);
-            AddRound(CurrentRound.Copy());
+            try
+            {
+                foreach (var opp in Opponents.Values)
+                    opp.Calculate();
+
+                Log.Info($"Last Hand Num {hand}");
+                LastRoundNumber = hand.Remove(hand.Length - 1);
+                AddRound(CurrentRound.Copy());
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+            }
         }
 
         public void HandleGameNum(string game)
         {
-            if (CurrentRoundNumber == game)
-                return;
+            try
+            {
+                if (CurrentRoundNumber == game)
+                    return;
 
-            CurrentRoundNumber = game;
-            Log.Info($"This Hand Num {game}");
-            CurrentRound.HandNumber = game;
-            Log.Info($"Changed Hand number to {CurrentRound.HandNumber}");          
+                CurrentRoundNumber = game;
+                Log.Info($"This Hand Num {game}");
+                CurrentRound.HandNumber = game;
+                Log.Info($"Changed Hand number to {CurrentRound.HandNumber}");
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+            }
         }
 
         public void HandleHandHistoryState(string message)
@@ -626,22 +663,29 @@ namespace MyPokerTrackingHeadsUpDisplay
 
         private void AddRound(Round round)
         {
-            if (round.AllCards[0].Rank == Rank.None || round.AllCards[1].Rank == Rank.None)
-                return;
-
-            if (Rounds.Count == 0)
+            try
             {
-                Rounds.Insert(0, round);
-                Log.Info($"Added Hand Number {round.HandNumber}");
-            }
-            else
-            {
-                if (Rounds.Any(r => r.HandNumber == round.HandNumber))
-                {
+                if (round.AllCards[0].Rank == Rank.None || round.AllCards[1].Rank == Rank.None)
                     return;
+
+                if (Rounds.Count == 0)
+                {
+                    Rounds.Insert(0, round);
+                    Log.Info($"Added Hand Number {round.HandNumber}");
                 }
-                Rounds.Insert(0, round);
-                Log.Info($"Added Hand Number {round.HandNumber}");
+                else
+                {
+                    if (Rounds.Any(r => r.HandNumber == round.HandNumber))
+                    {
+                        return;
+                    }
+                    Rounds.Insert(0, round);
+                    Log.Info($"Added Hand Number {round.HandNumber}");
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
             }
         }
 

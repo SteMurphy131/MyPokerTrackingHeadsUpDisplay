@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PokerStructures.Enums;
+using PokerStructures.Interfaces;
 
 namespace PokerStructures
 {
-    public abstract class Hand
+    public abstract class Hand : IHand
     {
         public List<Card> Cards;
         private readonly Dictionary<Suit, int> _counters = new Dictionary<Suit, int>

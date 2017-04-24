@@ -42,7 +42,9 @@ namespace MyPokerTrackingHeadsUpDisplay
                 UpdateTextBox("Dll Injected");
             else
             {
+                MessageBoxResult result = MessageBox.Show($"Could not inject DLL: \n{_controller.InjectorErrorMessage}", "Error");
                 _controller.Log.Error("Could not inject DLL");
+                CloseApp();
             }
         }
 
